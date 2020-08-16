@@ -1,4 +1,4 @@
-/// Copyright (c) 2019 Razeware LLC
+/// Copyright (c) 2020 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -28,41 +28,8 @@
 
 import UIKit
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-  var window: UIWindow?
-  
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions:
-    [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    if let window = window,
-      let splitViewController = window.rootViewController as? UISplitViewController,
-      let navigationController = splitViewController.viewControllers.last
-        as? UINavigationController {
-      navigationController.topViewController?
-        .navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-      splitViewController.preferredDisplayMode = .automatic
-      splitViewController.delegate = self
-      splitViewController.primaryBackgroundStyle = .sidebar
-    }
+class EntryDataSource: UITableViewDiffableDataSource<Int, Entry> {
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     return true
-  }
-  
-}
-
-// MARK: - Split view
-extension AppDelegate: UISplitViewControllerDelegate {
-  func splitViewController(_ splitViewController: UISplitViewController,
-                           collapseSecondary secondaryViewController: UIViewController,
-                           onto primaryViewController: UIViewController) -> Bool {
-    guard let secondaryNavigationController = secondaryViewController as? UINavigationController,
-      let entryTableViewController = secondaryNavigationController.topViewController
-        as? EntryTableViewController else {
-          return false
-    }
-    if entryTableViewController.entry == nil {
-      return true
-    }
-    return false
   }
 }
