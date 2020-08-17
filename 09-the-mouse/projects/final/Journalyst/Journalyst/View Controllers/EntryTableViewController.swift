@@ -167,19 +167,17 @@ class EntryTableViewController: UITableViewController {
   }
   
   @objc private func hovering(_ recognizer: UIHoverGestureRecognizer) {
-    guard let view = recognizer.view else { return }
+    #if targetEnvironment(macCatalyst)
     switch recognizer.state {
     case .began, .changed:
-      view.backgroundColor = UIColor(named: "PrimaryTint")
-      view.tintColor = .white
+      NSCursor.pointingHand.set()
     case .ended:
-      view.backgroundColor = nil
-      view.tintColor = UIColor(named: "PrimaryTint")
+      NSCursor.arrow.set()
     default:
       break
     }
+    #endif
   }
-  
 }
 
 // MARK: - Table Data Source
@@ -200,7 +198,15 @@ extension EntryTableViewController {
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
       let hoverGesture = UIHoverGestureRecognizer(target: self,
                                                   action: #selector(self.hovering(_:)))
+
       reusableView.addGestureRecognizer(hoverGesture)
+      if let button = reusableView.viewWithTag(1) as? UIButton {
+        button.pointerStyleProvider = { (button, effect, shape) -> UIPointerStyle? in
+          var rect = button.bounds
+          rect = button.convert(rect, to: effect.preview.target.container)
+          return UIPointerStyle(effect: effect, shape: .roundedRect(rect))
+        }
+      }
       return reusableView
     }
     return provider
@@ -343,4 +349,8 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
     let provider = NSItemProvider(object: image)
     return [UIDragItem(itemProvider: provider)]
   }
+}
+
+extension EntryTableViewController: UIGestureRecognizerDelegate {
+
 }
