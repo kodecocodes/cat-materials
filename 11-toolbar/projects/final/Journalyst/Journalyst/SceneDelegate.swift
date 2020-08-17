@@ -120,7 +120,14 @@ extension SceneDelegate: NSToolbarDelegate {
   }
   
   @objc private func addEntry() {
+    guard let splitViewController = window?.rootViewController as? UISplitViewController,
+      let navigationController = splitViewController.viewControllers.first as? UINavigationController,
+      let mainTableViewController = navigationController.topViewController as? MainTableViewController else {
+      return
+    }
     DataService.shared.addEntry(Entry())
+    let index = DataService.shared.allEntries.count - 1
+    mainTableViewController.selectEntryAtIndex(index)
   }
   
   @objc private func deleteEntry() {
