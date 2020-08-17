@@ -97,7 +97,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   @objc private func removeEntry(sender: UIKeyCommand) {
     guard let navigationController = viewControllers.first as? UINavigationController,
       let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
-    mainTableViewController.deleteCurentEntry()
+    mainTableViewController.deleteCurrentEntry()
   }
   
 }
