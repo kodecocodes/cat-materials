@@ -45,7 +45,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       toolbar.delegate = self
       toolbar.allowsUserCustomization = true
       toolbar.autosavesConfiguration = true
-      //titlebar.titleVisibility = .hidden // For use at end of tutorial, remove for final project
+      toolbar.displayMode = .iconAndLabel
+      titlebar.toolbarStyle = .automatic
+//      titlebar.titleVisibility = .hidden // For use at end of tutorial, remove for final project
     }
     #endif
   }
@@ -74,28 +76,32 @@ extension NSToolbarItem.Identifier {
 extension SceneDelegate: NSToolbarDelegate {
   func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
     var item: NSToolbarItem? = nil
-    if itemIdentifier == .addEntry {
-      let barButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntry))
-      item = toolbarItem(itemIdentifier: .addEntry,
-                         barButtonItem: barButtonItem,
-                         toolTip: "Add Entry",
-                         label: "Add")
+    switch itemIdentifier {
+    case .addEntry:
+      item = NSToolbarItem(itemIdentifier: .addEntry)
+      item?.image = UIImage(systemName: "plus")
+      item?.label = "Add"
+      item?.toolTip = "Add Entry"
       item?.target = self
       item?.action = #selector(addEntry)
-    } else if itemIdentifier == .deleteEntry {
-      let barButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteEntry))
-      item = toolbarItem(itemIdentifier: .deleteEntry,
-                         barButtonItem: barButtonItem,
-                         toolTip: "Delete Entry",
-                         label: "Delete")
+    case .deleteEntry:
+      item = NSToolbarItem(itemIdentifier: .deleteEntry)
+      item?.image = UIImage(systemName: "trash")
+      item?.label = "Delete"
+      item?.toolTip = "Delete Entry"
       item?.target = self
       item?.action = #selector(deleteEntry)
-    } else if itemIdentifier == .shareEntry {
-      let barButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareEntry(_:)))
-      item = toolbarItem(itemIdentifier: .shareEntry,
-                         barButtonItem: barButtonItem,
-                         toolTip: "Share Entry",
-                         label: "Share")
+    case .shareEntry:
+      item = NSToolbarItem(itemIdentifier: .shareEntry)
+      item?.image = UIImage(systemName: "square.and.arrow.up")
+      item?.label = "Share"
+      item?.toolTip = "Share Entry"
+      item?.target = self
+      item?.action = #selector(shareEntry(_:))
+    case .toggleSidebar:
+      item = NSToolbarItem(itemIdentifier: itemIdentifier)
+    default:
+      item = nil
     }
     return item
   }
@@ -112,11 +118,11 @@ extension SceneDelegate: NSToolbarDelegate {
   }
   
   func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-    return [.addEntry, .flexibleSpace, .shareEntry]
+    return [.toggleSidebar, .flexibleSpace, .addEntry, .shareEntry]
   }
   
   func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-    return [.addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
+    return [.toggleSidebar, .addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
   }
   
   @objc private func addEntry() {
