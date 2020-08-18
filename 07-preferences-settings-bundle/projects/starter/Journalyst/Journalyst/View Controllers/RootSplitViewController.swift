@@ -29,7 +29,7 @@
 import UIKit
 
 class RootSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     let splitViewController = self
@@ -38,14 +38,12 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
     splitViewController.primaryBackgroundStyle = .sidebar
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
   }
-  
-  func splitViewController(_ splitViewController: UISplitViewController,
-                           collapseSecondary secondaryViewController: UIViewController,
-                           onto primaryViewController: UIViewController) -> Bool {
+
+  func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
     guard let secondaryNavigationController = secondaryViewController as? UINavigationController,
       let entryTableViewController = secondaryNavigationController.topViewController as? EntryTableViewController else {
         return false
@@ -55,12 +53,12 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     }
     return false
   }
-  
+
   // MARK: - Keyboard Commands
   override var canBecomeFirstResponder: Bool {
     return true
   }
-  
+
   override var keyCommands: [UIKeyCommand]? {
     let newKeyCommand = UIKeyCommand(input: "N",
                                      modifierFlags: .control,
@@ -74,28 +72,32 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
                                       modifierFlags: [.command, .shift],
                                       action: #selector(goToNext(sender:)))
     downKeyCommand.discoverabilityTitle = "Next Entry"
-    return [newKeyCommand, upKeyCommand, downKeyCommand]
+    let deleteKeyCommand = UIKeyCommand(input: "\u{8}", modifierFlags: [], action: #selector(removeEntry(sender:)))
+       deleteKeyCommand.discoverabilityTitle = "Delete Entry"
+
+    return [newKeyCommand, upKeyCommand, downKeyCommand, deleteKeyCommand]
   }
-  
+
   @objc private func addEntry(sender: UIKeyCommand) {
     DataService.shared.addEntry(Entry())
   }
-  
+
   @objc private func goToPrevious(sender: UIKeyCommand) {
     guard let navigationController = viewControllers.first as? UINavigationController,
       let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
     mainTableViewController.goToPrevious()
-    
   }
-  
+
   @objc private func goToNext(sender: UIKeyCommand) {
     guard let navigationController = viewControllers.first as? UINavigationController,
       let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
     mainTableViewController.goToNext()
   }
-  
+
   @objc private func removeEntry(sender: UIKeyCommand) {
-    print("REMOVE")
+    guard let navigationController = viewControllers.first as? UINavigationController,
+      let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
+    mainTableViewController.deleteCurrentEntry()
   }
-  
+
 }

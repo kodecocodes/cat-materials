@@ -29,9 +29,9 @@
 import UIKit
 
 class MainTableViewController: UITableViewController {
-  
+
   // MARK: - Properties
-  var dataSource: UITableViewDiffableDataSource<Int, Entry>?
+  var dataSource: EntryDataSource?
   var entryTableViewController: EntryTableViewController? = nil
   let photoPicker = PhotoPicker()
 
@@ -66,7 +66,7 @@ class MainTableViewController: UITableViewController {
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
-  
+
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
@@ -81,9 +81,9 @@ class MainTableViewController: UITableViewController {
 
 // MARK: - Table Data Source
 extension MainTableViewController {
-  private func diaryDataSource() -> UITableViewDiffableDataSource<Int, Entry> {
+  private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return UITableViewDiffableDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
 
@@ -103,7 +103,7 @@ extension MainTableViewController {
     reloadSnapshot(animated: false)
     tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
   }
-  
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -114,16 +114,16 @@ extension MainTableViewController {
   @objc func handleEntriesUpdate() {
     reloadSnapshot(animated: true)
   }
-  
+
   override var canBecomeFirstResponder: Bool {
     return false
   }
-  
+
   private func indexOfCurrentEntry() -> Int? {
     guard let entry = entryTableViewController?.entry else { return nil }
     return DataService.shared.allEntries.firstIndex(of: entry)
   }
-  
+
   func goToPrevious() {
     guard let index = indexOfCurrentEntry(),
       index > 0 else { return }
@@ -132,12 +132,44 @@ extension MainTableViewController {
     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
     performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
-  
+
+  override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+    for press in presses {
+      guard let key = press.key else { continue }
+      switch key.keyCode {
+      case .keyboardUpArrow,
+           .keyboardLeftArrow: goToPrevious()
+      case .keyboardDownArrow,
+           .keyboardRightArrow: goToNext()
+      default:
+        super.pressesBegan(presses, with: event)
+      }
+    }
+  }
+
   func goToNext() {
     guard let index = indexOfCurrentEntry(),
       index < DataService.shared.allEntries.count - 1 else { return }
     let nextIndex = index + 1
-    let indexPath = IndexPath(row: nextIndex, section: 0)
+    let indexPath = IndexPath(row: nextIndex,
+                              section: 0)
+    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+    performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
+  }
+
+  func deleteCurrentEntry() {
+    guard let index = indexOfCurrentEntry() else { return }
+    DataService.shared.removeEntry(atIndex: index)
+    var indexPath = IndexPath(row: index,
+                                  section: 0)
+    guard tableView.numberOfRows(inSection: 0) > 0 else {
+      performSegue(withIdentifier: "ShowEntrySegue", sender: nil)
+      return
+    }
+    if index == tableView.numberOfRows(inSection: 0) {
+      indexPath = IndexPath(row: index - 1,
+                                section: 0)
+    }
     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
     performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
@@ -149,7 +181,7 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
-  
+
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
       DataService.shared.removeEntry(atIndex: indexPath.row)
@@ -191,28 +223,24 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     var rootChildren: [UIMenuElement] = []
 
     // New Window
-
     let openInNewWindowAction = UIAction(title: "Open in New Window", image: UIImage(systemName: "uiwindow.split.2x1"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
       self.createNewWindow(for: entry)
     }
     rootChildren.append(openInNewWindowAction)
 
     // New Entry
-
     let newEntryAction = UIAction(title: "New Entry", image: UIImage(systemName: "square.and.pencil"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
       self.createEntry()
     }
     rootChildren.append(newEntryAction)
 
     // Add Image
-
     let addImageAction = UIAction(title: "Add Image", image: UIImage(systemName: "photo"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
       self.addImage(to: entry, indexPath: indexPath)
     }
     rootChildren.append(addImageAction)
 
     // Favorite
-
     let favoriteActionID = entry.isFavorite ? UIAction.Identifier(rawValue: "action_isFav") : UIAction.Identifier(rawValue: "action_isNotFav")
     let favoriteTitle = entry.isFavorite ? "Remove from Favorites" : "Add to Favorites"
     let favoriteImageName = entry.isFavorite ? "star.slash" : "star"
@@ -222,7 +250,6 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     rootChildren.append(favoriteAction)
 
     // Share
-
     let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
       self.copy(contentsOf: entry)
     }
@@ -237,14 +264,12 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     rootChildren.append(shareMenu)
 
     // Suggested
-
     if !suggestedActions.isEmpty {
       let suggestedMenu = UIMenu(title: "Suggested", image: nil, identifier: nil, options: [], children: suggestedActions)
       rootChildren.append(suggestedMenu)
     }
 
     // Delete
-
     let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: nil, discoverabilityTitle: nil, attributes: .destructive, state: .off) { _ in
       self.removeEntry(at: indexPath)
     }
