@@ -30,10 +30,14 @@ import UIKit
 import AVFoundation
 
 class EntryTableViewController: UITableViewController {
-  
+  let colorPreference = "entry_color_preference"
+  let namePreference = "name_preference"
+  let signaturePreference = "signature_preference"
+
   // MARK: - Outlets
   @IBOutlet private weak var textView: UITextView!
   @IBOutlet private weak var collectionView: UICollectionView!
+  @IBOutlet private var entryCell: UITableViewCell!
   
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
@@ -61,6 +65,21 @@ class EntryTableViewController: UITableViewController {
     self.dataSource = dataSource
     reloadSnapshot(animated: false)
     validateState()
+
+    UserDefaults.standard
+      .addObserver(self,
+                   forKeyPath: colorPreference,
+                   options: .new,
+                   context: nil)
+    updateEntryCellColor()
+
+    collectionView.dropDelegate = self
+    collectionView.dragDelegate = self
+
+    #if targetEnvironment(macCatalyst)
+    view.backgroundColor = .secondarySystemBackground
+    collectionView.showsHorizontalScrollIndicator = true
+    #endif
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -68,6 +87,16 @@ class EntryTableViewController: UITableViewController {
     entry?.log = textView.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
+    }
+  }
+
+  // MARK: - Notifications
+  override func observeValue(forKeyPath keyPath: String?,
+                             of object: Any?,
+                             change: [NSKeyValueChangeKey : Any]?,
+                             context: UnsafeMutableRawPointer?) {
+    if keyPath == colorPreference {
+      updateEntryCellColor()
     }
   }
   
@@ -115,7 +144,29 @@ class EntryTableViewController: UITableViewController {
   private func validateState() {
     navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
   }
-  
+
+  private func updateEntryCellColor() {
+    let overrideColorPreference = UserDefaults.standard.bool(forKey: colorPreference)
+    if overrideColorPreference {
+      entryCell.contentView.backgroundColor = .systemFill
+    } else {
+      entryCell.contentView.backgroundColor = nil
+    }
+  }
+
+  @objc private func hovering(_ recognizer: UIHoverGestureRecognizer) {
+    #if targetEnvironment(macCatalyst)
+    switch recognizer.state {
+    case .began, .changed:
+      NSCursor.pointingHand.set()
+    case .ended:
+      NSCursor.arrow.set()
+    default:
+      break
+    }
+    #endif
+  }
+
 }
 
 // MARK: - Table Data Source
@@ -134,6 +185,19 @@ extension EntryTableViewController {
       let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
+
+      let hoverGesture = UIHoverGestureRecognizer(target: self,
+                                                  action: #selector(self.hovering(_:)))
+
+      reusableView.addGestureRecognizer(hoverGesture)
+      if let button = reusableView.viewWithTag(1) as? UIButton {
+        button.pointerStyleProvider = { (button, effect, shape) -> UIPointerStyle? in
+          var rect = button.bounds
+          rect = button.convert(rect, to: effect.preview.target.container)
+          return UIPointerStyle(effect: effect, shape: .roundedRect(rect))
+        }
+      }
+
       return reusableView
     }
     return provider
@@ -167,4 +231,117 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }
+}
+
+// MARK: - UIDropInteractionDelegate
+extension EntryTableViewController: UIDropInteractionDelegate {
+
+  func dropInteraction(
+    _ interaction: UIDropInteraction,
+    canHandle session: UIDropSession) -> Bool {
+
+    session.canLoadObjects(ofClass: UIImage.self)
+  }
+
+  func dropInteraction(
+    _ interaction: UIDropInteraction,
+    sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+
+    UIDropProposal(operation: .copy)
+  }
+
+  func dropInteraction(
+    _ interaction: UIDropInteraction,
+    performDrop session: UIDropSession) {
+
+    session.loadObjects(ofClass: UIImage.self) {
+      [weak self] imageItems in
+
+      guard let self = self else { return }
+      let images = imageItems as! [UIImage]
+      self.entry?.images.append(contentsOf: images)
+      self.reloadSnapshot(animated: true)
+    }
+  }
+
+}
+
+// MARK: - UICollectionViewDropDelegate
+extension EntryTableViewController: UICollectionViewDropDelegate {
+
+  func collectionView(
+    _ collectionView: UICollectionView,
+    canHandle session: UIDropSession) -> Bool {
+
+    session.canLoadObjects(ofClass: UIImage.self)
+  }
+
+  func collectionView(
+    _ collectionView: UICollectionView,
+    dropSessionDidUpdate session: UIDropSession,
+    withDestinationIndexPath destinationIndexPath: IndexPath?)
+  -> UICollectionViewDropProposal {
+
+    if session.localDragSession != nil {
+      return UICollectionViewDropProposal(
+        operation: .move,
+        intent: .insertAtDestinationIndexPath)
+    } else {
+      return UICollectionViewDropProposal(
+        operation: .copy,
+        intent: .insertAtDestinationIndexPath)
+    }
+  }
+
+  func collectionView(
+    _ collectionView: UICollectionView,
+    performDropWith coordinator:
+      UICollectionViewDropCoordinator) {
+
+    let destinationIndex = coordinator.destinationIndexPath?.item ?? 0
+
+    for item in coordinator.items {
+      if coordinator.session.localDragSession != nil,
+         let sourceIndex = item.sourceIndexPath?.item {
+
+        self.entry?.images.remove(at: sourceIndex)
+      }
+
+      item.dragItem.itemProvider.loadObject(ofClass: UIImage.self) {
+        (object, error) in
+        guard let image = object as? UIImage, error == nil else {
+          print(error ?? "Error: object is not UIImage")
+          return
+        }
+        DispatchQueue.main.async {
+          self.entry?.images.insert(image, at: destinationIndex)
+          self.reloadSnapshot(animated: true)
+        }
+      }
+    }
+
+  }
+
+}
+
+// MARK: - UICollectionViewDragDelegate
+extension EntryTableViewController: UICollectionViewDragDelegate {
+
+  func collectionView(
+    _ collectionView: UICollectionView,
+    itemsForBeginning session: UIDragSession,
+    at indexPath: IndexPath) -> [UIDragItem] {
+
+    guard let entry = entry, !entry.images.isEmpty else {
+      return []
+    }
+
+    let image = entry.images[indexPath.item]
+    let provider = NSItemProvider(object: image)
+    return [UIDragItem(itemProvider: provider)]
+  }
+}
+
+extension EntryTableViewController: UIGestureRecognizerDelegate {
+
 }

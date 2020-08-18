@@ -1,4 +1,4 @@
-/// Copyright (c) 2019 Razeware LLC
+/// Copyright (c) 2020 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -28,39 +28,30 @@
 
 import UIKit
 
-struct Entry {
-  let id = UUID().uuidString
-  let dateCreated = Date()
-  var log: String?
-  var images: [UIImage] = []
-  var isFavorite: Bool = false
-}
+extension UIViewController {
 
-extension Entry: Hashable {
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(dateCreated)
-    hasher.combine(log)
+  func presentShare(text: String?, images: [UIImage]?, sourceView: UIView? = nil, sourceBarItem: UIBarButtonItem? = nil) {
+    var items: [Any] = []
+    var textToShare = text ?? ""
+
+    if let namePreference = UserDefaults.standard.string(forKey: "name_preference"),
+      UserDefaults.standard.bool(forKey: "signature_preference") {
+      textToShare += "\n\n -\(namePreference)"
+    }
+
+    if let images = images, !images.isEmpty {
+      items.append(contentsOf: images)
+    }
+
+    let activityController = UIActivityViewController(activityItems: items,
+                                                      applicationActivities: nil)
+    if let sourceView = sourceView {
+      activityController.popoverPresentationController?.sourceView = sourceView
+    } else if let sourceBarItem = sourceBarItem {
+      activityController.popoverPresentationController?.barButtonItem = sourceBarItem
+    }
+
+    present(activityController, animated: true, completion: nil)
   }
 
-  static func == (lhs: Entry, rhs: Entry) -> Bool {
-    return lhs.dateCreated == rhs.dateCreated &&
-      lhs.log == rhs.log &&
-      lhs.images == rhs.images
-  }
-}
-
-// MARK: NSUserActivity
-extension Entry {
-
-  static let OpenDetailActivityType = "com.raywenderlich.EntryOpenDetailActivityType"
-  static let OpenDetailIdKey = "entryID"
-  static let OpenDetailPath = "openDetail"
-
-
-  var openDetailUserActivity: NSUserActivity {
-      let userActivity = NSUserActivity(activityType: Entry.OpenDetailActivityType)
-      userActivity.title = Entry.OpenDetailPath
-      userActivity.userInfo = [Entry.OpenDetailIdKey: id]
-      return userActivity
-  }
 }
