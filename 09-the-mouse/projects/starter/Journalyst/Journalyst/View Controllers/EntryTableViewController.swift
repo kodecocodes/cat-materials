@@ -30,7 +30,10 @@ import UIKit
 import AVFoundation
 
 class EntryTableViewController: UITableViewController {
-  
+  let colorPreference = "entry_color_preference"
+  let namePreference = "name_preference"
+  let signaturePreference = "signature_preference"
+
   // MARK: - Outlets
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
@@ -155,14 +158,11 @@ class EntryTableViewController: UITableViewController {
   }
   
   private func updateEntryCellColor() {
-    let overrideColorPreference = UserDefaults.standard.bool(forKey: "entry_color_preference")
-    let overrideColor = UIColor.white
+    let overrideColorPreference = UserDefaults.standard.bool(forKey: colorPreference)
     if overrideColorPreference {
-      entryCell.contentView.backgroundColor = overrideColor
-      textView.textColor = UIColor.black
+      entryCell.contentView.backgroundColor = .systemFill
     } else {
       entryCell.contentView.backgroundColor = nil
-      textView.textColor = UIColor.label
     }
   }
 

@@ -31,7 +31,7 @@ import UIKit
 class MainTableViewController: UITableViewController {
   
   // MARK: - Properties
-  var dataSource: UITableViewDiffableDataSource<Int, Entry>?
+  var dataSource: EntryDataSource?
   var entryTableViewController: EntryTableViewController? = nil
   let photoPicker = PhotoPicker()
 
@@ -85,9 +85,9 @@ class MainTableViewController: UITableViewController {
 
 // MARK: - Table Data Source
 extension MainTableViewController {
-  private func diaryDataSource() -> UITableViewDiffableDataSource<Int, Entry> {
+  private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return UITableViewDiffableDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
 
@@ -130,6 +130,20 @@ extension MainTableViewController {
   override var canBecomeFirstResponder: Bool {
     return false
   }
+
+  override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+    for press in presses {
+      guard let key = press.key else { continue }
+      switch key.keyCode {
+      case .keyboardUpArrow,
+           .keyboardLeftArrow: goToPrevious()
+      case .keyboardDownArrow,
+           .keyboardRightArrow: goToNext()
+      default:
+        super.pressesBegan(presses, with: event)
+      }
+    }
+  }
   
   private func indexOfCurrentEntry() -> Int? {
     guard let entry = entryTableViewController?.entry else { return nil }
@@ -171,6 +185,18 @@ extension MainTableViewController {
   func deleteCurentEntry() {
     guard let index = indexOfCurrentEntry() else { return }
     DataService.shared.removeEntry(atIndex: index)
+    var indexPath = IndexPath(row: index,
+                                      section: 0)
+        guard tableView.numberOfRows(inSection: 0) > 0 else {
+          performSegue(withIdentifier: "ShowEntrySegue", sender: nil)
+          return
+        }
+        if index == tableView.numberOfRows(inSection: 0) {
+          indexPath = IndexPath(row: index - 1,
+                                    section: 0)
+        }
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+        performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
   
 }

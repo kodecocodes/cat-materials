@@ -62,26 +62,23 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   }
   
   override var keyCommands: [UIKeyCommand]? {
-    let newKeyCommand = UIKeyCommand(input: "N",
-                                     modifierFlags: .control,
-                                     action: #selector(addEntry(sender:)))
-    newKeyCommand.discoverabilityTitle = "Add Entry"
-    let upKeyCommand = UIKeyCommand(input: "[",
-                                    modifierFlags: [.command, .shift],
-                                    action: #selector(goToPrevious(sender:)))
-    upKeyCommand.discoverabilityTitle = "Previous Entry"
-    let downKeyCommand = UIKeyCommand(input: "]",
+      let newKeyCommand = UIKeyCommand(input: "N",
+                                       modifierFlags: .control,
+                                       action: #selector(addEntry(sender:)))
+      newKeyCommand.discoverabilityTitle = "Add Entry"
+      let upKeyCommand = UIKeyCommand(input: "[",
                                       modifierFlags: [.command, .shift],
-                                      action: #selector(goToNext(sender:)))
-    downKeyCommand.discoverabilityTitle = "Next Entry"
-   
-    let deleteKeyCommand = UIKeyCommand(input: "\u{8}",
-                                        modifierFlags: [],
-                                     action: #selector(removeEntry(sender:)))
-    deleteKeyCommand.discoverabilityTitle = "Delete Entry"
+                                      action: #selector(goToPrevious(sender:)))
+      upKeyCommand.discoverabilityTitle = "Previous Entry"
+      let downKeyCommand = UIKeyCommand(input: "]",
+                                        modifierFlags: [.command, .shift],
+                                        action: #selector(goToNext(sender:)))
+      downKeyCommand.discoverabilityTitle = "Next Entry"
+      let deleteKeyCommand = UIKeyCommand(input: "\u{8}", modifierFlags: [], action: #selector(removeEntry(sender:)))
+         deleteKeyCommand.discoverabilityTitle = "Delete Entry"
 
-    return [newKeyCommand, upKeyCommand, downKeyCommand, deleteKeyCommand]
-  }
+      return [newKeyCommand, upKeyCommand, downKeyCommand, deleteKeyCommand]
+    }
   
   @objc private func addEntry(sender: UIKeyCommand) {
     DataService.shared.addEntry(Entry())
