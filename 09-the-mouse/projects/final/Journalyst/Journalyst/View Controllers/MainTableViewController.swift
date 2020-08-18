@@ -1,15 +1,15 @@
 /// Copyright (c) 2019 Razeware LLC
-/// 
+///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-/// 
+///
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-/// 
+///
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-/// 
+///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,9 +29,9 @@
 import UIKit
 
 class MainTableViewController: UITableViewController {
-  
+
   // MARK: - Properties
-  var dataSource: UITableViewDiffableDataSource<Int, Entry>?
+  var dataSource: EntryDataSource?
   var entryTableViewController: EntryTableViewController? = nil
   let photoPicker = PhotoPicker()
 
@@ -70,7 +70,7 @@ class MainTableViewController: UITableViewController {
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
-  
+
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
@@ -85,9 +85,9 @@ class MainTableViewController: UITableViewController {
 
 // MARK: - Table Data Source
 extension MainTableViewController {
-  private func diaryDataSource() -> UITableViewDiffableDataSource<Int, Entry> {
+  private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return UITableViewDiffableDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
 
@@ -130,12 +130,26 @@ extension MainTableViewController {
   override var canBecomeFirstResponder: Bool {
     return false
   }
-  
+
+  override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+    for press in presses {
+      guard let key = press.key else { continue }
+      switch key.keyCode {
+      case .keyboardUpArrow,
+           .keyboardLeftArrow: goToPrevious()
+      case .keyboardDownArrow,
+           .keyboardRightArrow: goToNext()
+      default:
+        super.pressesBegan(presses, with: event)
+      }
+    }
+  }
+
   private func indexOfCurrentEntry() -> Int? {
     guard let entry = entryTableViewController?.entry else { return nil }
     return DataService.shared.allEntries.firstIndex(of: entry)
   }
-  
+
   func selectEntryAtIndex(_ index: Int) {
     var indexToSelect = index
     if index >= DataService.shared.allEntries.count {
@@ -149,7 +163,7 @@ extension MainTableViewController {
     let cell = tableView.cellForRow(at: indexPath)
     performSegue(withIdentifier: "ShowEntrySegue", sender: cell)
   }
-  
+
   func goToPrevious() {
     guard let index = indexOfCurrentEntry(),
       index > 0 else { return }
@@ -158,7 +172,7 @@ extension MainTableViewController {
     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
     performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
-  
+
   func goToNext() {
     guard let index = indexOfCurrentEntry(),
       index < DataService.shared.allEntries.count - 1 else { return }
@@ -171,8 +185,20 @@ extension MainTableViewController {
   func deleteCurentEntry() {
     guard let index = indexOfCurrentEntry() else { return }
     DataService.shared.removeEntry(atIndex: index)
+    var indexPath = IndexPath(row: index,
+                                      section: 0)
+        guard tableView.numberOfRows(inSection: 0) > 0 else {
+          performSegue(withIdentifier: "ShowEntrySegue", sender: nil)
+          return
+        }
+        if index == tableView.numberOfRows(inSection: 0) {
+          indexPath = IndexPath(row: index - 1,
+                                    section: 0)
+        }
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+        performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
-  
+
 }
 
 // MARK: - Table View Delegate
@@ -180,7 +206,7 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
-  
+
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
       DataService.shared.removeEntry(atIndex: indexPath.row)

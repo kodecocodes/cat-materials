@@ -30,7 +30,10 @@ import UIKit
 import AVFoundation
 
 class EntryTableViewController: UITableViewController {
-  
+  let colorPreference = "entry_color_preference"
+  let namePreference = "name_preference"
+  let signaturePreference = "signature_preference"
+
   // MARK: - Outlets
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
@@ -67,6 +70,12 @@ class EntryTableViewController: UITableViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(handleUserDefaultChanged(notification:)), name: UserDefaults.didChangeNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(handleWindowSizeChanged), name: .WindowSizeChanged, object: nil)
+
+    UserDefaults.standard
+      .addObserver(self,
+                   forKeyPath: colorPreference,
+                   options: .new,
+                   context: nil)
     updateEntryCellColor()
     
     let interaction = UIDropInteraction(delegate: self)
@@ -99,6 +108,15 @@ class EntryTableViewController: UITableViewController {
   }
   
   // MARK: - Notifications
+  override func observeValue(forKeyPath keyPath: String?,
+                             of object: Any?,
+                             change: [NSKeyValueChangeKey : Any]?,
+                             context: UnsafeMutableRawPointer?) {
+    if keyPath == colorPreference {
+      updateEntryCellColor()
+    }
+  }
+
   @objc func handleUserDefaultChanged(notification: Notification) {
     updateEntryCellColor()
   }
@@ -155,16 +173,13 @@ class EntryTableViewController: UITableViewController {
   }
   
   private func updateEntryCellColor() {
-    let overrideColorPreference = UserDefaults.standard.bool(forKey: "entry_color_preference")
-    let overrideColor = UIColor.white
-    if overrideColorPreference {
-      entryCell.contentView.backgroundColor = overrideColor
-      textView.textColor = UIColor.black
-    } else {
-      entryCell.contentView.backgroundColor = nil
-      textView.textColor = UIColor.label
+      let overrideColorPreference = UserDefaults.standard.bool(forKey: colorPreference)
+      if overrideColorPreference {
+        entryCell.contentView.backgroundColor = .systemFill
+      } else {
+        entryCell.contentView.backgroundColor = nil
+      }
     }
-  }
   
   @objc private func hovering(_ recognizer: UIHoverGestureRecognizer) {
     #if targetEnvironment(macCatalyst)

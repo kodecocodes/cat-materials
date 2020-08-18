@@ -13,6 +13,7 @@
 		01AFAD0F22FBBF3900D700B2 /* UIViewController+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AFAD0E22FBBF3900D700B2 /* UIViewController+Sharing.swift */; };
 		A107B01D22D7F33400DBF970 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A107B01C22D7F33400DBF970 /* ImageCollectionViewCell.swift */; };
 		A149B20522F76504003149BD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A149B20422F76504003149BD /* Settings.bundle */; };
+		A16FAAAF24EC7CE300F88749 /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16FAAAE24EC7CE300F88749 /* EntryDataSource.swift */; };
 		A17E671E22DABB1B00370823 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */; };
 		A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17E672022DD41F600370823 /* SceneDelegate.swift */; };
 		A1A5F2D822D555AF000531FB /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2D722D555AF000531FB /* MainTableViewController.swift */; };
@@ -31,6 +32,7 @@
 		01AFAD0E22FBBF3900D700B2 /* UIViewController+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Sharing.swift"; sourceTree = "<group>"; };
 		A107B01C22D7F33400DBF970 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		A149B20422F76504003149BD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		A16FAAAE24EC7CE300F88749 /* EntryDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 		A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A17E671F22DD392D00370823 /* Journalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journalyst.entitlements; sourceTree = "<group>"; };
 		A17E672022DD41F600370823 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				A1A5F2DA22D559DB000531FB /* Entry.swift */,
+				A16FAAAE24EC7CE300F88749 /* EntryDataSource.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A107B01D22D7F33400DBF970 /* ImageCollectionViewCell.swift in Sources */,
+				A16FAAAF24EC7CE300F88749 /* EntryDataSource.swift in Sources */,
 				A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */,
 				A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */,
 				A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */,
@@ -360,7 +364,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Journalyst/Journalyst.entitlements;
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = 8P6NVMVUKL;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -383,7 +387,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Journalyst/Journalyst.entitlements;
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = 8P6NVMVUKL;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (

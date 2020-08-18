@@ -70,6 +70,12 @@ class EntryTableViewController: UITableViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(handleUserDefaultChanged(notification:)), name: UserDefaults.didChangeNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(handleWindowSizeChanged), name: .WindowSizeChanged, object: nil)
+
+    UserDefaults.standard
+      .addObserver(self,
+                   forKeyPath: colorPreference,
+                   options: .new,
+                   context: nil)
     updateEntryCellColor()
     
     let interaction = UIDropInteraction(delegate: self)
@@ -102,6 +108,15 @@ class EntryTableViewController: UITableViewController {
   }
   
   // MARK: - Notifications
+  override func observeValue(forKeyPath keyPath: String?,
+                             of object: Any?,
+                             change: [NSKeyValueChangeKey : Any]?,
+                             context: UnsafeMutableRawPointer?) {
+    if keyPath == colorPreference {
+      updateEntryCellColor()
+    }
+  }
+
   @objc func handleUserDefaultChanged(notification: Notification) {
     updateEntryCellColor()
   }
