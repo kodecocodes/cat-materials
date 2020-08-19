@@ -31,21 +31,23 @@ import UIKit
 class MainTableViewController: UITableViewController {
   
   // MARK: - Properties
-  var detail: EntryTableViewController?
   var entries: [Entry] = [Entry()]
-  var dataSource: UITableViewDiffableDataSource<Int, Entry>?
+  var dataSource: EntryDataSource?
+  var entryTableViewController: EntryTableViewController? = nil
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    detail = splitViewController?.viewControllers.last as? EntryTableViewController
-    detail?.entry = entries.first
     let dataSource = self.diaryDataSource()
     tableView.dataSource = dataSource
     self.dataSource = dataSource
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
+    if let splitViewController = splitViewController,
+      let splitNavigationController = splitViewController.viewControllers.last
+        as? UINavigationController,
+      let topViewController = splitNavigationController.topViewController
+        as? EntryTableViewController {
+      entryTableViewController = topViewController
+    }
+    
     populateMockData()
   }
   
@@ -55,22 +57,43 @@ class MainTableViewController: UITableViewController {
     reloadSnapshot(animated: true)
   }
   
+  // MARK: - Navigation
+  @IBSegueAction func entryViewController(coder: NSCoder,
+                                          sender: Any?,
+                                          segueIdentifier: String?) -> UINavigationController? {
+    guard let cell = sender as? EntryTableViewCell,
+      let indexPath = tableView.indexPath(for: cell),
+      let navigationController = UINavigationController(coder: coder),
+      let entryTableViewController = navigationController.topViewController
+        as? EntryTableViewController else { return nil }
+    entryTableViewController.entry = dataSource?.itemIdentifier(for: indexPath)
+    self.entryTableViewController = entryTableViewController
+    return navigationController
+  }
 }
 
 // MARK: - Table Data Source
 extension MainTableViewController {
-  private func diaryDataSource() -> UITableViewDiffableDataSource<Int, Entry> {
+  private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return UITableViewDiffableDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
       return cell
     }
   }
   
-  private func populateMockData() {
-    reloadSnapshot(animated: false)
+private func populateMockData() {
+  reloadSnapshot(animated: false)
+  if let entryTableViewController = entryTableViewController,
+    let entry = entries.first,
+    entryTableViewController.entry == nil {
+    tableView.selectRow(at: IndexPath(row: 0, section: 0),
+                        animated: false,
+                        scrollPosition: .top)
+    entryTableViewController.entry = entry
   }
+}
   
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
@@ -93,14 +116,5 @@ extension MainTableViewController {
     }
     deleteAction.image = UIImage(systemName: "trash")
     return UISwipeActionsConfiguration(actions: [deleteAction])
-  }
-  
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    guard let entryTableViewController = detail else {
-      return
-    }
-    reloadSnapshot(animated: true)
-    entryTableViewController.entry = dataSource?.itemIdentifier(for: indexPath)
-    splitViewController?.showDetailViewController(entryTableViewController, sender: nil)
   }
 }

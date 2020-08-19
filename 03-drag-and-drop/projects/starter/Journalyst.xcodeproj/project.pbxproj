@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A107B01D22D7F33400DBF970 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A107B01C22D7F33400DBF970 /* ImageCollectionViewCell.swift */; };
+		A14EBFEA24E9F1A500CF1646 /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EBFE924E9F1A500CF1646 /* EntryDataSource.swift */; };
 		A17E671E22DABB1B00370823 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */; };
+		A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17E672022DD41F600370823 /* SceneDelegate.swift */; };
 		A1A5F2D822D555AF000531FB /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2D722D555AF000531FB /* MainTableViewController.swift */; };
 		A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DA22D559DB000531FB /* Entry.swift */; };
 		A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */; };
@@ -20,7 +22,10 @@
 
 /* Begin PBXFileReference section */
 		A107B01C22D7F33400DBF970 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		A14EBFE924E9F1A500CF1646 /* EntryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 		A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A17E671F22DD392D00370823 /* Journalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journalyst.entitlements; sourceTree = "<group>"; };
+		A17E672022DD41F600370823 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A1A5F2D722D555AF000531FB /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		A1A5F2DA22D559DB000531FB /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
@@ -30,7 +35,6 @@
 		D2A5F20A1F4A9144005CD714 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2A5F20F1F4A9144005CD714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F5190C7122DB6C37004C976F /* Journalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journalyst.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				A1A5F2DA22D559DB000531FB /* Entry.swift */,
+				A14EBFE924E9F1A500CF1646 /* EntryDataSource.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -91,8 +96,9 @@
 		D2A5F2021F4A9144005CD714 /* Journalyst */ = {
 			isa = PBXGroup;
 			children = (
-				F5190C7122DB6C37004C976F /* Journalyst.entitlements */,
+				A17E671F22DD392D00370823 /* Journalyst.entitlements */,
 				D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */,
+				A17E672022DD41F600370823 /* SceneDelegate.swift */,
 				A1A5F2DC22D559E2000531FB /* Models */,
 				A1A5F2D922D555B7000531FB /* View Controllers */,
 				A1A5F2DF22D55B55000531FB /* Views */,
@@ -131,7 +137,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Ray Wenderlich";
 				TargetAttributes = {
 					D2A5F1FF1F4A9144005CD714 = {
@@ -177,9 +183,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A107B01D22D7F33400DBF970 /* ImageCollectionViewCell.swift in Sources */,
+				A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */,
 				A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */,
 				A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */,
 				A1A5F2D822D555AF000531FB /* MainTableViewController.swift in Sources */,
+				A14EBFEA24E9F1A500CF1646 /* EntryDataSource.swift in Sources */,
 				A1A5F30422D6A156000531FB /* EntryTableViewController.swift in Sources */,
 				D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */,
 			);
@@ -224,6 +232,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -249,7 +258,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -283,6 +292,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -302,7 +312,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -320,7 +330,7 @@
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -343,7 +353,7 @@
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
