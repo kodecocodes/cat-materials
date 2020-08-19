@@ -47,7 +47,6 @@ class MainTableViewController: UITableViewController {
         as? EntryTableViewController {
       entryTableViewController = topViewController
     }
-    
     populateMockData()
   }
   
