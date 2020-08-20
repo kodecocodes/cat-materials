@@ -37,7 +37,6 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
       navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
     }
     splitViewController.delegate = self
-    splitViewController.primaryBackgroundStyle = .sidebar
   }
 
   override func viewWillAppear(_ animated: Bool) {

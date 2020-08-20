@@ -1,4 +1,4 @@
-/// Copyright (c) 2019 Razeware LLC
+/// Copyright (c) 2020 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -29,16 +29,17 @@
 import UIKit
 
 class RootSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
-  
+    
   override func viewDidLoad() {
     super.viewDidLoad()
     let splitViewController = self
-    let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
+    if let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as? UINavigationController {
+      navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+    }
     splitViewController.delegate = self
-    navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
     splitViewController.primaryBackgroundStyle = .sidebar
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
   }
