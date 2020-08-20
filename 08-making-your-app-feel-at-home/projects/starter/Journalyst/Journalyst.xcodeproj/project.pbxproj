@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		01377E7322F6901100B49361 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01377E7222F6901100B49361 /* PhotoPicker.swift */; };
+		01A3F91F24EE2CFE00FC75E1 /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3F91E24EE2CFE00FC75E1 /* EntryDataSource.swift */; };
 		01AED85022E4036C00828396 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AED84F22E4036C00828396 /* DataService.swift */; };
 		01AED87222E55F0100828396 /* RootSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AED87122E55F0100828396 /* RootSplitViewController.swift */; };
 		01AFAD0F22FBBF3900D700B2 /* UIViewController+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AFAD0E22FBBF3900D700B2 /* UIViewController+Sharing.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		01377E7222F6901100B49361 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		01A3F91E24EE2CFE00FC75E1 /* EntryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 		01AED84F22E4036C00828396 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		01AED87122E55F0100828396 /* RootSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSplitViewController.swift; sourceTree = "<group>"; };
 		01AFAD0E22FBBF3900D700B2 /* UIViewController+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Sharing.swift"; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				A1A5F2DA22D559DB000531FB /* Entry.swift */,
+				01A3F91E24EE2CFE00FC75E1 /* EntryDataSource.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -165,7 +168,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Ray Wenderlich";
 				TargetAttributes = {
 					D2A5F1FF1F4A9144005CD714 = {
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A107B01D22D7F33400DBF970 /* ImageCollectionViewCell.swift in Sources */,
+				01A3F91F24EE2CFE00FC75E1 /* EntryDataSource.swift in Sources */,
 				A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */,
 				A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */,
 				A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */,
@@ -264,6 +268,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -289,7 +294,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -323,6 +328,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -342,7 +348,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -370,7 +376,7 @@
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -392,7 +398,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
