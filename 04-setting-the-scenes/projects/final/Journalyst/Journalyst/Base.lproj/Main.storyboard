@@ -121,11 +121,11 @@
                                         <rect key="frame" x="0.0" y="55.333332061767578" width="414" height="313"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dkR-fH-1nh" id="lZK-7K-3tr">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="313"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="313"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Fh1-pA-OuZ">
-                                                    <rect key="frame" x="8" y="8" width="358" height="297"/>
+                                                    <rect key="frame" x="8" y="8" width="398" height="297"/>
                                                     <color key="tintColor" systemColor="linkColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -150,11 +150,11 @@
                                         <rect key="frame" x="0.0" y="424.33333206176758" width="414" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="llc-5e-pfB" id="f4M-kZ-F20">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lf5-vg-hZ2">
-                                                    <rect key="frame" x="8" y="8" width="358" height="65"/>
+                                                    <rect key="frame" x="8" y="8" width="398" height="65"/>
                                                     <color key="backgroundColor" systemColor="tableCellGroupedBackgroundColor"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hHL-jP-GOh">
                                                         <size key="itemSize" width="60" height="59"/>
