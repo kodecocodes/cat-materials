@@ -44,8 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       splitViewController.preferredDisplayMode = .automatic
       splitViewController.delegate = self
       splitViewController.primaryBackgroundStyle = .sidebar
-      if let mainNavigationController = splitViewController.viewControllers.first as? UINavigationController,
-         let mainViewController = mainNavigationController.topViewController {
+      
+      if let mainNavigationController = splitViewController.viewController(for: .primary) as? UINavigationController,
+         let mainViewController = mainNavigationController.viewControllers.first {
         mainViewController.viewDidLoad()
       }
     }
