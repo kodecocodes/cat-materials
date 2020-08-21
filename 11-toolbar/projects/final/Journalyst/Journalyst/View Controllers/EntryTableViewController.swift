@@ -89,8 +89,12 @@ class EntryTableViewController: UITableViewController {
     view.backgroundColor = .secondarySystemBackground
     collectionView.showsHorizontalScrollIndicator = true
     navigationController?.navigationBar.isHidden = true
-    configureActivityItems()
     #endif
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    configureActivityItems()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -360,9 +364,9 @@ extension EntryTableViewController: UIGestureRecognizerDelegate {
 
 extension EntryTableViewController {
   private func configureActivityItems() {
-    guard let shareText = shareText else { return }
     let configuration = UIActivityItemsConfiguration(objects: [])
     configuration.metadataProvider = { key in
+      guard let shareText = self.shareText else { return nil }
       switch key {
       case .title, .messageBody:
         return shareText
@@ -370,8 +374,10 @@ extension EntryTableViewController {
         return nil
       }
     }
-    NotificationCenter.default.post(name: .activityItemsConfigurationDidChange,
-                                            object: self,
-                                            userInfo: [NotificationKey.activityItemsConfiguration: configuration])
+    NotificationCenter
+      .default
+      .post(name: .activityItemsConfigurationDidChange,
+            object: self,
+            userInfo: [NotificationKey.activityItemsConfiguration: configuration])
   }
 }
