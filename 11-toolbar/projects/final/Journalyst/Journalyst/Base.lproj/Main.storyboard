@@ -117,14 +117,14 @@
                             <tableViewSection headerTitle="Journalyst Entry" id="ZmG-1q-MBh">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LogTableViewCell" rowHeight="313" id="dkR-fH-1nh">
-                                        <rect key="frame" x="0.0" y="55.333332061767578" width="414" height="313"/>
+                                        <rect key="frame" x="20" y="55.333332061767578" width="374" height="313"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dkR-fH-1nh" id="lZK-7K-3tr">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="313"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="313"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Fh1-pA-OuZ">
-                                                    <rect key="frame" x="8" y="8" width="358" height="297"/>
+                                                    <rect key="frame" x="8" y="8" width="398" height="297"/>
                                                     <color key="tintColor" systemColor="linkColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -146,14 +146,14 @@
                             <tableViewSection headerTitle="Images" id="iIC-cH-xJT">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageTableViewCell" rowHeight="81" id="llc-5e-pfB">
-                                        <rect key="frame" x="0.0" y="424.33333206176758" width="414" height="81"/>
+                                        <rect key="frame" x="20" y="424.33333206176758" width="374" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="llc-5e-pfB" id="f4M-kZ-F20">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="81"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lf5-vg-hZ2">
-                                                    <rect key="frame" x="8" y="8" width="358" height="65"/>
+                                                    <rect key="frame" x="8" y="8" width="398" height="65"/>
                                                     <color key="backgroundColor" systemColor="tableCellGroupedBackgroundColor"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hHL-jP-GOh">
                                                         <size key="itemSize" width="60" height="59"/>
@@ -301,7 +301,7 @@
         <!--Root Split View Controller-->
         <scene sceneID="ozZ-oo-MFS">
             <objects>
-                <splitViewController id="I9n-eb-4DL" customClass="RootSplitViewController" customModule="Journalyst" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController allowDoubleColumnStyle="YES" id="I9n-eb-4DL" customClass="RootSplitViewController" customModule="Journalyst" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="3IV-oh-ol2" kind="relationship" relationship="masterViewController" id="cZY-5h-ZfP"/>
                         <segue destination="NE0-ZR-lcj" kind="relationship" relationship="detailViewController" id="LRu-gI-zz3"/>
@@ -313,7 +313,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xv8-Jc-nAm"/>
+        <segue reference="LRu-gI-zz3"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="PrimaryTint"/>
     <resources>
