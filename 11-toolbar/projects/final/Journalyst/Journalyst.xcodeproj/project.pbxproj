@@ -13,6 +13,9 @@
 		A14EBFF424EA244900CF1646 /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14EBFF324EA244900CF1646 /* EntryDataSource.swift */; };
 		A17E671E22DABB1B00370823 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */; };
 		A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17E672022DD41F600370823 /* SceneDelegate.swift */; };
+		A187384824F03A87007E405F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A187384724F03A87007E405F /* Settings.bundle */; };
+		A187384B24F03B58007E405F /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187384A24F03B58007E405F /* PhotoPicker.swift */; };
+		A187384D24F03B64007E405F /* UIViewController+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A187384C24F03B64007E405F /* UIViewController+Sharing.swift */; };
 		A1A5F2D822D555AF000531FB /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2D722D555AF000531FB /* MainTableViewController.swift */; };
 		A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DA22D559DB000531FB /* Entry.swift */; };
 		A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */; };
@@ -31,6 +34,9 @@
 		A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A17E671F22DD392D00370823 /* Journalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journalyst.entitlements; sourceTree = "<group>"; };
 		A17E672022DD41F600370823 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A187384724F03A87007E405F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		A187384A24F03B58007E405F /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		A187384C24F03B64007E405F /* UIViewController+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Sharing.swift"; sourceTree = "<group>"; };
 		A1A5F2D722D555AF000531FB /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		A1A5F2DA22D559DB000531FB /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
@@ -59,6 +65,15 @@
 				01AED84F22E4036C00828396 /* DataService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		A187384924F03B44007E405F /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				A187384A24F03B58007E405F /* PhotoPicker.swift */,
+				A187384C24F03B64007E405F /* UIViewController+Sharing.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		A1A5F2D922D555B7000531FB /* View Controllers */ = {
@@ -117,11 +132,13 @@
 				A1A5F2DC22D559E2000531FB /* Models */,
 				A1A5F2D922D555B7000531FB /* View Controllers */,
 				A1A5F2DF22D55B55000531FB /* Views */,
+				A187384924F03B44007E405F /* Util */,
 				D2A5F2071F4A9144005CD714 /* Main.storyboard */,
 				A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */,
 				D2A5F20A1F4A9144005CD714 /* Assets.xcassets */,
 				D2A5F20F1F4A9144005CD714 /* Info.plist */,
 				A1574C7922F114080014084F /* BridgingHeader.h */,
+				A187384724F03A87007E405F /* Settings.bundle */,
 			);
 			path = Journalyst;
 			sourceTree = "<group>";
@@ -185,6 +202,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A187384824F03A87007E405F /* Settings.bundle in Resources */,
 				A17E671E22DABB1B00370823 /* LaunchScreen.storyboard in Resources */,
 				D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */,
 				D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */,
@@ -199,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A107B01D22D7F33400DBF970 /* ImageCollectionViewCell.swift in Sources */,
+				A187384B24F03B58007E405F /* PhotoPicker.swift in Sources */,
 				A14EBFF424EA244900CF1646 /* EntryDataSource.swift in Sources */,
 				A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */,
 				A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */,
@@ -206,6 +225,7 @@
 				01AED87222E55F0100828396 /* RootSplitViewController.swift in Sources */,
 				A1A5F2D822D555AF000531FB /* MainTableViewController.swift in Sources */,
 				A1A5F30422D6A156000531FB /* EntryTableViewController.swift in Sources */,
+				A187384D24F03B64007E405F /* UIViewController+Sharing.swift in Sources */,
 				D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */,
 				01AED85022E4036C00828396 /* DataService.swift in Sources */,
 			);
@@ -346,7 +366,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Journalyst/Journalyst.entitlements;
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8P6NVMVUKL;
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -370,7 +390,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Journalyst/Journalyst.entitlements;
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8P6NVMVUKL;
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -1,4 +1,4 @@
-/// Copyright (c) 2019 Razeware LLC
+/// Copyright (c) 2020 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,13 @@
 /// THE SOFTWARE.
 
 import UIKit
+import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
-  
+  private let shareItem = NSSharingServicePickerToolbarItem(itemIdentifier: .shareEntry)
+  private var activityItemsConfigurationSubscriber: AnyCancellable?
+
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     if let userActivity = connectionOptions.userActivities.first ?? session.stateRestorationActivity {
       if !configure(window: window, with: userActivity) {
@@ -44,10 +47,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       titlebar.toolbar = toolbar
       toolbar.delegate = self
       toolbar.allowsUserCustomization = true
-      toolbar.autosavesConfiguration = true
-      toolbar.displayMode = .iconAndLabel
+//      toolbar.autosavesConfiguration = true
+      toolbar.displayMode = .iconOnly
       titlebar.toolbarStyle = .automatic
 //      titlebar.titleVisibility = .hidden // For use at end of tutorial, remove for final project
+
+      activityItemsConfigurationSubscriber = NotificationCenter.default
+        .publisher(for: .activityItemsConfigurationDidChange)
+        .receive(on: RunLoop.main)
+        .map({ $0.userInfo?[NotificationKey.activityItemsConfiguration] as? UIActivityItemsConfiguration })
+        .assign(to: \NSSharingServicePickerToolbarItem.activityItemsConfiguration, on: shareItem)
+
     }
     #endif
   }
@@ -92,28 +102,13 @@ extension SceneDelegate: NSToolbarDelegate {
       item?.target = self
       item?.action = #selector(deleteEntry)
     case .shareEntry:
-      item = NSToolbarItem(itemIdentifier: .shareEntry)
-      item?.image = UIImage(systemName: "square.and.arrow.up")
-      item?.label = "Share"
-      item?.toolTip = "Share Entry"
-      item?.target = self
-      item?.action = #selector(shareEntry(_:))
+      return shareItem
     case .toggleSidebar:
       item = NSToolbarItem(itemIdentifier: itemIdentifier)
     default:
       item = nil
     }
-    return item
-  }
-  
-  private func toolbarItem(itemIdentifier: NSToolbarItem.Identifier, barButtonItem: UIBarButtonItem, toolTip: String? = nil, label: String?) -> NSToolbarItem {
-    let item = NSToolbarItem(itemIdentifier: itemIdentifier, barButtonItem: barButtonItem)
-    item.isBordered = true
-    item.toolTip = toolTip
-    if let label = label {
-      item.label = label
-      item.paletteLabel = label
-    }
+    print("ID: \(itemIdentifier.rawValue) | Item: \(item?.itemIdentifier.rawValue ?? "--")")
     return item
   }
   
@@ -149,12 +144,19 @@ extension SceneDelegate: NSToolbarDelegate {
   }
   
   @objc private func shareEntry(_ sender: UIBarButtonItem) {
-    guard let splitViewController = window?.rootViewController as? UISplitViewController,
-      let navigationController = splitViewController.viewControllers.last as? UINavigationController,
-      let entryTableViewController = navigationController.topViewController as? EntryTableViewController else {
+    guard let entryTableViewController = entryTableViewController else {
         return
     }
     entryTableViewController.share(sender)
+  }
+
+  private var entryTableViewController: EntryTableViewController? {
+    guard let splitViewController = window?.rootViewController as? UISplitViewController,
+          let navigationController = splitViewController.viewControllers.last as? UINavigationController,
+          let entryTableViewController = navigationController.topViewController as? EntryTableViewController else {
+      return nil
+    }
+    return entryTableViewController
   }
 }
 #endif
