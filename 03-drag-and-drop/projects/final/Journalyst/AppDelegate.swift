@@ -42,8 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       splitViewController.primaryBackgroundStyle = .sidebar
       
       if let mainNavigationController = splitViewController.viewController(for: .primary) as? UINavigationController,
-         let mainViewController = mainNavigationController.viewControllers.first {
-        mainViewController.viewDidLoad()
+         let mainViewController = mainNavigationController.viewControllers.first as? MainTableViewController {
+        mainViewController.prepareForPresentation()
       }
     }
     return true

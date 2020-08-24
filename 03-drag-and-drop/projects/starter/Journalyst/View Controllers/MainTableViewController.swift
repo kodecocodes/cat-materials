@@ -40,11 +40,17 @@ class MainTableViewController: UITableViewController {
     let dataSource = self.diaryDataSource()
     tableView.dataSource = dataSource
     self.dataSource = dataSource
-    
-    if let entryNavigationController = splitViewController?.viewController(for: .secondary) as? UINavigationController {
-      self.entryTableViewController = entryNavigationController.topViewController as? EntryTableViewController
+    if let splitViewController = splitViewController,
+      let splitNavigationController = splitViewController.viewControllers.last
+        as? UINavigationController,
+      let topViewController = splitNavigationController.topViewController
+        as? EntryTableViewController {
+      entryTableViewController = topViewController
     }
-    
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     populateMockData()
   }
   
@@ -115,3 +121,4 @@ extension MainTableViewController {
     return UISwipeActionsConfiguration(actions: [deleteAction])
   }
 }
+

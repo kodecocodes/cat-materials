@@ -36,15 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    didFinishLaunchingWithOptions launchOptions:
     [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     if let window = window,
-      let splitViewController = window.rootViewController as? UISplitViewController {
+      let splitViewController = window.rootViewController as? UISplitViewController,
+      let navigationController = splitViewController.viewControllers.last
+        as? UINavigationController {
+      navigationController.topViewController?
+        .navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
       splitViewController.preferredDisplayMode = .automatic
       splitViewController.delegate = self
       splitViewController.primaryBackgroundStyle = .sidebar
-      
-      if let mainNavigationController = splitViewController.viewController(for: .primary) as? UINavigationController,
-         let mainViewController = mainNavigationController.viewControllers.first {
-        mainViewController.viewDidLoad()
-      }
     }
     return true
   }
