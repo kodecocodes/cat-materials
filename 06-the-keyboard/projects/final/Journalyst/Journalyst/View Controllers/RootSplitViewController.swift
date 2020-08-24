@@ -55,9 +55,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   }
   
   // MARK: - Keyboard Commands
-  override var canBecomeFirstResponder: Bool {
-    return true
-  }
+  override var canBecomeFirstResponder: Bool { true }
   
   override var keyCommands: [UIKeyCommand]? {
     let newKeyCommand = UIKeyCommand(input: "N",
@@ -72,7 +70,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
                                       modifierFlags: [.command, .shift],
                                       action: #selector(goToNext(sender:)))
     downKeyCommand.discoverabilityTitle = "Next Entry"
-    let deleteKeyCommand = UIKeyCommand(input: "\u{8}", modifierFlags: [], action: #selector(removeEntry(sender:)))
+    let deleteKeyCommand = UIKeyCommand(input: "\u{8}", modifierFlags: [.command], action: #selector(removeEntry(sender:)))
        deleteKeyCommand.discoverabilityTitle = "Delete Entry"
 
     return [newKeyCommand, upKeyCommand, downKeyCommand, deleteKeyCommand]

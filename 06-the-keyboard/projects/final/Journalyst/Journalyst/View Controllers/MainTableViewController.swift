@@ -114,24 +114,13 @@ extension MainTableViewController {
   @objc func handleEntriesUpdate() {
     reloadSnapshot(animated: true)
   }
-  
-  override var canBecomeFirstResponder: Bool {
-    return false
-  }
-  
+
   private func indexOfCurrentEntry() -> Int? {
     guard let entry = entryTableViewController?.entry else { return nil }
     return DataService.shared.allEntries.firstIndex(of: entry)
   }
-  
-  func goToPrevious() {
-    guard let index = indexOfCurrentEntry(),
-      index > 0 else { return }
-    let previousIndex = index - 1
-    let indexPath = IndexPath(row: previousIndex, section: 0)
-    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
-    performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
-  }
+
+  override var canBecomeFirstResponder: Bool { true }
 
   override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
     for press in presses {
@@ -145,6 +134,15 @@ extension MainTableViewController {
         super.pressesBegan(presses, with: event)
       }
     }
+  }
+  
+  func goToPrevious() {
+    guard let index = indexOfCurrentEntry(),
+      index > 0 else { return }
+    let previousIndex = index - 1
+    let indexPath = IndexPath(row: previousIndex, section: 0)
+    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+    performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
 
   func goToNext() {
