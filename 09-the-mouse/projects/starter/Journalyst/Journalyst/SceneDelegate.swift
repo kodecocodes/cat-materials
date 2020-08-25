@@ -46,16 +46,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("Failed to restore from \(userActivity)")
       }
     }
-    #if targetEnvironment(macCatalyst)
-    if let scene = scene as? UIWindowScene,
-      let titlebar = scene.titlebar {
-      let toolbar = NSToolbar(identifier: "Toolbar")
-      titlebar.toolbar = toolbar
-      toolbar.delegate = self
-      toolbar.allowsUserCustomization = true
-      toolbar.autosavesConfiguration = true
-    }
-    #endif
   }
 
   func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
@@ -76,85 +66,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     return true
   }
 }
-
-#if targetEnvironment(macCatalyst)
-extension NSToolbarItem.Identifier {
-  static let addEntry = NSToolbarItem.Identifier(rawValue: "AddEntry")
-  static let deleteEntry = NSToolbarItem.Identifier(rawValue: "DeleteEntry")
-  static let shareEntry = NSToolbarItem.Identifier(rawValue: "ShareEntry")
-}
-
-extension SceneDelegate: NSToolbarDelegate {
-  func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-    var item: NSToolbarItem? = nil
-    if itemIdentifier == .addEntry {
-      let barButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntry))
-      item = toolbarItem(itemIdentifier: .addEntry,
-                         barButtonItem: barButtonItem,
-                         toolTip: "Add Entry",
-                         label: "Add")
-      item?.target = self
-      item?.action = #selector(addEntry)
-    } else if itemIdentifier == .deleteEntry {
-      let barButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteEntry))
-      item = toolbarItem(itemIdentifier: .deleteEntry,
-                         barButtonItem: barButtonItem,
-                         toolTip: "Delete Entry",
-                         label: "Delete")
-      item?.target = self
-      item?.action = #selector(deleteEntry)
-    } else if itemIdentifier == .shareEntry {
-      let barButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareEntry(_:)))
-      item = toolbarItem(itemIdentifier: .shareEntry,
-                         barButtonItem: barButtonItem,
-                         toolTip: "Share Entry",
-                         label: "Share")
-    }
-    return item
-  }
-  
-  private func toolbarItem(itemIdentifier: NSToolbarItem.Identifier, barButtonItem: UIBarButtonItem, toolTip: String? = nil, label: String?) -> NSToolbarItem {
-    let item = NSToolbarItem(itemIdentifier: itemIdentifier, barButtonItem: barButtonItem)
-    item.isBordered = true
-    item.toolTip = toolTip
-    if let label = label {
-      item.label = label
-      item.paletteLabel = label
-    }
-    return item
-  }
-  
-  func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-    return [.addEntry, .flexibleSpace, .shareEntry]
-  }
-  
-  func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-    return [.addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
-  }
-  
-  @objc private func addEntry() {
-    DataService.shared.addEntry(Entry())
-  }
-  
-  @objc private func deleteEntry() {
-    guard let splitViewController = window?.rootViewController as? UISplitViewController,
-      let navigationController = splitViewController.viewControllers.first as? UINavigationController,
-      let mainTableViewController = navigationController.topViewController as? MainTableViewController,
-      let secondaryViewController = splitViewController.viewControllers.last as? UINavigationController,
-      let entryTableViewController = secondaryViewController.topViewController as? EntryTableViewController,
-      let entry = entryTableViewController.entry,
-      let index = DataService.shared.allEntries.firstIndex(of: entry) else { return }
-    DataService.shared.removeEntry(atIndex: index)
-    mainTableViewController.selectEntryAtIndex(index)
-  }
-  
-  @objc private func shareEntry(_ sender: UIBarButtonItem) {
-    guard let splitViewController = window?.rootViewController as? UISplitViewController,
-      let navigationController = splitViewController.viewControllers.last as? UINavigationController,
-      let entryTableViewController = navigationController.topViewController as? EntryTableViewController else {
-        return
-    }
-    entryTableViewController.share(sender)
-  }
-}
-#endif

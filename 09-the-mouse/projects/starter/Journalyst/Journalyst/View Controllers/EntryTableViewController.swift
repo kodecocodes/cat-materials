@@ -87,7 +87,6 @@ class EntryTableViewController: UITableViewController {
     #if targetEnvironment(macCatalyst)
     view.backgroundColor = .secondarySystemBackground
     collectionView.showsHorizontalScrollIndicator = true
-    navigationController?.navigationBar.isHidden = true
     #endif
   }
   

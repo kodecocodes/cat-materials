@@ -48,9 +48,6 @@ class MainTableViewController: UITableViewController {
     tableView.tableFooterView = UIView()
     tableView.dragDelegate = self
     NotificationCenter.default.addObserver(self, selector: #selector(handleEntriesUpdate), name: .JournalEntriesUpdated, object: nil)
-    #if targetEnvironment(macCatalyst)
-    navigationController?.navigationBar.isHidden = true
-    #endif
   }
 
   override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
