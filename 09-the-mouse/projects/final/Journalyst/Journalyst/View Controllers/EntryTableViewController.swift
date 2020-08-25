@@ -217,7 +217,7 @@ extension EntryTableViewController {
 
       reusableView.addGestureRecognizer(hoverGesture)
       if let button = reusableView.viewWithTag(1) as? UIButton {
-        button.pointerStyleProvider = { (button, effect, shape) -> UIPointerStyle? in
+        button.pointerStyleProvider = { button, effect, _ in
           var rect = button.bounds
           rect = button.convert(rect, to: effect.preview.target.container)
           return UIPointerStyle(effect: effect, shape: .roundedRect(rect))
