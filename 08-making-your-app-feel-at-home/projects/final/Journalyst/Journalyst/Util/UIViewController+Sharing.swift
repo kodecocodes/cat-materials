@@ -39,6 +39,8 @@ extension UIViewController {
       textToShare += "\n\n -\(namePreference)"
     }
 
+    items.append(textToShare)
+
     if let images = images, !images.isEmpty {
       items.append(contentsOf: images)
     }
