@@ -93,9 +93,9 @@ class EntryTableViewCell: UITableViewCell {
     guard !isSelected else { return }
     switch recognizer.state {
     case .began, .changed:
-      backgroundColor = .systemGray
+      backgroundColor = .secondarySystemBackground
     case .ended:
-      backgroundColor = nil
+      backgroundColor = .systemBackground
     default:
       break
     }

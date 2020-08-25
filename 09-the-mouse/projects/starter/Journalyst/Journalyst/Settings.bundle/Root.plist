@@ -16,9 +16,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Show Entry With Colored Background</string>
+			<string>Show Entry With Light Background</string>
 			<key>Description</key>
-			<string>Enable to force a colored background on the entry screen.</string>
+			<string>Enable to force a light background on the entry screen.</string>
 			<key>Key</key>
 			<string>entry_color_preference</string>
 			<key>DefaultValue</key>

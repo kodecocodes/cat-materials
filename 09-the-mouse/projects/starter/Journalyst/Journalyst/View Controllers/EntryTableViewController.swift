@@ -174,9 +174,11 @@ class EntryTableViewController: UITableViewController {
   private func updateEntryCellColor() {
     let overrideColorPreference = UserDefaults.standard.bool(forKey: colorPreference)
     if overrideColorPreference {
-      entryCell.contentView.backgroundColor = .systemFill
+      entryCell.contentView.backgroundColor = .white
+      textView.textColor = .black
     } else {
       entryCell.contentView.backgroundColor = nil
+      textView.textColor = .label
     }
   }
 
