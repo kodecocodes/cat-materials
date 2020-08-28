@@ -30,6 +30,11 @@ import Foundation
 
 extension Notification.Name {
   static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
+  static let ActivityItemsConfigurationDidChange = Notification.Name("activityItemsConfigurationDidChange")
+}
+
+enum NotificationKey: String {
+    case activityItemsConfiguration
 }
 
 class DataService {

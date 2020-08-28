@@ -284,19 +284,11 @@ extension EntryTableViewController: UIDropInteractionDelegate {
 // MARK: - UICollectionViewDropDelegate
 extension EntryTableViewController: UICollectionViewDropDelegate {
 
-  func collectionView(
-    _ collectionView: UICollectionView,
-    canHandle session: UIDropSession) -> Bool {
-
+  func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
     session.canLoadObjects(ofClass: UIImage.self)
   }
 
-  func collectionView(
-    _ collectionView: UICollectionView,
-    dropSessionDidUpdate session: UIDropSession,
-    withDestinationIndexPath destinationIndexPath: IndexPath?)
-  -> UICollectionViewDropProposal {
-
+  func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
     if session.localDragSession != nil {
       return UICollectionViewDropProposal(
         operation: .move,
@@ -308,13 +300,8 @@ extension EntryTableViewController: UICollectionViewDropDelegate {
     }
   }
 
-  func collectionView(
-    _ collectionView: UICollectionView,
-    performDropWith coordinator:
-      UICollectionViewDropCoordinator) {
-
+  func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
     let destinationIndex = coordinator.destinationIndexPath?.item ?? 0
-
     for item in coordinator.items {
       if coordinator.session.localDragSession != nil,
          let sourceIndex = item.sourceIndexPath?.item {
@@ -342,11 +329,7 @@ extension EntryTableViewController: UICollectionViewDropDelegate {
 // MARK: - UICollectionViewDragDelegate
 extension EntryTableViewController: UICollectionViewDragDelegate {
 
-  func collectionView(
-    _ collectionView: UICollectionView,
-    itemsForBeginning session: UIDragSession,
-    at indexPath: IndexPath) -> [UIDragItem] {
-
+  func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
     guard let entry = entry, !entry.images.isEmpty else {
       return []
     }
@@ -361,7 +344,6 @@ extension EntryTableViewController: UIGestureRecognizerDelegate {
 
 }
 
-
 extension EntryTableViewController {
   private func configureActivityItems() {
     let configuration = UIActivityItemsConfiguration(objects: [])
@@ -374,10 +356,8 @@ extension EntryTableViewController {
         return nil
       }
     }
-    NotificationCenter
-      .default
-      .post(name: .activityItemsConfigurationDidChange,
-            object: self,
-            userInfo: [NotificationKey.activityItemsConfiguration: configuration])
+    NotificationCenter.default.post(name: .ActivityItemsConfigurationDidChange,
+                                    object: self,
+                                    userInfo: [NotificationKey.activityItemsConfiguration: configuration])
   }
 }

@@ -47,17 +47,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       titlebar.toolbar = toolbar
       toolbar.delegate = self
       toolbar.allowsUserCustomization = true
-//      toolbar.autosavesConfiguration = true
+      toolbar.autosavesConfiguration = true
       toolbar.displayMode = .iconOnly
       titlebar.toolbarStyle = .automatic
 //      titlebar.titleVisibility = .hidden // For use at end of tutorial, remove for final project
 
       activityItemsConfigurationSubscriber = NotificationCenter.default
-        .publisher(for: .activityItemsConfigurationDidChange)
+        .publisher(for: .ActivityItemsConfigurationDidChange)
         .receive(on: RunLoop.main)
         .map({ $0.userInfo?[NotificationKey.activityItemsConfiguration] as? UIActivityItemsConfiguration })
         .assign(to: \NSSharingServicePickerToolbarItem.activityItemsConfiguration, on: shareItem)
-
     }
     #endif
   }
@@ -108,7 +107,6 @@ extension SceneDelegate: NSToolbarDelegate {
     default:
       item = nil
     }
-    print("ID: \(itemIdentifier.rawValue) | Item: \(item?.itemIdentifier.rawValue ?? "--")")
     return item
   }
   
