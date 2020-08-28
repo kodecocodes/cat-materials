@@ -55,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         .publisher(for: .ActivityItemsConfigurationDidChange)
         .receive(on: RunLoop.main)
         .map({ $0.userInfo?[NotificationKey.activityItemsConfiguration] as? UIActivityItemsConfiguration })
-        .assign(to: \NSSharingServicePickerToolbarItem.activityItemsConfiguration, on: shareItem)
+        .assign(to: \.activityItemsConfiguration, on: shareItem)
     }
     #endif
   }
@@ -110,7 +110,7 @@ extension SceneDelegate: NSToolbarDelegate {
   }
   
   func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-    return [.toggleSidebar, .flexibleSpace, .addEntry, .shareEntry]
+    return [.toggleSidebar, .addEntry, .shareEntry]
   }
   
   func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
@@ -138,13 +138,6 @@ extension SceneDelegate: NSToolbarDelegate {
       let index = DataService.shared.allEntries.firstIndex(of: entry) else { return }
     DataService.shared.removeEntry(atIndex: index)
     mainTableViewController.selectEntryAtIndex(index)
-  }
-  
-  @objc private func shareEntry(_ sender: UIBarButtonItem) {
-    guard let entryTableViewController = entryTableViewController else {
-        return
-    }
-    entryTableViewController.share(sender)
   }
 
   private var entryTableViewController: EntryTableViewController? {

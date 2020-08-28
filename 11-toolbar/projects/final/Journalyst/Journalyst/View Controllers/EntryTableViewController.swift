@@ -350,7 +350,7 @@ extension EntryTableViewController {
     configuration.metadataProvider = { key in
       guard let shareText = self.shareText else { return nil }
       switch key {
-      case .title, .messageBody:
+      case .messageBody:
         return shareText
       default:
         return nil

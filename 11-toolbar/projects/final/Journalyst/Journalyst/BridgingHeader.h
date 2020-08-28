@@ -31,5 +31,3 @@
 
 
 #endif /* BridgingHeader_h */
-
-#import <UIKit/NSToolbar+UIKitAdditions.h>
