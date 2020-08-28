@@ -30,10 +30,14 @@ import UIKit
 import AVFoundation
 
 class EntryTableViewController: UITableViewController {
-  
+  let colorPreference = "entry_color_preference"
+  let namePreference = "name_preference"
+  let signaturePreference = "signature_preference"
+
   // MARK: - Outlets
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
+  @IBOutlet private var entryCell: UITableViewCell!
   
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
@@ -46,14 +50,14 @@ class EntryTableViewController: UITableViewController {
       title = dateFormatter.string(from: entry.dateCreated)
     }
   }
-
+  
   let photoPicker = PhotoPicker()
-
+  
   static func loadFromStoryboard() -> EntryTableViewController? {
-      let storyboard = UIStoryboard(name: "Main", bundle: .main)
-      return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
+    let storyboard = UIStoryboard(name: "Main", bundle: .main)
+    return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
   }
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     textView.text = entry?.log ?? ""
@@ -64,12 +68,36 @@ class EntryTableViewController: UITableViewController {
     reloadSnapshot(animated: false)
     validateState()
     NotificationCenter.default.addObserver(self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
-  }
+    NotificationCenter.default.addObserver(self, selector: #selector(handleUserDefaultChanged(notification:)), name: UserDefaults.didChangeNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(handleWindowSizeChanged), name: .WindowSizeChanged, object: nil)
 
+    UserDefaults.standard
+      .addObserver(self,
+                   forKeyPath: colorPreference,
+                   options: .new,
+                   context: nil)
+    updateEntryCellColor()
+    
+    let interaction = UIDropInteraction(delegate: self)
+    textView.interactions.append(interaction)
+    
+    collectionView.dropDelegate = self
+    collectionView.dragDelegate = self
+    
+    #if targetEnvironment(macCatalyst)
+    view.backgroundColor = .secondarySystemBackground
+    collectionView.showsHorizontalScrollIndicator = true
+    #endif
+  }
+  
+  override var canBecomeFirstResponder: Bool {
+    return false
+  }
+  
   deinit {
     NotificationCenter.default.removeObserver(self)
   }
-
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillAppear(animated)
     entry?.log = textView.text
@@ -77,7 +105,21 @@ class EntryTableViewController: UITableViewController {
       DataService.shared.updateEntry(entry)
     }
   }
+  
+  // MARK: - Notifications
+  override func observeValue(forKeyPath keyPath: String?,
+                             of object: Any?,
+                             change: [NSKeyValueChangeKey : Any]?,
+                             context: UnsafeMutableRawPointer?) {
+    if keyPath == colorPreference {
+      updateEntryCellColor()
+    }
+  }
 
+  @objc func handleUserDefaultChanged(notification: Notification) {
+    updateEntryCellColor()
+  }
+  
   @objc func handleEntryUpdated(notification: Notification) {
     guard let userInfo = notification.userInfo, let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
       return
@@ -85,34 +127,87 @@ class EntryTableViewController: UITableViewController {
     self.entry = entry
     reloadSnapshot(animated: true)
   }
-
+  
+  @objc func handleWindowSizeChanged() {
+    collectionView.reloadData()
+  }
+  
   // MARK: - Actions
-  @IBAction func share(_ sender: Any?) {
-    guard !textView.text.isEmpty else { return }
-    let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
-    if let popoverController = activityController.popoverPresentationController {
-      popoverController.barButtonItem = navigationItem.rightBarButtonItem
+  
+  override func validate(_ command: UICommand) {
+    switch command.action {
+    case #selector(share):
+      if textView.text.isEmpty {
+        command.attributes = [.disabled]
+      } else {
+        command.attributes = []
+      }
+    default:
+      break
     }
-    present(activityController, animated: true, completion: nil)
+  }
+  
+  @IBAction func share(_ sender: Any?) {
+    guard let textToShare = textView.text, !textToShare.isEmpty else { return }
+    presentShare(text: textToShare, images: entry?.images, sourceBarItem: sender as? UIBarButtonItem)
   }
   
   @IBAction private func addImage(_ sender: Any?) {
-    guard let view = sender as? UIView else { return }
-
     textView.resignFirstResponder()
-    photoPicker.present(in: self, sourceView: view) { (image, _) in
-      if let image = image, var entry = self.entry {
-        entry.images.append(image)
-        DataService.shared.updateEntry(entry)
-      }
+    let actionSheet = UIAlertController(title: "Add Photo", message: "Add a photo to your entry", preferredStyle: .actionSheet)
+    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+      actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+        self.selectPhotoFromSource(.camera)
+      }))
     }
-
+    actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+      self.selectPhotoFromSource(.photoLibrary)
+    }))
+    if let view = sender as? UIView,
+      let popoverController = actionSheet.popoverPresentationController {
+      popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
+      popoverController.sourceView = view
+    }
+    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    
+    present(actionSheet, animated: true, completion: nil)
   }
-
+  
+  private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {
+    let imagePickerController = UIImagePickerController()
+    imagePickerController.sourceType = sourceType
+    imagePickerController.allowsEditing = false
+    imagePickerController.delegate = self
+    present(imagePickerController, animated: true, completion: nil)
+  }
+  
   private func validateState() {
     navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
   }
   
+  private func updateEntryCellColor() {
+    let overrideColorPreference = UserDefaults.standard.bool(forKey: colorPreference)
+    if overrideColorPreference {
+      entryCell.contentView.backgroundColor = .white
+      textView.textColor = .black
+    } else {
+      entryCell.contentView.backgroundColor = nil
+      textView.textColor = .label
+    }
+  }
+  
+  @objc private func hovering(_ recognizer: UIHoverGestureRecognizer) {
+    #if targetEnvironment(macCatalyst)
+    switch recognizer.state {
+    case .began, .changed:
+      NSCursor.pointingHand.set()
+    case .ended:
+      NSCursor.arrow.set()
+    default:
+      break
+    }
+    #endif
+  }
 }
 
 // MARK: - Table Data Source
@@ -127,14 +222,23 @@ extension EntryTableViewController {
   }
   
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
       let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
+      let hoverGesture = UIHoverGestureRecognizer(target: self,
+                                                  action: #selector(self.hovering(_:)))
+
+      reusableView.addGestureRecognizer(hoverGesture)
+      if let button = reusableView.viewWithTag(1) as? UIButton {
+        button.pointerStyleProvider = { button, effect, _ in
+          var rect = button.bounds
+          rect = button.convert(rect, to: effect.preview.target.container)
+          return UIPointerStyle(effect: effect, shape: .roundedRect(rect))
+        }
+      }
       return reusableView
     }
-    
     return provider
   }
   
@@ -143,6 +247,17 @@ extension EntryTableViewController {
     snapshot.appendSections([0])
     snapshot.appendItems(entry?.images ?? [])
     dataSource?.apply(snapshot, animatingDifferences: animated)
+  }
+}
+
+// MARK: - Image Picker Delegate
+extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    guard let image = info[.originalImage] as? UIImage else { return }
+    entry?.images.append(image)
+    dismiss(animated: true) {
+      self.reloadSnapshot(animated: true)
+    }
   }
 }
 
@@ -155,4 +270,117 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }
+}
+
+// MARK: - UIDropInteractionDelegate
+extension EntryTableViewController: UIDropInteractionDelegate {
+  
+  func dropInteraction(
+    _ interaction: UIDropInteraction,
+    canHandle session: UIDropSession) -> Bool {
+    
+    session.canLoadObjects(ofClass: UIImage.self)
+  }
+  
+  func dropInteraction(
+    _ interaction: UIDropInteraction,
+    sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+    
+    UIDropProposal(operation: .copy)
+  }
+  
+  func dropInteraction(
+    _ interaction: UIDropInteraction,
+    performDrop session: UIDropSession) {
+    
+    session.loadObjects(ofClass: UIImage.self) {
+      [weak self] imageItems in
+      
+      guard let self = self else { return }
+      let images = imageItems as! [UIImage]
+      self.entry?.images.append(contentsOf: images)
+      self.reloadSnapshot(animated: true)
+    }
+  }
+  
+}
+
+// MARK: - UICollectionViewDropDelegate
+extension EntryTableViewController: UICollectionViewDropDelegate {
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    canHandle session: UIDropSession) -> Bool {
+    
+    session.canLoadObjects(ofClass: UIImage.self)
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    dropSessionDidUpdate session: UIDropSession,
+    withDestinationIndexPath destinationIndexPath: IndexPath?)
+    -> UICollectionViewDropProposal {
+      
+      if session.localDragSession != nil {
+        return UICollectionViewDropProposal(
+          operation: .move,
+          intent: .insertAtDestinationIndexPath)
+      } else {
+        return UICollectionViewDropProposal(
+          operation: .copy,
+          intent: .insertAtDestinationIndexPath)
+      }
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    performDropWith coordinator:
+    UICollectionViewDropCoordinator) {
+    
+    let destinationIndex = coordinator.destinationIndexPath?.item ?? 0
+    
+    for item in coordinator.items {
+      if coordinator.session.localDragSession != nil,
+        let sourceIndex = item.sourceIndexPath?.item {
+        
+        self.entry?.images.remove(at: sourceIndex)
+      }
+      
+      item.dragItem.itemProvider.loadObject(ofClass: UIImage.self) {
+        (object, error) in
+        guard let image = object as? UIImage, error == nil else {
+          print(error ?? "Error: object is not UIImage")
+          return
+        }
+        DispatchQueue.main.async {
+          self.entry?.images.insert(image, at: destinationIndex)
+          self.reloadSnapshot(animated: true)
+        }
+      }
+    }
+    
+  }
+  
+}
+
+// MARK: - UICollectionViewDragDelegate
+extension EntryTableViewController: UICollectionViewDragDelegate {
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    itemsForBeginning session: UIDragSession,
+    at indexPath: IndexPath) -> [UIDragItem] {
+    
+    guard let entry = entry, !entry.images.isEmpty else {
+      return []
+    }
+    
+    let image = entry.images[indexPath.item]
+    let provider = NSItemProvider(object: image)
+    return [UIDragItem(itemProvider: provider)]
+  }
+}
+
+extension EntryTableViewController: UIGestureRecognizerDelegate {
+
 }

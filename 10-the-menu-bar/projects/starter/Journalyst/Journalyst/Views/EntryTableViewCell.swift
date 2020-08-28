@@ -34,13 +34,13 @@ class EntryTableViewCell: UITableViewCell {
   @IBOutlet private var timeLabel: UILabel!
   @IBOutlet private var imagesImageView: UIImageView!
   
-  static var dateFormatter: DateFormatter = {
+  lazy var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy")
     return formatter
   }()
   
-  static var timeFormatter: DateFormatter = {
+  lazy var timeFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.setLocalizedDateFormatFromTemplate("hh:mm")
     return formatter
@@ -49,11 +49,12 @@ class EntryTableViewCell: UITableViewCell {
   var entry: Entry? {
     didSet {
       guard let entry = entry else { return }
-      dateLabel.text = EntryTableViewCell.dateFormatter.string(from: entry.dateCreated)
+      dateLabel.text = dateFormatter.string(from: entry.dateCreated)
       summaryLabel.text = entry.log
       summaryLabel.isHidden = entry.log == nil
-      timeLabel.text = EntryTableViewCell.timeFormatter.string(from: entry.dateCreated)
+      timeLabel.text = timeFormatter.string(from: entry.dateCreated)
       imagesImageView?.isHidden = entry.images.isEmpty
+      accessoryView = entry.isFavorite ? UIImageView(image: UIImage(systemName: "star.fill")) : nil
       #if targetEnvironment(macCatalyst)
       summaryLabel.isHidden = true
       #endif
@@ -65,6 +66,7 @@ class EntryTableViewCell: UITableViewCell {
     #if targetEnvironment(macCatalyst)
     setupForMac()
     #endif
+    addHoverGesture()
   }
   
   private func setupForMac() {
@@ -73,5 +75,29 @@ class EntryTableViewCell: UITableViewCell {
     timeLabel.textColor = .secondaryLabel
     timeLabel.highlightedTextColor = .white
   }
-
+  
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+    if selected {
+      backgroundColor = nil
+    }
+  }
+  
+  private func addHoverGesture() {
+    let hoverGesture = UIHoverGestureRecognizer(target: self,
+                                                action: #selector(hovering(_:)))
+    contentView.addGestureRecognizer(hoverGesture)
+  }
+  
+  @objc private func hovering(_ recognizer: UIHoverGestureRecognizer) {
+    guard !isSelected else { return }
+    switch recognizer.state {
+    case .began, .changed:
+      backgroundColor = .secondarySystemBackground
+    case .ended:
+      backgroundColor = .systemBackground
+    default:
+      break
+    }
+  }
 }

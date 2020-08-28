@@ -33,6 +33,7 @@ struct Entry {
   let dateCreated = Date()
   var log: String?
   var images: [UIImage] = []
+  var isFavorite: Bool = false
 }
 
 extension Entry: Hashable {
@@ -44,7 +45,8 @@ extension Entry: Hashable {
   static func == (lhs: Entry, rhs: Entry) -> Bool {
     return lhs.dateCreated == rhs.dateCreated &&
       lhs.log ?? "" == rhs.log ?? "" &&
-      lhs.images == rhs.images
+      lhs.images == rhs.images &&
+      lhs.isFavorite == rhs.isFavorite
   }
 }
 

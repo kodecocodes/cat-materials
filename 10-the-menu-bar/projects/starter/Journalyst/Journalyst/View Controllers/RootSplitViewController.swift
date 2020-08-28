@@ -28,8 +28,8 @@
 
 import UIKit
 
-class RootSplitViewController: UISplitViewController {
-
+class RootSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     let splitViewController = self
@@ -39,39 +39,10 @@ class RootSplitViewController: UISplitViewController {
     splitViewController.primaryBackgroundStyle = .sidebar
   }
   
-  var mainViewController: MainTableViewController? {
-    guard let navigation = viewControllers.first as? UINavigationController else {
-      return nil
-    }
-    
-    return navigation.topViewController as? MainTableViewController
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
   }
   
-  var entryViewController: EntryTableViewController? {
-    guard let navigation = viewControllers.last as? UINavigationController else {
-      return nil
-    }
-
-    return navigation.topViewController as? EntryTableViewController
-  }
-  
-  private func title(for entry: Entry)-> String {
-    let date = EntryTableViewCell.dateFormatter.string(from: entry.dateCreated)
-    let time = EntryTableViewCell.timeFormatter.string(from: entry.dateCreated)
-    return "\(date) \(time)"
-  }
-  
-  @IBAction private func addEntry(_ sender: Any) {
-    DataService.shared.addEntry(Entry())
-  }
-  
-  @IBAction func share(_ sender: Any?) {
-    entryViewController?.share(sender)
-  }
-}
-
-// MARK: - UISplitViewControllerDelegate
-extension RootSplitViewController: UISplitViewControllerDelegate {
   func splitViewController(_ splitViewController: UISplitViewController,
                            collapseSecondary secondaryViewController: UIViewController,
                            onto primaryViewController: UIViewController) -> Bool {
@@ -84,4 +55,55 @@ extension RootSplitViewController: UISplitViewControllerDelegate {
     }
     return false
   }
+  
+  // MARK: - Keyboard Commands
+  override var canBecomeFirstResponder: Bool {
+    return true
+  }
+  
+  override var keyCommands: [UIKeyCommand]? {
+    let newKeyCommand = UIKeyCommand(input: "N",
+                                     modifierFlags: .control,
+                                     action: #selector(addEntry(sender:)))
+    newKeyCommand.discoverabilityTitle = "Add Entry"
+    let upKeyCommand = UIKeyCommand(input: "[",
+                                    modifierFlags: [.command, .shift],
+                                    action: #selector(goToPrevious(sender:)))
+    upKeyCommand.discoverabilityTitle = "Previous Entry"
+    let downKeyCommand = UIKeyCommand(input: "]",
+                                      modifierFlags: [.command, .shift],
+                                      action: #selector(goToNext(sender:)))
+    downKeyCommand.discoverabilityTitle = "Next Entry"
+   
+    let deleteKeyCommand = UIKeyCommand(input: "\u{8}",
+                                        modifierFlags: [],
+                                     action: #selector(removeEntry(sender:)))
+    deleteKeyCommand.discoverabilityTitle = "Delete Entry"
+
+    return [newKeyCommand, upKeyCommand, downKeyCommand, deleteKeyCommand]
+  }
+  
+  @objc private func addEntry(sender: UIKeyCommand) {
+    DataService.shared.addEntry(Entry())
+  }
+  
+  @objc private func goToPrevious(sender: UIKeyCommand) {
+    guard let navigationController = viewControllers.first as? UINavigationController,
+      let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
+    mainTableViewController.goToPrevious()
+    
+  }
+  
+  @objc private func goToNext(sender: UIKeyCommand) {
+    guard let navigationController = viewControllers.first as? UINavigationController,
+      let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
+    mainTableViewController.goToNext()
+  }
+  
+  @objc private func removeEntry(sender: UIKeyCommand) {
+    guard let navigationController = viewControllers.first as? UINavigationController,
+      let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
+    mainTableViewController.deleteCurentEntry()
+  }
+  
 }
