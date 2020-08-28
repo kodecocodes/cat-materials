@@ -41,6 +41,15 @@ class EntryTableViewController: UITableViewController {
   
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
+
+  private var shareText: String? {
+    guard var textToShare = textView.text, !textToShare.isEmpty else { return nil }
+    if let namePreference = UserDefaults.standard.string(forKey: namePreference),
+       UserDefaults.standard.bool(forKey: signaturePreference) {
+      textToShare += "\n\n -\(namePreference)"
+    }
+    return textToShare
+  }
   
   var entry: Entry? {
     didSet {
@@ -102,8 +111,8 @@ class EntryTableViewController: UITableViewController {
   
   // MARK: - Actions
   @IBAction func share(_ sender: Any?) {
-    guard !textView.text.isEmpty else { return }
-    let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
+    guard let shareText = shareText else { return }
+    let activityController = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
     if let popoverController = activityController.popoverPresentationController {
       if let navigationButton = sender as? UIBarButtonItem {
         popoverController.barButtonItem = navigationButton

@@ -48,7 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       toolbar.delegate = self
       toolbar.allowsUserCustomization = true
       toolbar.autosavesConfiguration = true
-      toolbar.displayMode = .iconOnly
       titlebar.toolbarStyle = .automatic
 //      titlebar.titleVisibility = .hidden // For use at end of tutorial, remove for final project
 

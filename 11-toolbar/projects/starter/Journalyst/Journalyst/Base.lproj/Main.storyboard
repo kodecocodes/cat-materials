@@ -83,7 +83,7 @@
                                     <outlet property="imagesImageView" destination="4Td-9G-sUE" id="VO7-Rn-xoS"/>
                                     <outlet property="summaryLabel" destination="kIm-PA-91x" id="Gzx-Co-iNB"/>
                                     <outlet property="timeLabel" destination="9j6-IL-Kl2" id="KT3-MF-Dxf"/>
-                                    <segue destination="NE0-ZR-lcj" kind="showDetail" identifier="ShowEntrySegue" destinationCreationSelector="entryViewControllerWithCoder:sender:segueIdentifier:" id="xv8-Jc-nAm"/>
+                                    <segue destination="NE0-ZR-lcj" kind="showDetail" identifier="ShowEntrySegue" destinationCreationSelector="entryViewControllerWithCoder:sender:segueIdentifier:" animates="NO" id="xv8-Jc-nAm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -313,7 +313,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="LRu-gI-zz3"/>
+        <segue reference="xv8-Jc-nAm"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="PrimaryTint"/>
     <resources>
