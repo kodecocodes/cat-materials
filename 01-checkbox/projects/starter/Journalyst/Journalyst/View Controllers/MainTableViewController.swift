@@ -39,6 +39,7 @@ class MainTableViewController: UITableViewController {
     let dataSource = self.diaryDataSource()
     tableView.dataSource = dataSource
     self.dataSource = dataSource
+    print("Pinal Test commit")
   }
   
   override func viewDidAppear(_ animated: Bool) {
