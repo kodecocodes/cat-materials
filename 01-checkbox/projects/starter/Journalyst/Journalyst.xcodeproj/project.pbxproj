@@ -14,10 +14,10 @@
 		A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DA22D559DB000531FB /* Entry.swift */; };
 		A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */; };
 		A1A5F30422D6A156000531FB /* EntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F30322D6A156000531FB /* EntryTableViewController.swift */; };
-		D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F2071F4A9144005CD714 /* Main.storyboard */; };
 		D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F20A1F4A9144005CD714 /* Assets.xcassets */; };
 		D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */; };
 		DA2E452B24FD1D1B00558FBC /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */; };
+		DA2E453424FE16EE00558FBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA2E453224FE16EE00558FBC /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,11 +29,11 @@
 		A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		A1A5F30322D6A156000531FB /* EntryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewController.swift; sourceTree = "<group>"; };
 		D2A5F2001F4A9144005CD714 /* Journalyst.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journalyst.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2A5F2081F4A9144005CD714 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D2A5F20A1F4A9144005CD714 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2A5F20F1F4A9144005CD714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
+		DA2E453324FE16EE00558FBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +100,7 @@
 				A1A5F2DC22D559E2000531FB /* Models */,
 				A1A5F2D922D555B7000531FB /* View Controllers */,
 				A1A5F2DF22D55B55000531FB /* Views */,
-				D2A5F2071F4A9144005CD714 /* Main.storyboard */,
+				DA2E453224FE16EE00558FBC /* Main.storyboard */,
 				A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */,
 				D2A5F20A1F4A9144005CD714 /* Assets.xcassets */,
 				D2A5F20F1F4A9144005CD714 /* Info.plist */,
@@ -169,7 +169,7 @@
 			files = (
 				A17E671E22DABB1B00370823 /* LaunchScreen.storyboard in Resources */,
 				D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */,
-				D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */,
+				DA2E453424FE16EE00558FBC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,10 +194,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D2A5F2071F4A9144005CD714 /* Main.storyboard */ = {
+		DA2E453224FE16EE00558FBC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D2A5F2081F4A9144005CD714 /* Base */,
+				DA2E453324FE16EE00558FBC /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
