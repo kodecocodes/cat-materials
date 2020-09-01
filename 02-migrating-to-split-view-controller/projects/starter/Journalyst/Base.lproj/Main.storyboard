@@ -151,16 +151,13 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageTableViewCell" rowHeight="81" id="llc-5e-pfB">
                                         <rect key="frame" x="20" y="424.33333206176758" width="374" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="llc-5e-pfB" id="f4M-kZ-F20">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="llc-5e-pfB" id="f4M-kZ-F20">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="81"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lf5-vg-hZ2">
-                                                    <rect key="frame" x="20" y="11" width="334" height="58"/>
+                                                    <rect key="frame" x="20" y="11" width="334" height="59"/>
                                                     <color key="backgroundColor" systemColor="tableCellGroupedBackgroundColor"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="58" id="s22-DA-KBq"/>
-                                                    </constraints>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hHL-jP-GOh">
                                                         <size key="itemSize" width="60" height="59"/>
                                                         <size key="headerReferenceSize" width="60" height="60"/>
@@ -169,7 +166,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCollectionViewCell" id="bWV-fL-7MO" customClass="ImageCollectionViewCell" customModule="Journalyst" customModuleProvider="target">
-                                                            <rect key="frame" x="70" y="-0.66666666666666663" width="60" height="59"/>
+                                                            <rect key="frame" x="70" y="0.0" width="60" height="59"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UNZ-Bu-z2S">
                                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
@@ -179,15 +176,13 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="60" id="TQy-wI-5zj"/>
-                                                                            <constraint firstAttribute="height" constant="60" id="p2r-EQ-iai"/>
+                                                                            <constraint firstAttribute="height" constant="59" id="p2r-EQ-iai"/>
                                                                         </constraints>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstItem="cEU-kZ-yuu" firstAttribute="leading" secondItem="UNZ-Bu-z2S" secondAttribute="leading" id="bJN-hR-cGw"/>
                                                                     <constraint firstItem="cEU-kZ-yuu" firstAttribute="top" secondItem="UNZ-Bu-z2S" secondAttribute="top" id="f5o-P4-tR0"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="cEU-kZ-yuu" secondAttribute="bottom" id="mUD-6G-s13"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="cEU-kZ-yuu" secondAttribute="trailing" id="wWU-0O-UXj"/>
                                                                 </constraints>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -207,15 +202,11 @@
                                                         </collectionViewCell>
                                                     </cells>
                                                     <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="Header" id="Bcj-Ra-NCr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="58"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VKs-z7-vDH">
-                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="58"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="60" id="Lkr-DB-tND"/>
-                                                                    <constraint firstAttribute="width" constant="60" id="zRc-qz-nun"/>
-                                                                </constraints>
+                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
                                                                 <state key="normal" image="camera.fill" catalog="system"/>
                                                                 <connections>
                                                                     <action selector="addImage:" destination="UBb-5P-Arc" eventType="touchUpInside" id="pDs-4V-OHe"/>
