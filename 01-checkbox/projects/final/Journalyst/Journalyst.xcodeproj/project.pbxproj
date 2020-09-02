@@ -18,6 +18,7 @@
 		D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */; };
 		DA2E452B24FD1D1B00558FBC /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */; };
 		DA2E453424FE16EE00558FBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA2E453224FE16EE00558FBC /* Main.storyboard */; };
+		DA75AD2924FF9CDB004A25A2 /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75AD2824FF9CDB004A25A2 /* EntryDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 		DA2E453324FE16EE00558FBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA75AD2724FF9986004A25A2 /* Journalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journalyst.entitlements; sourceTree = "<group>"; };
+		DA75AD2824FF9CDB004A25A2 /* EntryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */,
 				A1A5F2DA22D559DB000531FB /* Entry.swift */,
+				DA75AD2824FF9CDB004A25A2 /* EntryDataSource.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				A1A5F2D822D555AF000531FB /* MainTableViewController.swift in Sources */,
 				DA2E452B24FD1D1B00558FBC /* EntryDataSource.swift in Sources */,
 				A1A5F30422D6A156000531FB /* EntryTableViewController.swift in Sources */,
+				DA75AD2924FF9CDB004A25A2 /* EntryDataSource.swift in Sources */,
 				D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
