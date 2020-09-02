@@ -53,8 +53,10 @@ class MainTableViewController: UITableViewController {
   }
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> EntryTableViewController? {
-    guard let cell = sender as? EntryTableViewCell,
-      let indexPath = tableView.indexPath(for: cell) else { return nil }
+    guard
+      let cell = sender as? EntryTableViewCell,
+      let indexPath = tableView.indexPath(for: cell)
+      else { return nil }
     let entryTableViewController = EntryTableViewController(coder: coder)
     entryTableViewController?.entry = dataSource?.itemIdentifier(for: indexPath)
     return entryTableViewController
