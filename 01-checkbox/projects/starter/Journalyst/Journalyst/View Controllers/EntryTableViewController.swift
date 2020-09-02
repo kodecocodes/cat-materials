@@ -31,7 +31,6 @@
 /// THE SOFTWARE.
 
 import UIKit
-import AVFoundation
 
 class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
