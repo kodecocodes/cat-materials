@@ -33,19 +33,16 @@ class EntryTableViewCell: UITableViewCell {
   @IBOutlet private weak var summaryLabel: UILabel!
   @IBOutlet private weak var timeLabel: UILabel!
   @IBOutlet private weak var imagesImageView: UIImageView!
-  
   lazy var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy")
     return formatter
   }()
-  
   lazy var timeFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.setLocalizedDateFormatFromTemplate("hh:mm")
     return formatter
   }()
-  
   var entry: Entry? {
     didSet {
       guard let entry = entry else { return }

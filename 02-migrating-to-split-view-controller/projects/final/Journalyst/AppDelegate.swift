@@ -31,10 +31,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
-  
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions:
-    [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     if let window = window,
       let splitViewController = window.rootViewController as? UISplitViewController,
       let navigationController = splitViewController.viewControllers.last
@@ -47,14 +44,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     return true
   }
-  
 }
 
 // MARK: - Split view
 extension AppDelegate: UISplitViewControllerDelegate {
-  func splitViewController(_ splitViewController: UISplitViewController,
-                           collapseSecondary secondaryViewController: UIViewController,
-                           onto primaryViewController: UIViewController) -> Bool {
+  func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
     guard let secondaryNavigationController = secondaryViewController as? UINavigationController,
       let entryTableViewController = secondaryNavigationController.topViewController
         as? EntryTableViewController else {

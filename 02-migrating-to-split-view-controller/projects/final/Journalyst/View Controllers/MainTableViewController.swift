@@ -29,12 +29,11 @@
 import UIKit
 
 class MainTableViewController: UITableViewController {
-  
   // MARK: - Properties
   var entries: [Entry] = [Entry()]
   var dataSource: EntryDataSource?
-  var entryTableViewController: EntryTableViewController? = nil
-  
+  var entryTableViewController: EntryTableViewController?
+//  var entryTableViewController: EntryTableViewController? = nil
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()
@@ -48,22 +47,17 @@ class MainTableViewController: UITableViewController {
       entryTableViewController = topViewController
     }
   }
-  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     populateMockData()
   }
-  
   // MARK: - Actions
   @IBAction private func addEntry(_ sender: Any) {
     entries.append(Entry())
     reloadSnapshot(animated: true)
   }
-  
   // MARK: - Navigation
-  @IBSegueAction func entryViewController(coder: NSCoder,
-                                          sender: Any?,
-                                          segueIdentifier: String?) -> UINavigationController? {
+  @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
@@ -79,25 +73,21 @@ class MainTableViewController: UITableViewController {
 extension MainTableViewController {
   private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return EntryDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) {tableView, indexPath, entry -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
       return cell
     }
   }
-  
 private func populateMockData() {
   reloadSnapshot(animated: false)
   if let entryTableViewController = entryTableViewController,
     let entry = entries.first,
     entryTableViewController.entry == nil {
-    tableView.selectRow(at: IndexPath(row: 0, section: 0),
-                        animated: false,
-                        scrollPosition: .top)
+    tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
     entryTableViewController.entry = entry
   }
 }
-  
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -111,9 +101,8 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
-  
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, completion) in
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
       self?.entries.remove(at: indexPath.row)
       self?.reloadSnapshot(animated: true)
     }
