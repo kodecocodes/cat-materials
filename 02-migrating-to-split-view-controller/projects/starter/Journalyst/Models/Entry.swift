@@ -43,7 +43,6 @@ extension Entry: Hashable {
     hasher.combine(dateCreated)
     hasher.combine(log)
   }
-  
   static func == (lhs: Entry, rhs: Entry) -> Bool {
     return lhs.dateCreated == rhs.dateCreated &&
       lhs.log == rhs.log &&
