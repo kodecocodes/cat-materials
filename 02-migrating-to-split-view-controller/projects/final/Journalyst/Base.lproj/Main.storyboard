@@ -173,7 +173,7 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="60" id="TQy-wI-5zj"/>
-                                                                            <constraint firstAttribute="height" constant="60" id="p2r-EQ-iai"/>
+                                                                            <constraint firstAttribute="height" constant="59" id="p2r-EQ-iai"/>
                                                                         </constraints>
                                                                     </imageView>
                                                                 </subviews>
@@ -188,6 +188,12 @@
                                                                         <integer key="value" value="5"/>
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
+                                                                <variation key="default">
+                                                                    <mask key="constraints">
+                                                                        <exclude reference="mUD-6G-s13"/>
+                                                                        <exclude reference="wWU-0O-UXj"/>
+                                                                    </mask>
+                                                                </variation>
                                                             </collectionViewCellContentView>
                                                             <size key="customSize" width="60" height="59"/>
                                                             <userDefinedRuntimeAttributes>
