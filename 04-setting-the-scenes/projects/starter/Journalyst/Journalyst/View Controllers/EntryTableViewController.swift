@@ -31,7 +31,6 @@
 /// THE SOFTWARE.
 
 import UIKit
-import AVFoundation
 
 protocol EntryTableViewControllerDelegate: class {
   func entryTableViewController(_ controller: EntryTableViewController, didUpdateEntry entry: Entry)
