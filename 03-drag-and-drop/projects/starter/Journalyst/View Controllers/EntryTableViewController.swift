@@ -136,8 +136,12 @@ extension EntryTableViewController {
   }
 }
 
+// MARK: - Navigation Controller Delegate
+extension EntryTableViewController: UINavigationControllerDelegate {
+}
+
 // MARK: - Image Picker Delegate
-extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EntryTableViewController: UIImagePickerControllerDelegate {
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)

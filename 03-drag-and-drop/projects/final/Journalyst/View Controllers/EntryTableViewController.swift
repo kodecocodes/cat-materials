@@ -140,13 +140,24 @@ extension EntryTableViewController {
   }
 }
 
+// MARK: - Navigation Controller Delegate
+extension EntryTableViewController: UINavigationControllerDelegate {
+}
+
 // MARK: - Image Picker Delegate
-extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EntryTableViewController: UIImagePickerControllerDelegate {
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {
       self.reloadSnapshot(animated: true)
+    }
+    if picker.sourceType == .photoLibrary {
+      if let splitViewController = self.splitViewController,
+        let navigationController = splitViewController.viewControllers.first as? UINavigationController,
+        let mainViewController = navigationController.viewControllers.first {
+          mainViewController.viewDidAppear(true)
+      }
     }
   }
 }
@@ -158,6 +169,11 @@ extension EntryTableViewController: UITextViewDelegate {
   }
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
+    if let splitViewController = splitViewController,
+      let  navigationController = splitViewController.viewControllers.first as? UINavigationController,
+      let mainViewController = navigationController.viewControllers.first {
+        mainViewController.viewDidAppear(true)
+    }
   }
 }
 
