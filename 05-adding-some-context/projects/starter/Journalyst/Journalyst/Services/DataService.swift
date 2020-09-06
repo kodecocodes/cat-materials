@@ -36,40 +36,33 @@ extension Notification.Name {
   static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
   static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
 }
-
 struct DataNotificationKeys {
   static let entry = "entry"
 }
 
 class DataService {
-
   static let shared = DataService()
-
   private var entries: [Entry] = [Entry()]
-
   var allEntries: [Entry] {
     return entries
   }
-
   func entry(forID entryID: String) -> Entry? {
-    return entries.first(where: {$0.id == entryID})
+    return entries.first { $0.id == entryID }
   }
-
   func addEntry(_ entry: Entry) {
     entries.append(entry)
     postListUpdate()
   }
-
   func updateEntry(_ entry: Entry) {
     var hasChanges: Bool = false
-    entries = entries.map({ e -> Entry in
-      if e.id == entry.id && e != entry {
+    entries = entries.map {item -> Entry in
+      if item.id == entry.id && item != entry {
         hasChanges = true
         return entry
       } else {
-        return e
+        return item
       }
-    })
+    }
 
     if hasChanges {
       postUpdate(for: entry)
@@ -87,6 +80,7 @@ class DataService {
   }
 
   private func postUpdate(for entry: Entry) {
-    NotificationCenter.default.post(name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
+    NotificationCenter.default.post(
+      name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
   }
 }

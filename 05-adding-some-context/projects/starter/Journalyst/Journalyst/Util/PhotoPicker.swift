@@ -29,7 +29,6 @@
 import UIKit
 
 class PhotoPicker: NSObject {
-
   typealias PhotoCompletion = (UIImage?, Error?) -> Void
   fileprivate var completion: PhotoCompletion?
   lazy var picker: UIImagePickerController = {
@@ -39,22 +38,19 @@ class PhotoPicker: NSObject {
     return picker
   }()
 
-  func present(in viewController: UIViewController,
-               title: String?  = NSLocalizedString("Add Photo", comment: ""),
-               message: String?  = nil,
-               sourceView: UIView?  = nil,
-               completion: @escaping PhotoCompletion) {
+  func present(in viewController: UIViewController, title: String?  = NSLocalizedString("Add Photo", comment: ""), message: String?  = nil, sourceView: UIView?  = nil, completion: @escaping PhotoCompletion) {
     self.completion = completion
 
     let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
     if UIImagePickerController.isSourceTypeAvailable(.camera) {
-      alert.addAction(UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .default, handler: { _ in
+      alert.addAction(UIAlertAction(
+      title: NSLocalizedString("Camera", comment: ""), style: .default) { _ in
         self.presentCamera(in: viewController)
-      }))
+      })
     }
-    alert.addAction(UIAlertAction(title: NSLocalizedString("Photo Library", comment: ""), style: .default, handler: { _ in
+    alert.addAction(UIAlertAction(title: NSLocalizedString("Photo Library", comment: ""), style: .default) { _ in
       self.presentPhotoLibrary(in: viewController)
-    }))
+    })
     alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
 
     if let view = sourceView,
@@ -64,11 +60,9 @@ class PhotoPicker: NSObject {
     }
     viewController.present(alert, animated: true, completion: nil)
   }
-
 }
 
 fileprivate extension PhotoPicker {
-
   func presentCamera(in viewController: UIViewController) {
     picker.sourceType = .camera
     viewController.present(picker, animated: true, completion: nil)
@@ -78,11 +72,9 @@ fileprivate extension PhotoPicker {
     picker.sourceType = .photoLibrary
     viewController.present(picker, animated: true, completion: nil)
   }
-
 }
 
 extension PhotoPicker: UIImagePickerControllerDelegate {
-
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     if let image = info[.originalImage] as? UIImage {
       self.completion?(image, nil)
@@ -93,7 +85,6 @@ extension PhotoPicker: UIImagePickerControllerDelegate {
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     picker.dismiss(animated: true, completion: nil)
   }
-
 }
 
 extension PhotoPicker: UINavigationControllerDelegate {

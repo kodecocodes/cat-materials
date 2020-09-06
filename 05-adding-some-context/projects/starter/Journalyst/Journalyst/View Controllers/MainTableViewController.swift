@@ -33,12 +33,10 @@
 import UIKit
 
 class MainTableViewController: UITableViewController {
-  
   // MARK: - Properties
   var dataSource: EntryDataSource?
-  var entryTableViewController: EntryTableViewController? = nil
+  var entryTableViewController: EntryTableViewController?
   let photoPicker = PhotoPicker()
-
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()
@@ -50,17 +48,15 @@ class MainTableViewController: UITableViewController {
       entryTableViewController = topViewController
     }
     tableView.dragDelegate = self
-
-    NotificationCenter.default.addObserver(self, selector: #selector(handleEntriesUpdate), name: .JournalEntriesUpdated, object: nil)
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(handleEntriesUpdate), name: .JournalEntriesUpdated, object: nil)
   }
-
   override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
     return IndexPath(row: 0, section: 0)
   }
-
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
+//  deinit {
+//    NotificationCenter.default.removeObserver(self)
+//  }
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
@@ -71,13 +67,13 @@ class MainTableViewController: UITableViewController {
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
-  
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
-      let entryTableViewController = navigationController.topViewController as? EntryTableViewController else { return nil }
+      let entryTableViewController =
+        navigationController.topViewController as? EntryTableViewController else { return nil }
     entryTableViewController.entry = dataSource?.itemIdentifier(for: indexPath)
     self.entryTableViewController = entryTableViewController
     return navigationController
@@ -88,13 +84,12 @@ class MainTableViewController: UITableViewController {
 extension MainTableViewController {
   private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return EntryDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) {tableView, indexPath, entry -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
       return cell
     }
   }
-
   private func populateData() {
     if let entryTableViewController = entryTableViewController,
       let entry = DataService.shared.allEntries.first,
@@ -103,7 +98,6 @@ extension MainTableViewController {
     }
     reloadSnapshot(animated: false)
   }
-  
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -111,7 +105,7 @@ extension MainTableViewController {
     dataSource?.apply(snapshot, animatingDifferences: animated)
 
     if let selectedEntry = entryTableViewController?.entry {
-      DataService.shared.allEntries.enumerated().forEach { (index, obj) in
+      DataService.shared.allEntries.enumerated().forEach {index, obj in
         if selectedEntry == obj {
           self.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
           return
@@ -119,11 +113,9 @@ extension MainTableViewController {
       }
     }
   }
-
   @objc func handleEntriesUpdate() {
     reloadSnapshot(animated: false)
   }
-
 }
 
 // MARK: - Table View Delegate
@@ -131,9 +123,8 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
-  
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {_, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)
     }
     deleteAction.image = UIImage(systemName: "trash")
@@ -143,15 +134,12 @@ extension MainTableViewController {
 
 // MARK: UITableViewDragDelegate
 extension MainTableViewController: UITableViewDragDelegate {
-
   func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
     let entry = DataService.shared.allEntries[indexPath.row]
     let userActivity = entry.openDetailUserActivity
     let itemProvider = NSItemProvider()
     itemProvider.registerObject(userActivity, visibility: .all)
-
     let dragItem = UIDragItem(itemProvider: itemProvider)
-
     return [dragItem]
   }
 }
