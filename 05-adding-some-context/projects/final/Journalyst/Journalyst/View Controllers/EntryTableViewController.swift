@@ -33,14 +33,11 @@
 import UIKit
 
 class EntryTableViewController: UITableViewController {
-  
   // MARK: - Outlets
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
-  
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
-  
   var entry: Entry? {
     didSet {
       guard let entry = entry else { return }
@@ -53,8 +50,8 @@ class EntryTableViewController: UITableViewController {
   let photoPicker = PhotoPicker()
 
   static func loadFromStoryboard() -> EntryTableViewController? {
-      let storyboard = UIStoryboard(name: "Main", bundle: .main)
-      return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
+    let storyboard = UIStoryboard(name: "Main", bundle: .main)
+    return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
   }
 
   override func viewDidLoad() {
@@ -66,15 +63,16 @@ class EntryTableViewController: UITableViewController {
     self.dataSource = dataSource
     reloadSnapshot(animated: false)
     validateState()
-    NotificationCenter.default.addObserver(self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
   }
 
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
+//  deinit {
+//    NotificationCenter.default.removeObserver(self)
+//  }
 
   override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+    super.viewWillDisappear(animated)
     entry?.log = textView.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
@@ -98,47 +96,46 @@ class EntryTableViewController: UITableViewController {
     }
     present(activityController, animated: true, completion: nil)
   }
-  
   @IBAction private func addImage(_ sender: Any?) {
     guard let view = sender as? UIView else { return }
 
     textView.resignFirstResponder()
-    photoPicker.present(in: self, sourceView: view) { (image, _) in
+    photoPicker.present(in: self, sourceView: view) {image, _ in
       if let image = image, var entry = self.entry {
         entry.images.append(image)
         DataService.shared.updateEntry(entry)
       }
     }
-
   }
 
   private func validateState() {
     navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
   }
-  
 }
 
 // MARK: - Table Data Source
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
-    return UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView, indexPath, image) -> ImageCollectionViewCell? in
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
+    return UICollectionViewDiffableDataSource(
+      collectionView: collectionView) {collectionView, indexPath, image -> ImageCollectionViewCell? in
+      let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
       return cell
     }
   }
-  
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
-      let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
-      reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
+    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
+      = {collectionView, kind, indexPath -> UICollectionReusableView? in
+      let reusableView = collectionView.dequeueReusableSupplementaryView(
+        ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+      reusableView.layer.borderColor = UIColor(named: "PrimaryTint")?.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
       return reusableView
     }
     return provider
   }
-  
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     snapshot.appendSections([0])
@@ -152,7 +149,6 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
-  
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }
