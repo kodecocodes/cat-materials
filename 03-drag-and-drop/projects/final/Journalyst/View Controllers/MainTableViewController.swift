@@ -41,6 +41,10 @@ class MainTableViewController: UITableViewController {
     viewDidLoad()
     populateMockData()
   }
+  func passEntry(entry: Entry) {
+    entries.append(entry)
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()

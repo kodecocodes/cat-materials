@@ -47,8 +47,23 @@ class EntryTableViewController: UITableViewController {
       title = dateFormatter.string(from: entry.dateCreated)
     }
   }
+  var entryIsNil = false
+
   override func viewDidLoad() {
     super.viewDidLoad()
+    if entry == nil {
+      entryIsNil = true
+      if let splitViewController = splitViewController,
+        (splitViewController.viewControllers.first as? UINavigationController) != nil {
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy, hh:mm")
+        entry = Entry()
+        if let entry = entry {
+          title = dateFormatter.string(from: entry.dateCreated)
+          reloadSnapshot(animated: false)
+        }
+      }
+    }
     textView.text = entry?.log ?? ""
     let dataSource = imageDataSource()
     dataSource.supplementaryViewProvider = supplementaryDataSource()
@@ -64,6 +79,15 @@ class EntryTableViewController: UITableViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     entry?.log = textView.text
+    if entryIsNil {
+      if let splitViewController = splitViewController,
+        let splitNavigationController = splitViewController.viewControllers.first
+        as? UINavigationController,
+        let topViewController = splitNavigationController.topViewController as? MainTableViewController,
+        let entry = entry {
+          topViewController.passEntry(entry: entry)
+      }
+    }
   }
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
