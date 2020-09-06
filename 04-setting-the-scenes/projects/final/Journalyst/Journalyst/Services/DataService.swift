@@ -45,7 +45,7 @@ class DataService {
   }
 
   func entry(forID entryID: String) -> Entry? {
-    return entries.first(where: {$0.id == entryID})
+    return entries.first { $0.id == entryID }
   }
 
   func addEntry(_ entry: Entry) {
@@ -60,14 +60,14 @@ class DataService {
 
   func updateEntry(_ entry: Entry) {
     var hasChanges = false
-    entries = entries.map({ e -> Entry in
-      if e.id == entry.id && e != entry {
+    entries = entries.map { item -> Entry in
+      if item.id == entry.id && item != entry {
         hasChanges = true
         return entry
       } else {
-        return e
+        return item
       }
-    })
+    }
 
     if hasChanges {
       postUpdate()
