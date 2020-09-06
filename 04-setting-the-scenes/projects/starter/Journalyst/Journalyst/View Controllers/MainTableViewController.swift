@@ -61,7 +61,8 @@ class MainTableViewController: UITableViewController {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
-      let entryTableViewController = navigationController.topViewController as? EntryTableViewController else { return nil }
+      let entryTableViewController =
+        navigationController.topViewController as? EntryTableViewController else { return nil }
     entryTableViewController.entry = dataSource?.itemIdentifier(for: indexPath)
     entryTableViewController.delegate = self
     self.entryTableViewController = entryTableViewController
