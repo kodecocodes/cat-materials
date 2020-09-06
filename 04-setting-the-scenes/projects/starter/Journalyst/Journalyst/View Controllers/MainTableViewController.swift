@@ -29,11 +29,9 @@
 import UIKit
 
 class MainTableViewController: UITableViewController {
-  
   // MARK: - Properties
   var dataSource: EntryDataSource?
-  var entryTableViewController: EntryTableViewController? = nil
-  
+  var entryTableViewController: EntryTableViewController?
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()
@@ -45,29 +43,21 @@ class MainTableViewController: UITableViewController {
       entryTableViewController = topViewController
     }
   }
-	
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     populateData()
   }
-  
   // MARK: - Actions
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
     reloadSnapshot(animated: true)
   }
-  
   // MARK: - Navigation
-  @IBSegueAction func entryViewController(
-		coder: NSCoder, sender: Any?,
-		segueIdentifier: String?
-	) -> UINavigationController? {
-		
+  @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
       let entryTableViewController = navigationController.topViewController as? EntryTableViewController else { return nil }
-		
     entryTableViewController.entry = dataSource?.itemIdentifier(for: indexPath)
     entryTableViewController.delegate = self
     self.entryTableViewController = entryTableViewController
@@ -79,13 +69,12 @@ class MainTableViewController: UITableViewController {
 extension MainTableViewController {
   private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return EntryDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) {tableView, indexPath, entry -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
       return cell
     }
   }
-  
   private func populateData() {
     reloadSnapshot(animated: false)
     if let entryTableViewController = entryTableViewController,
@@ -93,12 +82,10 @@ extension MainTableViewController {
       entryTableViewController.entry == nil {
       entryTableViewController.delegate = self
       tableView.selectRow(
-				at: IndexPath(row: 0, section: 0),
-				animated: false, scrollPosition: .top)
+				at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
       entryTableViewController.entry = entry
     }
   }
-  
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -112,14 +99,11 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
-  
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, completion) in
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)
       self?.reloadSnapshot(animated: true)
     }
-		
     deleteAction.image = UIImage(systemName: "trash")
     return UISwipeActionsConfiguration(actions: [deleteAction])
   }
@@ -127,7 +111,6 @@ extension MainTableViewController {
 
 // MARK: EntryTableViewControllerDelegate
 extension MainTableViewController: EntryTableViewControllerDelegate {
-
   func entryTableViewController(_ controller: EntryTableViewController, didUpdateEntry entry: Entry) {
     reloadSnapshot(animated: true)
   }

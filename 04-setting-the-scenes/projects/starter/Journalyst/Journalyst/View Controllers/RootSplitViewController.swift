@@ -29,14 +29,15 @@
 import UIKit
 
 class RootSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
-
   override func viewDidLoad() {
     super.viewDidLoad()
     let splitViewController = self
-    let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-    splitViewController.delegate = self
-    navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-    splitViewController.primaryBackgroundStyle = .sidebar
+    if let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count - 1]
+      as? UINavigationController {
+      splitViewController.delegate = self
+      navigationController.topViewController?.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+      splitViewController.primaryBackgroundStyle = .sidebar
+    }
   }
 
   func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
