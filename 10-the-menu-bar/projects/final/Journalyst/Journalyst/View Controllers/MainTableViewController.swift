@@ -60,11 +60,7 @@ class MainTableViewController: UITableViewController {
   override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
     return IndexPath(row: 0, section: 0)
   }
-
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
-
+  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     populateData()

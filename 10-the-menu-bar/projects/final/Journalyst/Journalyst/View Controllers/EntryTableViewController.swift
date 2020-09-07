@@ -110,10 +110,6 @@ class EntryTableViewController: UITableViewController {
     return false
   }
 
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
-
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillAppear(animated)
     entry?.log = textView.text
