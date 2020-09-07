@@ -302,7 +302,9 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
   }
 
   func copy(contentsOf entry: Entry) {
-    UIPasteboard.general.string = entry.log
+    if entry.log != nil {
+      UIPasteboard.general.string = entry.log
+    }
   }
 
   func share(_ entry: Entry, at indexPath: IndexPath) {
@@ -315,12 +317,11 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     }
 
     let activityController = UIActivityViewController(activityItems: items, applicationActivities: nil)
-    if let popoverController = activityController.popoverPresentationController {
-      let cell = tableView.cellForRow(at: indexPath)!
+    if let popoverController = activityController.popoverPresentationController,
+      let cell = tableView.cellForRow(at: indexPath) {
       popoverController.sourceView = cell
       popoverController.sourceRect = cell.bounds
+      present(activityController, animated: true, completion: nil)
     }
-
-    present(activityController, animated: true, completion: nil)
   }
 }
