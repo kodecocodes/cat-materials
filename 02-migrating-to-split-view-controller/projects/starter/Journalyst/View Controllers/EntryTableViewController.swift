@@ -134,7 +134,7 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
     }
   }
 }
-
+// MARK: - Navigation Controller Delegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
 
