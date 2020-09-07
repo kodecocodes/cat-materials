@@ -126,9 +126,7 @@ extension MainTableViewController: UITableViewDragDelegate {
     let userActivity = entry.openDetailUserActivity
     let itemProvider = NSItemProvider()
     itemProvider.registerObject(userActivity, visibility: .all)
-
     let dragItem = UIDragItem(itemProvider: itemProvider)
-
     return [dragItem]
   }
 }
