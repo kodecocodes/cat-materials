@@ -97,7 +97,8 @@ class EntryTableViewController: UITableViewController {
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
-    return UICollectionViewDiffableDataSource(collectionView: collectionView) {collectionView, indexPath, image -> ImageCollectionViewCell? in
+    return UICollectionViewDiffableDataSource(
+      collectionView: collectionView) {collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
@@ -124,7 +125,7 @@ extension EntryTableViewController {
 }
 
 // MARK: - Image Picker Delegate
-extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EntryTableViewController: UIImagePickerControllerDelegate {
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
@@ -132,6 +133,9 @@ extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigatio
       self.reloadSnapshot(animated: true)
     }
   }
+}
+
+extension EntryTableViewController: UINavigationControllerDelegate {
 }
 
 // MARK: - Text View Delegate
