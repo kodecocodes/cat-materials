@@ -99,7 +99,7 @@ extension MainTableViewController {
   }
 
   @objc func handleEntriesUpdate() {
-    reloadSnapshot(animated: true)
+    reloadSnapshot(animated: false)
   }
 }
 
