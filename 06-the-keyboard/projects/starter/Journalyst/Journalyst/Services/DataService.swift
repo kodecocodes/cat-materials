@@ -42,7 +42,6 @@ struct DataNotificationKeys {
 }
 
 class DataService {
-
   static let shared = DataService()
 
   private var entries: [Entry] = [Entry()]
@@ -52,7 +51,7 @@ class DataService {
   }
 
   func entry(forID entryID: String) -> Entry? {
-    return entries.first(where: {$0.id == entryID})
+    return entries.first { $0.id == entryID }
   }
 
   func addEntry(_ entry: Entry) {
@@ -62,17 +61,20 @@ class DataService {
 
   func updateEntry(_ entry: Entry) {
     var hasChanges: Bool = false
-    entries = entries.map({ e -> Entry in
-      if e.id == entry.id && e != entry {
+    entries = entries.map { ent -> Entry in
+      if ent.id == entry.id && ent != entry {
         hasChanges = true
         return entry
       } else {
-        return e
+        return ent
       }
-    })
+    }
 
     if hasChanges {
-      NotificationCenter.default.post(name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
+      NotificationCenter.default.post(
+        name: .JournalEntryUpdated,
+        object: nil,
+        userInfo: [DataNotificationKeys.entry: entry])
       postUpdate()
     }
   }

@@ -58,17 +58,17 @@ class DataService {
     entries.append(entry)
     postUpdate()
   }
-
+  
   func updateEntry(_ entry: Entry) {
     var hasChanges: Bool = false
-    entries = entries.map({ ent -> Entry in
+    entries = entries.map{ ent -> Entry in
       if ent.id == entry.id && ent != entry {
         hasChanges = true
         return entry
       } else {
         return ent
       }
-    })
+    }
 
     if hasChanges {
       NotificationCenter.default.post(name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])

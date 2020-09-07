@@ -34,14 +34,13 @@ import UIKit
 import AVFoundation
 
 class EntryTableViewController: UITableViewController {
-  
   // MARK: - Outlets
   @IBOutlet private weak var textView: UITextView!
   @IBOutlet private weak var collectionView: UICollectionView!
-  
+
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
-  
+
   var entry: Entry? {
     didSet {
       guard let entry = entry else { return }
@@ -54,8 +53,8 @@ class EntryTableViewController: UITableViewController {
   let photoPicker = PhotoPicker()
 
   static func loadFromStoryboard() -> EntryTableViewController? {
-      let storyboard = UIStoryboard(name: "Main", bundle: .main)
-      return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
+    let storyboard = UIStoryboard(name: "Main", bundle: .main)
+    return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
   }
 
   override func viewDidLoad() {
@@ -67,19 +66,19 @@ class EntryTableViewController: UITableViewController {
     self.dataSource = dataSource
     reloadSnapshot(animated: false)
     validateState()
-    NotificationCenter.default.addObserver(self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(handleEntryUpdated(notification:)),
+      name: .JournalEntryUpdated,
+      object: nil)
   }
-  
+
   override var canBecomeFirstResponder: Bool {
     return false
   }
 
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
-
   override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+    super.viewWillDisappear(animated)
     entry?.log = textView.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
@@ -103,28 +102,31 @@ class EntryTableViewController: UITableViewController {
     }
     present(activityController, animated: true, completion: nil)
   }
-  
+
   @IBAction private func addImage(_ sender: Any?) {
     textView.resignFirstResponder()
-    let actionSheet = UIAlertController(title: "Add Photo", message: "Add a photo to your entry", preferredStyle: .actionSheet)
+    let actionSheet = UIAlertController(
+      title: "Add Photo",
+      message: "Add a photo to your entry",
+      preferredStyle: .actionSheet)
     if UIImagePickerController.isSourceTypeAvailable(.camera) {
-      actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+      actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
         self.selectPhotoFromSource(.camera)
-      }))
+      })
     }
-    actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+    actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default) { _ in
       self.selectPhotoFromSource(.photoLibrary)
-    }))
+    })
     if let view = sender as? UIView,
       let popoverController = actionSheet.popoverPresentationController {
       popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
       popoverController.sourceView = view
     }
     actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-    
+
     present(actionSheet, animated: true, completion: nil)
   }
-  
+
   private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {
     let imagePickerController = UIImagePickerController()
     imagePickerController.sourceType = sourceType
@@ -132,26 +134,25 @@ class EntryTableViewController: UITableViewController {
     imagePickerController.delegate = self
     present(imagePickerController, animated: true, completion: nil)
   }
-  
+
   private func validateState() {
     navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
   }
-  
 }
 
 // MARK: - Table Data Source
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
-    return UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView, indexPath, image) -> ImageCollectionViewCell? in
+    return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
       return cell
     }
   }
-  
+
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
+    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
@@ -159,7 +160,7 @@ extension EntryTableViewController {
     }
     return provider
   }
-  
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     snapshot.appendSections([0])
@@ -170,7 +171,7 @@ extension EntryTableViewController {
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {
@@ -184,7 +185,7 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
-  
+
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }

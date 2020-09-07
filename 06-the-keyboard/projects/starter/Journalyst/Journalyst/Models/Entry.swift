@@ -45,7 +45,7 @@ extension Entry: Hashable {
     hasher.combine(dateCreated)
     hasher.combine(log)
   }
-  
+
   static func == (lhs: Entry, rhs: Entry) -> Bool {
     return lhs.dateCreated == rhs.dateCreated &&
       lhs.log ?? "" == rhs.log ?? "" &&
@@ -56,7 +56,6 @@ extension Entry: Hashable {
 
 // MARK: NSUserActivity
 extension Entry {
-
   static let OpenDetailActivityType = "com.raywenderlich.EntryOpenDetailActivityType"
   static let OpenDetailIdKey = "entryID"
 
