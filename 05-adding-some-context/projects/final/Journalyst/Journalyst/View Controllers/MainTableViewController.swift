@@ -57,10 +57,6 @@ class MainTableViewController: UITableViewController {
     return IndexPath(row: 0, section: 0)
   }
 
-//  deinit {
-//    NotificationCenter.default.removeObserver(self)
-//  }
-
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     populateData()
@@ -70,7 +66,7 @@ class MainTableViewController: UITableViewController {
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
-  
+
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
@@ -91,10 +87,8 @@ extension MainTableViewController {
     return EntryDataSource(tableView: tableView) {tableView, indexPath, entry -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
-
       let contextInteraction = UIContextMenuInteraction(delegate: self)
       cell?.addInteraction(contextInteraction)
-
       return cell
     }
   }
@@ -107,6 +101,7 @@ extension MainTableViewController {
     }
     reloadSnapshot(animated: false)
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -149,9 +144,7 @@ extension MainTableViewController: UITableViewDragDelegate {
     let userActivity = entry.openDetailUserActivity
     let itemProvider = NSItemProvider()
     itemProvider.registerObject(userActivity, visibility: .all)
-
     let dragItem = UIDragItem(itemProvider: itemProvider)
-
     return [dragItem]
   }
 }
@@ -163,14 +156,29 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
     let entry = DataService.shared.allEntries[indexPath.row]
     return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions -> UIMenu? in
-      return self.createContextualMenu(with: entry, at: indexPath, suggestedActions: suggestedActions)
+      var rootChildren: [UIMenuElement] = []
+      let openInNewWindowAction = self.addOpenNewWindowAction(entry: entry)
+      rootChildren.append(openInNewWindowAction)
+      let newEntryAction = self.addNewEntryAction(entry: entry)
+      rootChildren.append(newEntryAction)
+      let addImageAction = self.addImageAction(entry: entry, indexPath: indexPath)
+      rootChildren.append(addImageAction)
+      let favoriteAction = self.addNewEntryAction(entry: entry)
+      rootChildren.append(favoriteAction)
+      let shareMenu = self.addShareMenu(entry: entry, indexPath: indexPath)
+      rootChildren.append(shareMenu)
+      if !suggestedActions.isEmpty {
+        let suggestedMenu = self.addSuggestedMenu(suggestedActions: suggestedActions)
+        rootChildren.append(suggestedMenu)
+      }
+      let deleteAction = self.addDeleteAction(indexPath: indexPath)
+      rootChildren.append(deleteAction)
+      let menu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: rootChildren)
+      return menu
     }
   }
 
-  func createContextualMenu(with entry: Entry, at indexPath: IndexPath, suggestedActions: [UIMenuElement]) -> UIMenu? {
-    var rootChildren: [UIMenuElement] = []
-
-    // New Window
+  func addOpenNewWindowAction(entry: Entry) -> UIAction {
     let openInNewWindowAction = UIAction(
       title: "Open in New Window",
       image: UIImage(systemName: "uiwindow.split.2x1"),
@@ -178,9 +186,10 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       discoverabilityTitle: nil,
       attributes: [],
       state: .off) { _ in self.createNewWindow(for: entry) }
-      rootChildren.append(openInNewWindowAction)
+    return openInNewWindowAction
+  }
 
-    // New Entry
+  func addNewEntryAction(entry: Entry) -> UIAction {
     let newEntryAction = UIAction(
       title: "New Entry",
       image: UIImage(systemName: "square.and.pencil"),
@@ -190,9 +199,10 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       state: .off) { _ in
       self.createEntry()
     }
-    rootChildren.append(newEntryAction)
+    return newEntryAction
+  }
 
-    // Add Image
+  func addImageAction(entry: Entry, indexPath: IndexPath) -> UIAction {
     let addImageAction = UIAction(
       title: "Add Image",
       image: UIImage(systemName: "photo"),
@@ -201,10 +211,10 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       attributes: [],
       state: .off) { _ in self.addImage(to: entry, indexPath: indexPath)
     }
-    rootChildren.append(addImageAction)
+    return addImageAction
+  }
 
-    // Favorite
-
+  func addActionFavourite(entry: Entry) -> UIAction {
     let favoriteTitle = entry.isFavorite ? "Remove from Favorites" : "Add to Favorites"
     let favoriteImageName = entry.isFavorite ? "star.slash" : "star"
     let favoriteAction = UIAction(
@@ -215,9 +225,10 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       attributes: [],
       state: .off) { _ in self.toggleFavorite(for: entry)
     }
-    rootChildren.append(favoriteAction)
+    return favoriteAction
+  }
 
-    // Share
+  func addShareMenu(entry: Entry, indexPath: IndexPath) -> UIMenu {
     let copyAction = UIAction(
       title: "Copy",
       image: UIImage(systemName: "doc.on.doc"),
@@ -225,7 +236,6 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       discoverabilityTitle: nil,
       attributes: [],
       state: .off) { _ in self.copy(contentsOf: entry) }
-
     let moreAction = UIAction(
       title: "More",
       image: UIImage(systemName: "ellipsis"),
@@ -233,28 +243,26 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       discoverabilityTitle: nil,
       attributes: [],
       state: .off) { _ in self.share(entry, at: indexPath) }
-
     let shareMenu = UIMenu(
       title: "Share",
       image: UIImage(systemName: "square.and.arrow.up"),
       identifier: nil,
       options: [],
       children: [copyAction, moreAction])
-    rootChildren.append(shareMenu)
+    return shareMenu
+  }
 
-    // Suggested
+  func addSuggestedMenu(suggestedActions: [UIMenuElement]) -> UIMenu {
+    let suggestedMenu = UIMenu(
+      title: "Suggested",
+      image: nil,
+      identifier: nil,
+      options: [],
+      children: suggestedActions)
+    return suggestedMenu
+  }
 
-    if !suggestedActions.isEmpty {
-      let suggestedMenu = UIMenu(
-        title: "Suggested",
-        image: nil,
-        identifier: nil,
-        options: [],
-        children: suggestedActions)
-      rootChildren.append(suggestedMenu)
-    }
-
-    // Delete
+  func addDeleteAction(indexPath: IndexPath) -> UIAction {
     let deleteAction = UIAction(
       title: "Delete",
       image: UIImage(systemName: "trash"),
@@ -262,11 +270,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       discoverabilityTitle: nil,
       attributes: .destructive,
       state: .off) { _ in self.removeEntry(at: indexPath) }
-    rootChildren.append(deleteAction)
-
-    let menu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: rootChildren)
-
-    return menu
+    return deleteAction
   }
 
   func createNewWindow(for entry: Entry) {

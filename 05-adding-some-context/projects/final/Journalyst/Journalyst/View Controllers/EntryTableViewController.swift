@@ -67,13 +67,9 @@ class EntryTableViewController: UITableViewController {
       self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
   }
 
-//  deinit {
-//    NotificationCenter.default.removeObserver(self)
-//  }
-
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    entry?.log = textView.text
+    entry?.log = textView?.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
     }
