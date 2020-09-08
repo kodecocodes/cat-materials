@@ -37,7 +37,7 @@ extension Notification.Name {
   static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
 }
 
-struct DataNotificationKeys {
+enum DataNotificationKeys {
   static let entry = "entry"
 }
 
