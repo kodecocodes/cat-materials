@@ -117,6 +117,6 @@ extension MainTableViewController {
 // MARK: EntryTableViewControllerDelegate
 extension MainTableViewController: EntryTableViewControllerDelegate {
   func entryTableViewController(_ controller: EntryTableViewController, didUpdateEntry entry: Entry) {
-    reloadSnapshot(animated: true)
+    reloadSnapshot(animated: false)
   }
 }
