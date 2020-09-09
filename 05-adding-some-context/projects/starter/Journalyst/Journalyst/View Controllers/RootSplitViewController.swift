@@ -32,7 +32,7 @@
 
 import UIKit
 
-class RootSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+class RootSplitViewController: UISplitViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     let splitViewController = self
@@ -50,4 +50,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     }
     return false
   }
+}
+
+extension RootSplitViewController: UISplitViewControllerDelegate {
 }

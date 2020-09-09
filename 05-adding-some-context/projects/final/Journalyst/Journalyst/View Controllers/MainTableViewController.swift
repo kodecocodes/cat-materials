@@ -155,7 +155,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     let locationInTableView = interaction.location(in: tableView)
     guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
     let entry = DataService.shared.allEntries[indexPath.row]
-    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions -> UIMenu? in
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
       var rootChildren: [UIMenuElement] = []
       let openInNewWindowAction = self.addOpenNewWindowAction(entry: entry)
       rootChildren.append(openInNewWindowAction)
@@ -163,14 +163,10 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       rootChildren.append(newEntryAction)
       let addImageAction = self.addImageAction(entry: entry, indexPath: indexPath)
       rootChildren.append(addImageAction)
-      let favoriteAction = self.addNewEntryAction(entry: entry)
+      let favoriteAction = self.addFavouriteAction(entry: entry)
       rootChildren.append(favoriteAction)
       let shareMenu = self.addShareMenu(entry: entry, indexPath: indexPath)
       rootChildren.append(shareMenu)
-      if !suggestedActions.isEmpty {
-        let suggestedMenu = self.addSuggestedMenu(suggestedActions: suggestedActions)
-        rootChildren.append(suggestedMenu)
-      }
       let deleteAction = self.addDeleteAction(indexPath: indexPath)
       rootChildren.append(deleteAction)
       let menu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: rootChildren)
@@ -214,7 +210,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     return addImageAction
   }
 
-  func addActionFavourite(entry: Entry) -> UIAction {
+  func addFavouriteAction(entry: Entry) -> UIAction {
     let favoriteTitle = entry.isFavorite ? "Remove from Favorites" : "Add to Favorites"
     let favoriteImageName = entry.isFavorite ? "star.slash" : "star"
     let favoriteAction = UIAction(
@@ -250,16 +246,6 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       options: [],
       children: [copyAction, moreAction])
     return shareMenu
-  }
-
-  func addSuggestedMenu(suggestedActions: [UIMenuElement]) -> UIMenu {
-    let suggestedMenu = UIMenu(
-      title: "Suggested",
-      image: nil,
-      identifier: nil,
-      options: [],
-      children: suggestedActions)
-    return suggestedMenu
   }
 
   func addDeleteAction(indexPath: IndexPath) -> UIAction {
