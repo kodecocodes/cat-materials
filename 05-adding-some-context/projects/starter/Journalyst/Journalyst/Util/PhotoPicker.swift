@@ -30,7 +30,7 @@ import UIKit
 
 class PhotoPicker: NSObject {
   typealias PhotoCompletion = (UIImage?, Error?) -> Void
-  fileprivate var completion: PhotoCompletion?
+  private var completion: PhotoCompletion?
   lazy var picker: UIImagePickerController = {
     let picker = UIImagePickerController()
     picker.allowsEditing = false
@@ -62,7 +62,7 @@ class PhotoPicker: NSObject {
   }
 }
 
-fileprivate extension PhotoPicker {
+private extension PhotoPicker {
   func presentCamera(in viewController: UIViewController) {
     picker.sourceType = .camera
     viewController.present(picker, animated: true, completion: nil)
