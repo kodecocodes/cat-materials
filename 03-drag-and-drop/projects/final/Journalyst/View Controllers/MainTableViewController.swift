@@ -37,12 +37,10 @@ class MainTableViewController: UITableViewController {
   var entries: [Entry] = [Entry()]
   var dataSource: EntryDataSource?
   var entryTableViewController: EntryTableViewController?
+
   func prepareForPresentation() {
     viewDidLoad()
     populateMockData()
-  }
-  func passEntry(entry: Entry) {
-    entries.append(entry)
   }
 
   override func viewDidLoad() {
