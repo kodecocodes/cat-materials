@@ -37,7 +37,6 @@ class MainTableViewController: UITableViewController {
   var entries: [Entry] = [Entry()]
   var dataSource: EntryDataSource?
   var entryTableViewController: EntryTableViewController?
-//  var entryTableViewController: EntryTableViewController? = nil
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()
