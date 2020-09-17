@@ -1,15 +1,15 @@
 /// Copyright (c) 2020 Razeware LLC
-/// 
+///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-/// 
+///
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-/// 
+///
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,11 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-/// 
+///
+/// This project and source code may use libraries or frameworks that are
+/// released under various Open-Source licenses. Use of those libraries and
+/// frameworks are governed by their own individual licenses.
+///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -48,18 +52,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       toolbar.delegate = self
       toolbar.allowsUserCustomization = true
       toolbar.autosavesConfiguration = true
-      titlebar.toolbarStyle = .automatic
+//      titlebar.toolbarStyle = .automatic //Xcode 12 GM version is showing error.
 //      titlebar.titleVisibility = .hidden // For use at end of tutorial, remove for final project
 
       activityItemsConfigurationSubscriber = NotificationCenter.default
         .publisher(for: .ActivityItemsConfigurationDidChange)
         .receive(on: RunLoop.main)
-        .map({ $0.userInfo?[NotificationKey.activityItemsConfiguration] as? UIActivityItemsConfiguration })
+        .map { $0.userInfo?[NotificationKey.activityItemsConfiguration] as? UIActivityItemsConfiguration }
         .assign(to: \.activityItemsConfiguration, on: shareItem)
     }
     #endif
   }
-  
   func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
     guard activity.title == Entry.OpenDetailPath,
       let entryID = activity.userInfo?[Entry.OpenDetailIdKey] as? String,
@@ -83,7 +86,7 @@ extension NSToolbarItem.Identifier {
 
 extension SceneDelegate: NSToolbarDelegate {
   func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-    var item: NSToolbarItem? = nil
+    var item: NSToolbarItem? //= nil
     switch itemIdentifier {
     case .addEntry:
       item = NSToolbarItem(itemIdentifier: .addEntry)
@@ -108,15 +111,12 @@ extension SceneDelegate: NSToolbarDelegate {
     }
     return item
   }
-  
   func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .shareEntry]
   }
-  
   func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
   }
-  
   @objc private func addEntry() {
     guard let splitViewController = window?.rootViewController as? UISplitViewController,
       let navigationController = splitViewController.viewControllers.first as? UINavigationController,
@@ -127,7 +127,6 @@ extension SceneDelegate: NSToolbarDelegate {
     let index = DataService.shared.allEntries.count - 1
     mainTableViewController.selectEntryAtIndex(index)
   }
-  
   @objc private func deleteEntry() {
     guard let splitViewController = window?.rootViewController as? UISplitViewController,
       let navigationController = splitViewController.viewControllers.first as? UINavigationController,
@@ -142,10 +141,9 @@ extension SceneDelegate: NSToolbarDelegate {
 
   private var entryTableViewController: EntryTableViewController? {
     guard let splitViewController = window?.rootViewController as? UISplitViewController,
-          let navigationController = splitViewController.viewControllers.last as? UINavigationController,
-          let entryTableViewController = navigationController.topViewController as? EntryTableViewController else {
-      return nil
-    }
+      let navigationController = splitViewController.viewControllers.last as? UINavigationController,
+      let entryTableViewController =
+        navigationController.topViewController as? EntryTableViewController else { return nil }
     return entryTableViewController
   }
 }
