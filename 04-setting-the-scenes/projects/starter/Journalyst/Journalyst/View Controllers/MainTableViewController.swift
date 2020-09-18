@@ -36,6 +36,7 @@ class MainTableViewController: UITableViewController {
   // MARK: - Properties
   var dataSource: EntryDataSource?
   var entryTableViewController: EntryTableViewController?
+
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()
@@ -47,10 +48,12 @@ class MainTableViewController: UITableViewController {
       entryTableViewController = topViewController
     }
   }
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     populateData()
   }
+
   // MARK: - Actions
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
@@ -80,6 +83,7 @@ extension MainTableViewController {
       return cell
     }
   }
+
   private func populateData() {
     reloadSnapshot(animated: false)
     if let entryTableViewController = entryTableViewController,
@@ -91,6 +95,7 @@ extension MainTableViewController {
       entryTableViewController.entry = entry
     }
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -104,6 +109,7 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
+
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)
