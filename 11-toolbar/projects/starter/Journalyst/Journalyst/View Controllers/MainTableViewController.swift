@@ -242,16 +242,31 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     let entry = DataService.shared.allEntries[indexPath.row]
     return UIContextMenuConfiguration(
       identifier: nil,
-      previewProvider: nil,
-      actionProvider: { suggestedActions -> UIMenu? in
-      return self.createContextualMenu(with: entry, at: indexPath, suggestedActions: suggestedActions)
-      })
+      previewProvider: nil) { suggestedActions -> UIMenu? in
+        var rootChildren: [UIMenuElement] = []
+        let openInNewWindowAction = self.addopenInNewWindowAction(entry: entry)
+        rootChildren.append(openInNewWindowAction)
+        let newEntryAction = self.addNewEntryAction()
+        rootChildren.append(newEntryAction)
+        let imageAction = self.addImageAction(entry: entry, indexPath: indexPath)
+        rootChildren.append(imageAction)
+        let favoriteAction = self.addFavouriteAction(entry: entry)
+        rootChildren.append(favoriteAction)
+        let shareMenu = self.addShareMenu(entry: entry, indexPath: indexPath)
+        rootChildren.append(shareMenu)
+        let deleteAction = self.addDeleteAction(indexPath: indexPath)
+        rootChildren.append(deleteAction)
+        if !suggestedActions.isEmpty {
+          if let suggestedMenu = self.addSuggestedMenu(suggestedActions: suggestedActions) {
+            rootChildren.append(suggestedMenu)
+          }
+        }
+        let menu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: rootChildren)
+        return menu
+    }
   }
 
-  func createContextualMenu(with entry: Entry, at indexPath: IndexPath, suggestedActions: [UIMenuElement]) -> UIMenu? {
-    var rootChildren: [UIMenuElement] = []
-
-    // New Window
+  func addopenInNewWindowAction(entry: Entry) -> UIAction {
     let openInNewWindowAction = UIAction(
       title: "Open in New Window",
       image: UIImage(systemName: "uiwindow.split.2x1"),
@@ -261,33 +276,36 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       state: .off) { _ in
         self.createNewWindow(for: entry)
     }
-    rootChildren.append(openInNewWindowAction)
+    return openInNewWindowAction
+  }
 
-    // New Entry
+  func addNewEntryAction() -> UIAction {
     let newEntryAction = UIAction(
-      title: "New Entry",
-      image: UIImage(systemName: "square.and.pencil"),
-      identifier: nil,
-      discoverabilityTitle: nil,
-      attributes: [],
-      state: .off) { _ in
+    title: "New Entry",
+    image: UIImage(systemName: "square.and.pencil"),
+    identifier: nil,
+    discoverabilityTitle: nil,
+    attributes: [],
+    state: .off) { _ in
       self.createEntry()
     }
-    rootChildren.append(newEntryAction)
+    return newEntryAction
+  }
 
-    // Add Image
-    let addImageAction = UIAction(
+  func addImageAction(entry: Entry, indexPath: IndexPath) -> UIAction {
+    let imageAction = UIAction(
       title: "Add Image",
       image: UIImage(systemName: "photo"),
       identifier: nil,
       discoverabilityTitle: nil,
       attributes: [],
       state: .off) { _ in
-      self.addImage(to: entry, indexPath: indexPath)
+        self.addImage(to: entry, indexPath: indexPath)
     }
-    rootChildren.append(addImageAction)
+    return imageAction
+  }
 
-    // Favorite
+  func addFavouriteAction(entry: Entry) -> UIAction {
     let favoriteTitle = entry.isFavorite ? "Remove from Favorites" : "Add to Favorites"
     let favoriteImageName = entry.isFavorite ? "star.slash" : "star"
     let favoriteAction = UIAction(
@@ -299,9 +317,10 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       state: .off) { _ in
         self.toggleFavorite(for: entry)
     }
-    rootChildren.append(favoriteAction)
+    return favoriteAction
+  }
 
-    // Share
+  func addShareMenu(entry: Entry, indexPath: IndexPath) -> UIMenu {
     let copyAction = UIAction(
       title: "Copy",
       image: UIImage(systemName: "doc.on.doc"),
@@ -330,20 +349,10 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       children: [
       copyAction, moreAction
       ])
-    rootChildren.append(shareMenu)
+    return shareMenu
+  }
 
-    // Suggested
-    if !suggestedActions.isEmpty {
-      let suggestedMenu = UIMenu(
-        title: "Suggested",
-        image: nil,
-        identifier: nil,
-        options: [],
-        children: suggestedActions)
-      rootChildren.append(suggestedMenu)
-    }
-
-    // Delete
+  func addDeleteAction(indexPath: IndexPath) -> UIAction {
     let deleteAction = UIAction(
       title: "Delete",
       image: UIImage(systemName: "trash"),
@@ -353,10 +362,22 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       state: .off) { _ in
         self.removeEntry(at: indexPath)
     }
-    rootChildren.append(deleteAction)
-    let menu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: rootChildren)
-    return menu
+    return deleteAction
   }
+
+  func addSuggestedMenu(suggestedActions: [UIMenuElement]) -> UIMenu? {
+    if !suggestedActions.isEmpty {
+      let suggestedMenu = UIMenu(
+        title: "Suggested",
+        image: nil,
+        identifier: nil,
+        options: [],
+        children: suggestedActions)
+        return suggestedMenu
+    }
+    return nil
+  }
+
   func createNewWindow(for entry: Entry) {
     UIApplication.shared.requestSceneSessionActivation(
       nil,
@@ -364,12 +385,14 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       options: .none,
       errorHandler: nil)
   }
+
   func createEntry() {
     DataService.shared.addEntry(Entry())
   }
+
   func addImage(to entry: Entry, indexPath: IndexPath) {
     let cell = tableView.cellForRow(at: indexPath)
-    photoPicker.present(in: self, sourceView: cell) { image, _ in
+    photoPicker.present(in: self, sourceView: cell) {image, _ in
       if let image = image {
         var newEntry = entry
         newEntry.images.append(image)
@@ -377,18 +400,22 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       }
     }
   }
+
   func toggleFavorite(for entry: Entry) {
     var newEntry = entry
     newEntry.isFavorite = !entry.isFavorite
     DataService.shared.updateEntry(newEntry)
   }
-  func removeEntry(at indexPath: IndexPath) {
-    DataService.shared.removeEntry(atIndex: indexPath.row)
-  }
+
   func copy(contentsOf entry: Entry) {
     UIPasteboard.general.string = entry.log
   }
+
   func share(_ entry: Entry, at indexPath: IndexPath) {
     presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
+  }
+
+  func removeEntry(at indexPath: IndexPath) {
+    DataService.shared.removeEntry(atIndex: indexPath.row)
   }
 }

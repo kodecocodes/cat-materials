@@ -61,6 +61,7 @@ class EntryTableViewCell: UITableViewCell {
       #if targetEnvironment(macCatalyst)
       summaryLabel.isHidden = true
       #endif
+      accessoryView = entry.isFavorite ? UIImageView(image: UIImage(systemName: "star.fill")): nil
     }
   }
 }
