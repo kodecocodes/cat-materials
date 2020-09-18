@@ -47,6 +47,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
   }
+
   func splitViewController(
     _ splitViewController: UISplitViewController,
     collapseSecondary secondaryViewController: UIViewController,
@@ -61,10 +62,12 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     }
     return false
   }
+
   // MARK: - Keyboard Commands
   override var canBecomeFirstResponder: Bool {
     return true
   }
+
   override var keyCommands: [UIKeyCommand]? {
     let newKeyCommand = UIKeyCommand(
       input: "N",
@@ -89,19 +92,23 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
 
     return [newKeyCommand, upKeyCommand, downKeyCommand, deleteKeyCommand]
   }
+
   @objc private func addEntry(sender: UIKeyCommand) {
     DataService.shared.addEntry(Entry())
   }
+
   @objc private func goToPrevious(sender: UIKeyCommand) {
     guard let navigationController = viewControllers.first as? UINavigationController,
       let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
     mainTableViewController.goToPrevious()
   }
+
   @objc private func goToNext(sender: UIKeyCommand) {
     guard let navigationController = viewControllers.first as? UINavigationController,
       let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
     mainTableViewController.goToNext()
   }
+
   @objc private func removeEntry(sender: UIKeyCommand) {
     guard let navigationController = viewControllers.first as? UINavigationController,
       let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }

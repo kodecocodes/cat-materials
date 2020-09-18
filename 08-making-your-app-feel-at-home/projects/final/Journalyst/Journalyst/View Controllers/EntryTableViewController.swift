@@ -91,6 +91,7 @@ class EntryTableViewController: UITableViewController {
     collectionView.showsHorizontalScrollIndicator = true
     #endif
   }
+
   override var canBecomeFirstResponder: Bool {
     return false
   }
@@ -118,11 +119,13 @@ class EntryTableViewController: UITableViewController {
   @objc func handleWindowSizeChanged() {
     collectionView.reloadData()
   }
+
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard let textToShare = textView.text, !textToShare.isEmpty else { return }
     presentShare(text: textToShare, images: entry?.images, sourceBarItem: navigationItem.rightBarButtonItem)
   }
+
   @IBAction private func addImage(_ sender: Any?) {
     textView.resignFirstResponder()
     let actionSheet = UIAlertController(
@@ -145,6 +148,7 @@ class EntryTableViewController: UITableViewController {
     actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     present(actionSheet, animated: true, completion: nil)
   }
+
   private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {
     let imagePickerController = UIImagePickerController()
     imagePickerController.sourceType = sourceType
@@ -152,9 +156,11 @@ class EntryTableViewController: UITableViewController {
     imagePickerController.delegate = self
     present(imagePickerController, animated: true, completion: nil)
   }
+
   private func validateState() {
     navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
   }
+
   private func updateEntryCellColor() {
     let overrideColorPreference = UserDefaults.standard.bool(forKey: "entry_color_preference")
     let overrideColor = UIColor.white
@@ -181,6 +187,7 @@ extension EntryTableViewController {
       return cell
     }
   }
+
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
       = { collectionView, kind, indexPath -> UICollectionReusableView? in
@@ -192,6 +199,7 @@ extension EntryTableViewController {
     }
     return provider
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     snapshot.appendSections([0])
@@ -216,6 +224,7 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
+
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }

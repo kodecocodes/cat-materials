@@ -71,6 +71,7 @@ class MainTableViewController: UITableViewController {
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
+
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
@@ -131,10 +132,12 @@ extension MainTableViewController {
   override var canBecomeFirstResponder: Bool {
     return false
   }
+
   private func indexOfCurrentEntry() -> Int? {
     guard let entry = entryTableViewController?.entry else { return nil }
     return DataService.shared.allEntries.firstIndex(of: entry)
   }
+
   func goToPrevious() {
     guard let index = indexOfCurrentEntry(),
       index > 0 else { return }
@@ -143,6 +146,7 @@ extension MainTableViewController {
     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
     performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
+
   func goToNext() {
     guard let index = indexOfCurrentEntry(),
       index < DataService.shared.allEntries.count - 1 else { return }
@@ -163,6 +167,7 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
+
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)
@@ -217,6 +222,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
         return menu
     }
   }
+
   func addopenInNewWindowAction(entry: Entry) -> UIAction {
     let openInNewWindowAction = UIAction(
       title: "Open in New Window",
@@ -255,6 +261,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     }
     return imageAction
   }
+
   func addFavouriteAction(entry: Entry) -> UIAction {
     let favoriteTitle = entry.isFavorite ? "Remove from Favorites" : "Add to Favorites"
     let favoriteImageName = entry.isFavorite ? "star.slash" : "star"
@@ -269,6 +276,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     }
     return favoriteAction
   }
+
   func addShareMenu(entry: Entry, indexPath: IndexPath) -> UIMenu {
     let copyAction = UIAction(
       title: "Copy",
@@ -300,6 +308,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       ])
     return shareMenu
   }
+
   func addDeleteAction(indexPath: IndexPath) -> UIAction {
     let deleteAction = UIAction(
       title: "Delete",
@@ -312,6 +321,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     }
     return deleteAction
   }
+
   func addSuggestedMenu(suggestedActions: [UIMenuElement]) -> UIMenu? {
     if !suggestedActions.isEmpty {
       let suggestedMenu = UIMenu(
@@ -324,6 +334,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     }
     return nil
   }
+
   func createNewWindow(for entry: Entry) {
     UIApplication.shared.requestSceneSessionActivation(
       nil,
@@ -331,9 +342,11 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       options: .none,
       errorHandler: nil)
   }
+
   func createEntry() {
     DataService.shared.addEntry(Entry())
   }
+
   func addImage(to entry: Entry, indexPath: IndexPath) {
     let cell = tableView.cellForRow(at: indexPath)
     photoPicker.present(in: self, sourceView: cell) {image, _ in
@@ -344,11 +357,13 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       }
     }
   }
+
   func toggleFavorite(for entry: Entry) {
     var newEntry = entry
     newEntry.isFavorite = !entry.isFavorite
     DataService.shared.updateEntry(newEntry)
   }
+
   func copy(contentsOf entry: Entry) {
     UIPasteboard.general.string = entry.log
   }

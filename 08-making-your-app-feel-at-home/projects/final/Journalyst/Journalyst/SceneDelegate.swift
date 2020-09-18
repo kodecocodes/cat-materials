@@ -55,6 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
     NotificationCenter.default.post(name: .WindowSizeChanged, object: nil)
   }
+
   func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
     guard activity.activityType == Entry.OpenDetailActivityType,
       let entryID = activity.userInfo?[Entry.OpenDetailIdKey] as? String,
