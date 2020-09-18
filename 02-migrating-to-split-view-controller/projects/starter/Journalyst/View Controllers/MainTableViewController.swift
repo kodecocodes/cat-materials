@@ -36,21 +36,25 @@ class MainTableViewController: UITableViewController {
   // MARK: - Properties
   var entries: [Entry] = [Entry()]
   var dataSource: EntryDataSource?
+
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()
     tableView.dataSource = dataSource
     self.dataSource = dataSource
   }
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     populateMockData()
   }
+
   // MARK: - Actions
   @IBAction private func addEntry(_ sender: Any) {
     entries.append(Entry())
     reloadSnapshot(animated: true)
   }
+
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> EntryTableViewController? {
     guard let cell = sender as? EntryTableViewCell,
@@ -71,9 +75,11 @@ extension MainTableViewController {
       return cell
     }
   }
+
   private func populateMockData() {
     reloadSnapshot(animated: false)
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -87,6 +93,7 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
+
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
       self?.entries.remove(at: indexPath.row)
