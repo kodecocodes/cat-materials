@@ -37,6 +37,7 @@ class MainTableViewController: UITableViewController {
   var dataSource: EntryDataSource?
   var entryTableViewController: EntryTableViewController?
   let photoPicker = PhotoPicker()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     let dataSource = self.diaryDataSource()
@@ -51,6 +52,7 @@ class MainTableViewController: UITableViewController {
     NotificationCenter.default.addObserver(
       self, selector: #selector(handleEntriesUpdate), name: .JournalEntriesUpdated, object: nil)
   }
+
   override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
     return IndexPath(row: 0, section: 0)
   }
@@ -64,6 +66,7 @@ class MainTableViewController: UITableViewController {
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
+
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
@@ -87,6 +90,7 @@ extension MainTableViewController {
       return cell
     }
   }
+
   private func populateData() {
     if let entryTableViewController = entryTableViewController,
       let entry = DataService.shared.allEntries.first,
@@ -95,6 +99,7 @@ extension MainTableViewController {
     }
     reloadSnapshot(animated: false)
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -110,6 +115,7 @@ extension MainTableViewController {
       }
     }
   }
+
   @objc func handleEntriesUpdate() {
     reloadSnapshot(animated: false)
   }
@@ -120,6 +126,7 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
+
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {_, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)

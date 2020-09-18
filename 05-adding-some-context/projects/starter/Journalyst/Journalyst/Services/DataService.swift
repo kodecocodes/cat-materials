@@ -36,6 +36,7 @@ extension Notification.Name {
   static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
   static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
 }
+
 enum DataNotificationKeys {
   static let entry = "entry"
 }
@@ -46,13 +47,16 @@ class DataService {
   var allEntries: [Entry] {
     return entries
   }
+
   func entry(forID entryID: String) -> Entry? {
     return entries.first { $0.id == entryID }
   }
+
   func addEntry(_ entry: Entry) {
     entries.append(entry)
     postListUpdate()
   }
+
   func updateEntry(_ entry: Entry) {
     var hasChanges: Bool = false
     entries = entries.map {item -> Entry in

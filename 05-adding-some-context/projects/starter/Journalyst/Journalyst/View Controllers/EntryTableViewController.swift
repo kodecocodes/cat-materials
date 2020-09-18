@@ -47,6 +47,7 @@ class EntryTableViewController: UITableViewController {
     }
   }
   let photoPicker = PhotoPicker()
+
   static func loadFromStoryboard() -> EntryTableViewController? {
     let storyboard = UIStoryboard(name: "Main", bundle: .main)
     return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
@@ -90,6 +91,7 @@ class EntryTableViewController: UITableViewController {
     }
     present(activityController, animated: true, completion: nil)
   }
+
   @IBAction private func addImage(_ sender: Any?) {
     guard let view = sender as? UIView else { return }
 
@@ -119,6 +121,7 @@ extension EntryTableViewController {
       return cell
     }
   }
+
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
       = { collectionView, kind, indexPath -> UICollectionReusableView? in
@@ -130,6 +133,7 @@ extension EntryTableViewController {
     }
     return provider
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     snapshot.appendSections([0])
@@ -143,6 +147,7 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
+
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }
