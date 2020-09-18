@@ -56,15 +56,18 @@ class MainTableViewController: UITableViewController {
       entryTableViewController = topViewController
     }
   }
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     populateMockData()
   }
+
   // MARK: - Actions
   @IBAction private func addEntry(_ sender: Any) {
     entries.append(Entry())
     reloadSnapshot(animated: true)
   }
+
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
@@ -88,15 +91,17 @@ extension MainTableViewController {
       return cell
     }
   }
-private func populateMockData() {
-  reloadSnapshot(animated: false)
-  if let entryTableViewController = entryTableViewController,
-    let entry = entries.first,
-    entryTableViewController.entry == nil {
-    tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
-    entryTableViewController.entry = entry
+
+  private func populateMockData() {
+    reloadSnapshot(animated: false)
+    if let entryTableViewController = entryTableViewController,
+      let entry = entries.first,
+      entryTableViewController.entry == nil {
+      tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+      entryTableViewController.entry = entry
+    }
   }
-}
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, Entry>()
     snapshot.appendSections([0])
@@ -110,6 +115,7 @@ extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .delete
   }
+
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
       self?.entries.remove(at: indexPath.row)
