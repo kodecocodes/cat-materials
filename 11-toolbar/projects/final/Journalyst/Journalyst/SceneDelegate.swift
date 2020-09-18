@@ -52,9 +52,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       toolbar.delegate = self
       toolbar.allowsUserCustomization = true
       toolbar.autosavesConfiguration = true
-//      titlebar.toolbarStyle = .automatic //Xcode 12 GM version is showing error.
-//      titlebar.titleVisibility = .hidden // For use at end of tutorial, remove for final project
-
       activityItemsConfigurationSubscriber = NotificationCenter.default
         .publisher(for: .ActivityItemsConfigurationDidChange)
         .receive(on: RunLoop.main)

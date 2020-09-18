@@ -36,11 +36,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   override func viewDidLoad() {
     super.viewDidLoad()
     let splitViewController = self
-    let navigationController = splitViewController.viewControllers[
-      splitViewController.viewControllers.count - 1 ] as? UINavigationController
     splitViewController.delegate = self
-    navigationController?.topViewController?.navigationItem.leftBarButtonItem
-      = splitViewController.displayModeButtonItem
     splitViewController.preferredDisplayMode = .automatic
     splitViewController.primaryBackgroundStyle = .sidebar
   }
