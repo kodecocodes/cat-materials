@@ -37,16 +37,19 @@ class EntryTableViewCell: UITableViewCell {
   @IBOutlet private var summaryLabel: UILabel!
   @IBOutlet private var timeLabel: UILabel!
   @IBOutlet private var imagesImageView: UIImageView!
+
   lazy var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy")
     return formatter
   }()
+
   lazy var timeFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.setLocalizedDateFormatFromTemplate("hh:mm")
     return formatter
   }()
+
   var entry: Entry? {
     didSet {
       guard let entry = entry else { return }
@@ -61,10 +64,12 @@ class EntryTableViewCell: UITableViewCell {
       #endif
     }
   }
+
   override func awakeFromNib() {
     super.awakeFromNib()
     setupForMac()
   }
+
   private func setupForMac() {
     #if targetEnvironmentmacCatalyst
     timeLabel.textColor = UIColor.systemGray
