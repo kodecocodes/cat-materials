@@ -44,6 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("Failed to restore from \(userActivity)")
       }
     }
+
     #if targetEnvironment(macCatalyst)
     if let scene = scene as? UIWindowScene,
       let titlebar = scene.titlebar {
@@ -60,6 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     #endif
   }
+
   func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
     guard activity.title == Entry.OpenDetailPath,
       let entryID = activity.userInfo?[Entry.OpenDetailIdKey] as? String,
@@ -108,12 +110,15 @@ extension SceneDelegate: NSToolbarDelegate {
     }
     return item
   }
+
   func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .shareEntry]
   }
+
   func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
   }
+
   @objc private func addEntry() {
     guard let splitViewController = window?.rootViewController as? UISplitViewController,
       let navigationController = splitViewController.viewControllers.first as? UINavigationController,
@@ -124,6 +129,7 @@ extension SceneDelegate: NSToolbarDelegate {
     let index = DataService.shared.allEntries.count - 1
     mainTableViewController.selectEntryAtIndex(index)
   }
+
   @objc private func deleteEntry() {
     guard let splitViewController = window?.rootViewController as? UISplitViewController,
       let navigationController = splitViewController.viewControllers.first as? UINavigationController,
