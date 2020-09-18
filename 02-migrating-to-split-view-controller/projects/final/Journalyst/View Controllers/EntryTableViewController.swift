@@ -46,6 +46,7 @@ class EntryTableViewController: UITableViewController {
       title = dateFormatter.string(from: entry.dateCreated)
     }
   }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     textView.text = entry?.log ?? ""
@@ -56,10 +57,12 @@ class EntryTableViewController: UITableViewController {
     reloadSnapshot(animated: false)
     validateState()
   }
+
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     entry?.log = textView.text
   }
+
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard !textView.text.isEmpty else { return }
@@ -69,6 +72,7 @@ class EntryTableViewController: UITableViewController {
     }
     present(activityController, animated: true, completion: nil)
   }
+
   @IBAction private func addImage(_ sender: UIButton?) {
     textView.resignFirstResponder()
     let actionSheet = UIAlertController(
@@ -93,6 +97,7 @@ class EntryTableViewController: UITableViewController {
     }
     present(actionSheet, animated: true, completion: nil)
   }
+
   private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {
     let imagePickerController = UIImagePickerController()
     imagePickerController.sourceType = sourceType
@@ -100,6 +105,7 @@ class EntryTableViewController: UITableViewController {
     imagePickerController.delegate = self
     present(imagePickerController, animated: true, completion: nil)
   }
+
   private func validateState() {
     navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
   }
@@ -117,6 +123,7 @@ extension EntryTableViewController {
       return cell
     }
   }
+
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
       = {collectionView, kind, indexPath -> UICollectionReusableView? in
@@ -128,6 +135,7 @@ extension EntryTableViewController {
     }
     return provider
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     snapshot.appendSections([0])
@@ -153,6 +161,7 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
     }
   }
 }
+
 // MARK: - Navigation Controller Delegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
@@ -162,6 +171,7 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
+
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
     if let splitViewController = splitViewController,
