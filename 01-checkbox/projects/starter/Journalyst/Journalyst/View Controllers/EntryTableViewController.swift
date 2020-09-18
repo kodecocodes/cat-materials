@@ -46,6 +46,7 @@ class EntryTableViewController: UITableViewController {
       title = dateFormatter.string(from: entry.dateCreated)
     }
   }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     textView.text = entry?.log ?? ""
@@ -55,16 +56,19 @@ class EntryTableViewController: UITableViewController {
     self.dataSource = dataSource
     reloadSnapshot(animated: false)
   }
+
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     entry?.log = textView.text
   }
+
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard !textView.text.isEmpty else { return }
     let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
     present(activityController, animated: true, completion: nil)
   }
+
   @IBAction private func addImage(_ sender: UIButton?) {
     textView.resignFirstResponder()
     let actionSheet = UIAlertController(
@@ -80,6 +84,7 @@ class EntryTableViewController: UITableViewController {
     actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     present(actionSheet, animated: true, completion: nil)
   }
+
   private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {
     let imagePickerController = UIImagePickerController()
     imagePickerController.sourceType = sourceType
@@ -101,6 +106,7 @@ extension EntryTableViewController {
       return cell
     }
   }
+
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
       = {collectionView, kind, indexPath -> UICollectionReusableView? in
@@ -112,6 +118,7 @@ extension EntryTableViewController {
     }
     return provider
   }
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     snapshot.appendSections([0])
