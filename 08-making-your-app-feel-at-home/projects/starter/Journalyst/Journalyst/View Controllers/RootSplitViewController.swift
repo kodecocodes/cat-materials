@@ -36,11 +36,6 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   override func viewDidLoad() {
     super.viewDidLoad()
     let splitViewController = self
-    if let navigationController = splitViewController.viewControllers[
-      splitViewController.viewControllers.count - 1] as? UINavigationController {
-        navigationController.topViewController?.navigationItem.leftBarButtonItem
-          = splitViewController.displayModeButtonItem
-    }
     splitViewController.delegate = self
   }
 
