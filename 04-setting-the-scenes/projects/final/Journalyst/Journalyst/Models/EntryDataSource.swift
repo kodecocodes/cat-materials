@@ -32,22 +32,8 @@
 
 import UIKit
 
-struct Entry {
-  let id = UUID().uuidString
-  let dateCreated = Date()
-  var log: String?
-  var images: [UIImage] = []
-}
-
-extension Entry: Hashable {
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(dateCreated)
-    hasher.combine(log)
-  }
-
-  static func == (lhs: Entry, rhs: Entry) -> Bool {
-    return lhs.dateCreated == rhs.dateCreated &&
-      lhs.log == rhs.log &&
-      lhs.images == rhs.images
+class EntryDataSource: UITableViewDiffableDataSource<Int, Entry> {
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
   }
 }
