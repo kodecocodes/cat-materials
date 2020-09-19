@@ -88,6 +88,9 @@ extension PhotoPicker: UIImagePickerControllerDelegate {
     if let image = info[.editedImage] as? UIImage {
       self.completion?(image, nil)
     }
+    if let image = info[.originalImage] as? UIImage {
+      self.completion?(image, nil)
+    }
     picker.dismiss(animated: true, completion: nil)
   }
 

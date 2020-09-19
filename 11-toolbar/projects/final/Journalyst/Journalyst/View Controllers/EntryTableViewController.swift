@@ -43,6 +43,7 @@ class EntryTableViewController: UITableViewController {
   @IBOutlet private var entryCell: UITableViewCell!
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
+  let photoPicker = PhotoPicker()
 
   private var shareText: String? {
     guard var textToShare = textView.text, !textToShare.isEmpty else { return nil }
@@ -77,6 +78,8 @@ class EntryTableViewController: UITableViewController {
     reloadSnapshot(animated: false)
     validateState()
 
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
     UserDefaults.standard
       .addObserver(self,
       forKeyPath: colorPreference,
@@ -119,6 +122,14 @@ class EntryTableViewController: UITableViewController {
     }
   }
 
+  @objc func handleEntryUpdated(notification: Notification) {
+    guard let userInfo = notification.userInfo, let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
+      return
+    }
+    self.entry = entry
+    reloadSnapshot(animated: true)
+  }
+
   // MARK: - Actions
   @IBAction func share(_ sender: Any?) {
     guard let shareText = shareText else { return }
@@ -132,27 +143,37 @@ class EntryTableViewController: UITableViewController {
   }
 
   @IBAction private func addImage(_ sender: Any?) {
+    guard let view = sender as? UIView else { return }
     textView.resignFirstResponder()
-    let actionSheet = UIAlertController(
-      title: "Add Photo",
-      message: "Add a photo to your entry",
-      preferredStyle: .actionSheet
-    )
-    if UIImagePickerController.isSourceTypeAvailable(.camera) {
-      actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
-        self.selectPhotoFromSource(.camera)
-      })
+    photoPicker.present(in: self, sourceView: view) {image, _ in
+      if let image = image, var entry = self.entry {
+        entry.images.append(image)
+        DataService.shared.updateEntry(entry)
+      }
     }
-    actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default) { _ in
-      self.selectPhotoFromSource(.photoLibrary)
-    })
-    if let view = sender as? UIView,
-      let popoverController = actionSheet.popoverPresentationController {
-      popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
-      popoverController.sourceView = view
-    }
-    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-    present(actionSheet, animated: true, completion: nil)
+
+    //OLD
+//    textView.resignFirstResponder()
+//    let actionSheet = UIAlertController(
+//      title: "Add Photo",
+//      message: "Add a photo to your entry",
+//      preferredStyle: .actionSheet
+//    )
+//    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//      actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
+//        self.selectPhotoFromSource(.camera)
+//      })
+//    }
+//    actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default) { _ in
+//      self.selectPhotoFromSource(.photoLibrary)
+//    })
+//    if let view = sender as? UIView,
+//      let popoverController = actionSheet.popoverPresentationController {
+//      popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
+//      popoverController.sourceView = view
+//    }
+//    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//    present(actionSheet, animated: true, completion: nil)
   }
 
   private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {

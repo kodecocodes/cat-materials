@@ -58,10 +58,10 @@ class EntryTableViewCell: UITableViewCell {
       summaryLabel.isHidden = entry.log == nil
       timeLabel.text = timeFormatter.string(from: entry.dateCreated)
       imagesImageView?.isHidden = entry.images.isEmpty
+      accessoryView = entry.isFavorite ? UIImageView(image: UIImage(systemName: "star.fill")): nil
       #if targetEnvironment(macCatalyst)
       summaryLabel.isHidden = true
       #endif
-      accessoryView = entry.isFavorite ? UIImageView(image: UIImage(systemName: "star.fill")): nil
     }
   }
 }
