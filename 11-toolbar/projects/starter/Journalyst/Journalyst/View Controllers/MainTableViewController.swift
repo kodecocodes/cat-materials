@@ -412,8 +412,26 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
   }
 
   func share(_ entry: Entry, at indexPath: IndexPath) {
-    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
+    var items: [Any] = []
+    if let log = entry.log {
+      items.append(log)
+    }
+    if !entry.images.isEmpty {
+      items.append(contentsOf: entry.images)
+    }
+
+    let activityController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+    if let popoverController = activityController.popoverPresentationController,
+      let cell = tableView.cellForRow(at: indexPath) {
+      popoverController.sourceView = cell
+      popoverController.sourceRect = cell.bounds
+      present(activityController, animated: true, completion: nil)
+    }
   }
+
+//  func share(_ entry: Entry, at indexPath: IndexPath) {
+//    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
+//  }
 
   func removeEntry(at indexPath: IndexPath) {
     DataService.shared.removeEntry(atIndex: indexPath.row)
