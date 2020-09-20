@@ -35,7 +35,7 @@ import UIKit
 class MainTableViewController: UITableViewController {
   // MARK: - Properties
   var dataSource: EntryDataSource?
-  var entryTableViewController: EntryTableViewController? = nil
+  var entryTableViewController: EntryTableViewController?
   let photoPicker = PhotoPicker()
 
   override func viewDidLoad() {
@@ -428,10 +428,6 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       present(activityController, animated: true, completion: nil)
     }
   }
-
-//  func share(_ entry: Entry, at indexPath: IndexPath) {
-//    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
-//  }
 
   func removeEntry(at indexPath: IndexPath) {
     DataService.shared.removeEntry(atIndex: indexPath.row)

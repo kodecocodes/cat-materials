@@ -44,7 +44,6 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
 
-//  let photoPicker = PhotoPicker()
   private var shareText: String? {
     guard var textToShare = textView.text, !textToShare.isEmpty else { return nil }
     if let namePreference = UserDefaults.standard.string(forKey: namePreference),
@@ -77,9 +76,6 @@ class EntryTableViewController: UITableViewController {
     self.dataSource = dataSource
     reloadSnapshot(animated: false)
     validateState()
-
-//    NotificationCenter.default.addObserver(
-//      self, selector: #selector(handleEntryUpdated(notification:)), name: .JournalEntryUpdated, object: nil)
 
     UserDefaults.standard
       .addObserver(self,
@@ -117,14 +113,6 @@ class EntryTableViewController: UITableViewController {
     }
   }
 
-//  @objc func handleEntryUpdated(notification: Notification) {
-//    guard let userInfo = notification.userInfo, let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
-//      return
-//    }
-//    self.entry = entry
-//    reloadSnapshot(animated: true)
-//  }
-  
   // MARK: - Actions
   @IBAction func share(_ sender: Any?) {
     guard let shareText = shareText else { return }
@@ -138,15 +126,6 @@ class EntryTableViewController: UITableViewController {
   }
 
   @IBAction private func addImage(_ sender: Any?) {
-//    guard let view = sender as? UIView else { return }
-//    textView.resignFirstResponder()
-//    photoPicker.present(in: self, sourceView: view) {image, _ in
-//      if let image = image, var entry = self.entry {
-//        entry.images.append(image)
-//        DataService.shared.updateEntry(entry)
-//      }
-//    }
-    //OLD
     textView.resignFirstResponder()
     let actionSheet = UIAlertController(
       title: "Add Photo",
