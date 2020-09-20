@@ -54,7 +54,8 @@ class MainTableViewController: UITableViewController {
       self,
       selector: #selector(handleEntriesUpdate),
       name: .JournalEntriesUpdated,
-      object: nil)
+      object: nil
+    )
     #if targetEnvironment(macCatalyst)
     navigationController?.navigationBar.isHidden = true
     #endif
@@ -118,7 +119,7 @@ extension MainTableViewController {
     dataSource?.apply(snapshot, animatingDifferences: animated)
 
     if let selectedEntry = entryTableViewController?.entry {
-      DataService.shared.allEntries.enumerated().forEach { index, obj in
+      DataService.shared.allEntries.enumerated().forEach {index, obj in
         if selectedEntry == obj {
           self.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
           return
@@ -189,13 +190,17 @@ extension MainTableViewController {
   func deleteCurentEntry() {
     guard let index = indexOfCurrentEntry() else { return }
     DataService.shared.removeEntry(atIndex: index)
-    var indexPath = IndexPath(row: index, section: 0)
+    var indexPath = IndexPath(
+      row: index,
+      section: 0)
     guard tableView.numberOfRows(inSection: 0) > 0 else {
       performSegue(withIdentifier: "ShowEntrySegue", sender: nil)
       return
     }
     if index == tableView.numberOfRows(inSection: 0) {
-      indexPath = IndexPath(row: index - 1, section: 0)
+      indexPath = IndexPath(
+        row: index - 1,
+        section: 0)
     }
     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
     performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
@@ -383,6 +388,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       options: .none,
       errorHandler: nil)
   }
+
   func createEntry() {
     DataService.shared.addEntry(Entry())
   }
@@ -425,10 +431,6 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       present(activityController, animated: true, completion: nil)
     }
   }
-
-//  func share(_ entry: Entry, at indexPath: IndexPath) {
-//    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
-//  }
 
   func removeEntry(at indexPath: IndexPath) {
     DataService.shared.removeEntry(atIndex: indexPath.row)

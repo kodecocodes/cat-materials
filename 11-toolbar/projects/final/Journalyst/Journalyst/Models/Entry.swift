@@ -59,6 +59,8 @@ extension Entry {
   static let OpenDetailActivityType = "com.raywenderlich.EntryOpenDetailActivityType"
   static let OpenDetailIdKey = "entryID"
   static let OpenDetailPath = "openDetail"
+
+
   var openDetailUserActivity: NSUserActivity {
     let userActivity = NSUserActivity(activityType: Entry.OpenDetailActivityType)
     userActivity.title = Entry.OpenDetailPath

@@ -35,12 +35,14 @@ import UIKit
 class PhotoPicker: NSObject {
   typealias PhotoCompletion = (UIImage?, Error?) -> Void
   private var completion: PhotoCompletion?
+
   lazy var picker: UIImagePickerController = {
     let picker = UIImagePickerController()
     picker.allowsEditing = false
     picker.delegate = self
     return picker
   }()
+
   func present(
     in viewController: UIViewController,
     title: String?  = NSLocalizedString("Add Photo", comment: ""),
@@ -52,14 +54,13 @@ class PhotoPicker: NSObject {
 
     let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
     if UIImagePickerController.isSourceTypeAvailable(.camera) {
-      alert.addAction(UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .default) { _ in
-        self.presentCamera(in: viewController)
-      })
+      alert.addAction(UIAlertAction(
+        title: NSLocalizedString("Camera", comment: ""),
+        style: .default) { _ in self.presentCamera(in: viewController) })
     }
     alert.addAction(UIAlertAction(
       title: NSLocalizedString("Photo Library", comment: ""),
-      style: .default) { _ in self.presentPhotoLibrary(in: viewController)
-    })
+      style: .default) { _ in self.presentPhotoLibrary(in: viewController) })
     alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
 
     if let view = sourceView,

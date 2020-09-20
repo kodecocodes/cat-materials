@@ -37,8 +37,11 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     super.viewDidLoad()
     let splitViewController = self
     splitViewController.delegate = self
-    splitViewController.preferredDisplayMode = .automatic
     splitViewController.primaryBackgroundStyle = .sidebar
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
   }
 
   func splitViewController(
@@ -48,7 +51,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   ) -> Bool {
     guard let secondaryNavigationController = secondaryViewController as? UINavigationController,
       let entryTableViewController = secondaryNavigationController.topViewController as? EntryTableViewController else {
-        return false
+      return false
     }
     if entryTableViewController.entry == nil {
       return true
@@ -62,7 +65,10 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   }
 
   override var keyCommands: [UIKeyCommand]? {
-    let newKeyCommand = UIKeyCommand(input: "N", modifierFlags: .control, action: #selector(addEntry(sender:)))
+    let newKeyCommand = UIKeyCommand(
+      input: "N",
+      modifierFlags: .control,
+      action: #selector(addEntry(sender:)))
     newKeyCommand.discoverabilityTitle = "Add Entry"
     let upKeyCommand = UIKeyCommand(
       input: "[",

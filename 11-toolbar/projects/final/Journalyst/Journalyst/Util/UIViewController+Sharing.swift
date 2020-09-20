@@ -54,6 +54,7 @@ extension UIViewController {
     } else if let sourceBarItem = sourceBarItem {
       activityController.popoverPresentationController?.barButtonItem = sourceBarItem
     }
+
     present(activityController, animated: true, completion: nil)
   }
 }
