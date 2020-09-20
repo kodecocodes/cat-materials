@@ -49,8 +49,8 @@ extension Entry: Hashable {
   static func == (lhs: Entry, rhs: Entry) -> Bool {
     return lhs.dateCreated == rhs.dateCreated &&
       lhs.log == rhs.log &&
-      lhs.images == rhs.images &&
-      lhs.isFavorite == rhs.isFavorite
+      lhs.images == rhs.images //&&
+//      lhs.isFavorite == rhs.isFavorite
   }
 }
 

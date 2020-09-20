@@ -34,7 +34,7 @@ import Foundation
 
 extension Notification.Name {
   static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
-  static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
+//  static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
   static let ActivityItemsConfigurationDidChange = Notification.Name("activityItemsConfigurationDidChange")
 }
 
@@ -42,9 +42,9 @@ enum NotificationKey: String {
   case activityItemsConfiguration
 }
 
-enum DataNotificationKeys {
-  static let entry = "entry"
-}
+//enum DataNotificationKeys {
+//  static let entry = "entry"
+//}
 
 class DataService {
   static let shared = DataService()
@@ -59,8 +59,8 @@ class DataService {
 
   func addEntry(_ entry: Entry) {
     entries.append(entry)
-//    postUpdate()
-    postListUpdate()
+    postUpdate()
+//    postListUpdate()
   }
 
   func updateEntry(_ entry: Entry) {
@@ -75,27 +75,28 @@ class DataService {
     }
 
     if hasChanges {
-      postUpdate(for: entry)
-      postListUpdate()
+      postUpdate()
+//      postUpdate(for: entry)
+//      postListUpdate()
     }
   }
 
   func removeEntry(atIndex index: Int) {
     entries.remove(at: index)
-//    postUpdate()
-    postListUpdate()
+    postUpdate()
+//    postListUpdate()
   }
 
-  private func postListUpdate() {
-    NotificationCenter.default.post(name: .JournalEntriesUpdated, object: nil)
-  }
-
-  private func postUpdate(for entry: Entry) {
-    NotificationCenter.default.post(
-      name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
-  }
-
-//  private func postUpdate() {
+//  private func postListUpdate() {
 //    NotificationCenter.default.post(name: .JournalEntriesUpdated, object: nil)
 //  }
+
+//  private func postUpdate(for entry: Entry) {
+//    NotificationCenter.default.post(
+//      name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
+//  }
+
+  private func postUpdate() {
+    NotificationCenter.default.post(name: .JournalEntriesUpdated, object: nil)
+  }
 }

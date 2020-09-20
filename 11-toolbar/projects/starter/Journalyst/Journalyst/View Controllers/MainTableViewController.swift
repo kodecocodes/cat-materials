@@ -35,7 +35,7 @@ import UIKit
 class MainTableViewController: UITableViewController {
   // MARK: - Properties
   var dataSource: EntryDataSource?
-  var entryTableViewController: EntryTableViewController?
+  var entryTableViewController: EntryTableViewController? = nil
   let photoPicker = PhotoPicker()
 
   override func viewDidLoad() {
