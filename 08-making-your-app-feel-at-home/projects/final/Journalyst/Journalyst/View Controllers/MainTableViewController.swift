@@ -365,7 +365,9 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
   }
 
   func copy(contentsOf entry: Entry) {
-    UIPasteboard.general.string = entry.log
+    if entry.log != nil {
+      UIPasteboard.general.string = entry.log
+    }
   }
 
   func share(_ entry: Entry, at indexPath: IndexPath) {

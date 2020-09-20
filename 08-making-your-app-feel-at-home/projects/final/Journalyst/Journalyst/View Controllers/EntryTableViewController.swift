@@ -97,8 +97,11 @@ class EntryTableViewController: UITableViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    entry?.log = textView?.text
+    //app is crashing with these correct calls set
+//    super.viewWillDisappear(animated)
+//    entry?.log = textView?.text
+    super.viewWillAppear(animated)
+    entry?.log = textView.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
     }
@@ -215,6 +218,13 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
     entry?.images.append(image)
     dismiss(animated: true) {
       self.reloadSnapshot(animated: true)
+    }
+    if picker.sourceType == .photoLibrary {
+      if let splitViewController = self.splitViewController,
+        let navigationController = splitViewController.viewControllers.first as? UINavigationController,
+        let mainViewController = navigationController.viewControllers.first {
+          mainViewController.viewDidAppear(true)
+      }
     }
   }
 }
