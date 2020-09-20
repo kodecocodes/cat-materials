@@ -86,10 +86,8 @@ class EntryTableViewController: UITableViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    entry?.log = textView.text
-//    super.viewWillDisappear(animated)
-//    entry?.log = textView?.text
+    super.viewWillDisappear(animated)
+    entry?.log = textView?.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
     }
