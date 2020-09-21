@@ -385,9 +385,6 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       present(activityController, animated: true, completion: nil)
     }
   }
-//  func share(_ entry: Entry, at indexPath: IndexPath) {
-//    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
-//  }
 
   func removeEntry(at indexPath: IndexPath) {
     DataService.shared.removeEntry(atIndex: indexPath.row)
