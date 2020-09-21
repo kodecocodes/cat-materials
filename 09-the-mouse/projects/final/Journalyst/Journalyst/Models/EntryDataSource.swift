@@ -32,57 +32,8 @@
 
 import UIKit
 
-class EntryTableViewCell: UITableViewCell {
-  @IBOutlet private var dateLabel: UILabel!
-  @IBOutlet private var summaryLabel: UILabel!
-  @IBOutlet private var timeLabel: UILabel!
-  @IBOutlet private var imagesImageView: UIImageView!
-
-  lazy var dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy")
-    return formatter
-  }()
-
-  lazy var timeFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.setLocalizedDateFormatFromTemplate("hh:mm")
-    return formatter
-  }()
-
-  var entry: Entry? {
-    didSet {
-      guard let entry = entry else { return }
-      dateLabel.text = dateFormatter.string(from: entry.dateCreated)
-      summaryLabel.text = entry.log
-      summaryLabel.isHidden = entry.log == nil
-      timeLabel.text = timeFormatter.string(from: entry.dateCreated)
-      imagesImageView?.isHidden = entry.images.isEmpty
-      accessoryView = entry.isFavorite ? UIImageView(image: UIImage(systemName: "star.fill")) : nil
-      #if targetEnvironment(macCatalyst)
-      summaryLabel.isHidden = true
-      #endif
-    }
-  }
-
-  override func awakeFromNib() {
-    super.awakeFromNib()
-    #if targetEnvironment(macCatalyst)
-    setupForMac()
-    #endif
-  }
-
-  private func setupForMac() {
-    dateLabel.textColor = .label
-    dateLabel.highlightedTextColor = .white
-    timeLabel.textColor = .secondaryLabel
-    timeLabel.highlightedTextColor = .white
-  }
-
-  override func setSelected(_ selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
-    if selected {
-      backgroundColor = nil
-    }
+class EntryDataSource: UITableViewDiffableDataSource<Int, Entry> {
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
   }
 }
