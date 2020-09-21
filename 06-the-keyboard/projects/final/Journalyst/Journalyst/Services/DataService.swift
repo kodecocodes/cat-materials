@@ -37,7 +37,7 @@ extension Notification.Name {
   static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
 }
 
-struct DataNotificationKeys {
+enum DataNotificationKeys {
   static let entry = "entry"
 }
 
@@ -58,10 +58,10 @@ class DataService {
     entries.append(entry)
     postUpdate()
   }
-  
+
   func updateEntry(_ entry: Entry) {
     var hasChanges: Bool = false
-    entries = entries.map{ ent -> Entry in
+    entries = entries.map { ent -> Entry in
       if ent.id == entry.id && ent != entry {
         hasChanges = true
         return entry
@@ -71,7 +71,10 @@ class DataService {
     }
 
     if hasChanges {
-      NotificationCenter.default.post(name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
+      NotificationCenter.default.post(
+        name: .JournalEntryUpdated,
+        object: nil,
+        userInfo: [DataNotificationKeys.entry: entry])
       postUpdate()
     }
   }
