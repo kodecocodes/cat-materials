@@ -32,31 +32,8 @@
 
 import UIKit
 
-extension UIViewController {
-  func presentShare(text: String?, images: [UIImage]?, sourceView: UIView? = nil, sourceBarItem: UIBarButtonItem? = nil) {
-    var items: [Any] = []
-    var textToShare = text ?? ""
-
-    if let namePreference = UserDefaults.standard.string(forKey: "name_preference"),
-      UserDefaults.standard.bool(forKey: "signature_preference") {
-      textToShare += "\n\n -\(namePreference)"
-    }
-
-    items.append(textToShare)
-
-    if let images = images, !images.isEmpty {
-      items.append(contentsOf: images)
-    }
-
-    let activityController = UIActivityViewController(
-      activityItems: items,
-      applicationActivities: nil)
-    if let sourceView = sourceView {
-      activityController.popoverPresentationController?.sourceView = sourceView
-    } else if let sourceBarItem = sourceBarItem {
-      activityController.popoverPresentationController?.barButtonItem = sourceBarItem
-    }
-
-    present(activityController, animated: true, completion: nil)
+class EntryDataSource: UITableViewDiffableDataSource<Int, Entry> {
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
   }
 }

@@ -1,4 +1,4 @@
-/// Copyright (c) 2019 Razeware LLC
+/// Copyright (c) 2020 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -18,6 +18,10 @@
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
 ///
+/// This project and source code may use libraries or frameworks that are
+/// released under various Open-Source licenses. Use of those libraries and
+/// frameworks are governed by their own individual licenses.
+///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,22 +37,19 @@ extension Notification.Name {
   static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
 }
 
-struct DataNotificationKeys {
+enum DataNotificationKeys {
   static let entry = "entry"
 }
 
 class DataService {
-
   static let shared = DataService()
-
   private var entries: [Entry] = [Entry()]
-
   var allEntries: [Entry] {
     return entries
   }
 
   func entry(forID entryID: String) -> Entry? {
-    return entries.first(where: {$0.id == entryID})
+    return entries.first { $0.id == entryID }
   }
 
   func addEntry(_ entry: Entry) {
@@ -58,14 +59,14 @@ class DataService {
 
   func updateEntry(_ entry: Entry) {
     var hasChanges: Bool = false
-    entries = entries.map({ e -> Entry in
-      if e.id == entry.id && e != entry {
+    entries = entries.map { item -> Entry in
+      if item.id == entry.id && item != entry {
         hasChanges = true
         return entry
       } else {
-        return e
+        return item
       }
-    })
+    }
 
     if hasChanges {
       postUpdate(for: entry)
@@ -83,6 +84,9 @@ class DataService {
   }
 
   private func postUpdate(for entry: Entry) {
-    NotificationCenter.default.post(name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
+    NotificationCenter.default.post(
+      name: .JournalEntryUpdated,
+      object: nil,
+      userInfo: [DataNotificationKeys.entry: entry])
   }
 }
