@@ -81,7 +81,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     downKeyCommand.discoverabilityTitle = "Next Entry"
     let deleteKeyCommand = UIKeyCommand(
       input: "\u{8}",
-      modifierFlags: [],
+      modifierFlags: [.command],
       action: #selector(removeEntry(sender:)))
     deleteKeyCommand.discoverabilityTitle = "Delete Entry"
 
