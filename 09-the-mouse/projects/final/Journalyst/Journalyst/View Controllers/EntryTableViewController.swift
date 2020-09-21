@@ -111,7 +111,7 @@ class EntryTableViewController: UITableViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+    super.viewWillDisappear(animated)
     entry?.log = textView.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
@@ -119,6 +119,7 @@ class EntryTableViewController: UITableViewController {
   }
 
   // MARK: - Notifications
+  // swiftlint:disable:next block_based_kvo
   override func observeValue(
     forKeyPath keyPath: String?,
     of object: Any?,
@@ -217,16 +218,26 @@ class EntryTableViewController: UITableViewController {
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
+    // swiftlint:disable:next line_length
     return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
+      let cell =
+        collectionView.dequeueReusableCell(
+          withReuseIdentifier: reuseIdentifier,
+          for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
       return cell
     }
   }
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
+    // swiftlint:disable:next line_length
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
-      let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+      let reusableView =
+        collectionView.dequeueReusableSupplementaryView(
+          ofKind: kind,
+          withReuseIdentifier: "Header",
+          for: indexPath)
+      // swiftlint:disable:next force_unwrapping
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
       let hoverGesture = UIHoverGestureRecognizer(
@@ -301,6 +312,7 @@ extension EntryTableViewController: UIDropInteractionDelegate {
   ) {
     session.loadObjects(ofClass: UIImage.self) { [weak self] imageItems in
       guard let self = self else { return }
+      // swiftlint:disable:next force_cast
       let images = imageItems as! [UIImage]
       self.entry?.images.append(contentsOf: images)
       self.reloadSnapshot(animated: true)
@@ -312,7 +324,8 @@ extension EntryTableViewController: UIDropInteractionDelegate {
 extension EntryTableViewController: UICollectionViewDropDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
-    canHandle session: UIDropSession) -> Bool {
+    canHandle session: UIDropSession
+  ) -> Bool {
     session.canLoadObjects(ofClass: UIImage.self)
   }
 
