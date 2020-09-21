@@ -37,6 +37,7 @@ class EntryTableViewController: UITableViewController {
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
   @IBOutlet private var entryCell: UITableViewCell!
+
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
   var entry: Entry? {
@@ -103,6 +104,7 @@ class EntryTableViewController: UITableViewController {
       DataService.shared.updateEntry(entry)
     }
   }
+
   // MARK: - Notifications
   @objc func handleUserDefaultChanged(notification: Notification) {
     updateEntryCellColor()
