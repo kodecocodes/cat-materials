@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>Icon</key>
+	<string>sharing</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Sharing</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Include Signature When Sharing</string>
+			<key>Description</key>
+			<string>Automatically include a custom signature when sharing journal entries.</string>
+			<key>Key</key>
+			<string>signature_preference</string>
+			<key>DefaultValue</key>
+			<false/>
+			<key>IsSecure</key>
+			<false/>
+			<key>TrueConfirmationPrompt</key>
+			<dict>
+				<key>Prompt</key>
+				<string>Turning this on will share your name with the journal entry</string>
+				<key>ConfirmText</key>
+				<string>Enable</string>
+				<key>DenyText</key>
+				<string>Don&apos;t Enable</string>
+				<key>Type</key>
+				<string>PSConfirmationPrompt</string>
+				<key>Title</key>
+				<string>Confirm Share Name</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Name When Sharing</string>
+			<key>Key</key>
+			<string>name_preference</string>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>IsSecure</key>
+			<false/>
+			<key>KeyboardType</key>
+			<string>Alphabet</string>
+			<key>AutocapitalizationType</key>
+			<string>Words</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -32,42 +32,31 @@
 
 import UIKit
 
-extension Notification.Name {
-  static var WindowSizeChanged = Notification.Name("com.raywenderlich.Journalyst.WindowSizeChanged")
-}
+extension UIViewController {
+  func presentShare(text: String?, images: [UIImage]?, sourceView: UIView? = nil, sourceBarItem: UIBarButtonItem? = nil) {
+    var items: [Any] = []
+    var textToShare = text ?? ""
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
-
-  func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-    if let scene = scene as? UIWindowScene {
-      scene.sizeRestrictions?.minimumSize = CGSize(width: 768.0, height: 768.0)
-      scene.sizeRestrictions?.maximumSize = CGSize(
-        width: CGFloat.greatestFiniteMagnitude,
-        height: CGFloat.greatestFiniteMagnitude)
-    }
-    if let userActivity = connectionOptions.userActivities.first {
-      if !configure(window: window, with: userActivity) {
-        print("Failed to restore from \(userActivity)")
-      }
-    }
-  }
-
-  func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
-    NotificationCenter.default.post(name: .WindowSizeChanged, object: nil)
-  }
-
-  func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
-    guard activity.activityType == Entry.OpenDetailActivityType,
-      let entryID = activity.userInfo?[Entry.OpenDetailIdKey] as? String,
-      let entry = DataService.shared.entry(forID: entryID),
-      let entryDetailViewController = EntryTableViewController.loadFromStoryboard(),
-      let splitViewController = window?.rootViewController as? UISplitViewController else {
-        return false
+    if let namePreference = UserDefaults.standard.string(forKey: "name_preference"),
+      UserDefaults.standard.bool(forKey: "signature_preference") {
+      textToShare += "\n\n -\(namePreference)"
     }
 
-    entryDetailViewController.entry = entry
-    splitViewController.showDetailViewController(entryDetailViewController, sender: self)
-    return true
+    items.append(textToShare)
+
+    if let images = images, !images.isEmpty {
+      items.append(contentsOf: images)
+    }
+
+    let activityController = UIActivityViewController(
+      activityItems: items,
+      applicationActivities: nil)
+    if let sourceView = sourceView {
+      activityController.popoverPresentationController?.sourceView = sourceView
+    } else if let sourceBarItem = sourceBarItem {
+      activityController.popoverPresentationController?.barButtonItem = sourceBarItem
+    }
+
+    present(activityController, animated: true, completion: nil)
   }
 }
