@@ -260,24 +260,24 @@ extension EntryTableViewController: UICollectionViewDropDelegate {
   func collectionView(
     _ collectionView: UICollectionView,
     canHandle session: UIDropSession
-    ) -> Bool {
-      session.canLoadObjects(ofClass: UIImage.self)
+  ) -> Bool {
+    session.canLoadObjects(ofClass: UIImage.self)
   }
 
   func collectionView(
     _ collectionView: UICollectionView,
     dropSessionDidUpdate session: UIDropSession,
     withDestinationIndexPath destinationIndexPath: IndexPath?
-    ) -> UICollectionViewDropProposal {
-      if session.localDragSession != nil {
-        return UICollectionViewDropProposal(
-          operation: .move,
-          intent: .insertAtDestinationIndexPath)
-      } else {
-        return UICollectionViewDropProposal(
-          operation: .copy,
-          intent: .insertAtDestinationIndexPath)
-      }
+  ) -> UICollectionViewDropProposal {
+    if session.localDragSession != nil {
+      return UICollectionViewDropProposal(
+        operation: .move,
+        intent: .insertAtDestinationIndexPath)
+    } else {
+      return UICollectionViewDropProposal(
+        operation: .copy,
+        intent: .insertAtDestinationIndexPath)
+    }
   }
 
   func collectionView(
@@ -312,7 +312,7 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
     _ collectionView: UICollectionView,
     itemsForBeginning session: UIDragSession,
     at indexPath: IndexPath
-    ) -> [UIDragItem] {
+  ) -> [UIDragItem] {
     guard let entry = entry, !entry.images.isEmpty else {
       return []
     }
