@@ -164,7 +164,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       rootChildren.append(newEntryAction)
       let addImageAction = self.addImageAction(entry: entry, indexPath: indexPath)
       rootChildren.append(addImageAction)
-      let favoriteAction = self.addFavouriteAction(entry: entry)
+      let favoriteAction = self.addFavoriteAction(entry: entry)
       rootChildren.append(favoriteAction)
       let shareMenu = self.addShareMenu(entry: entry, indexPath: indexPath)
       rootChildren.append(shareMenu)
@@ -211,7 +211,7 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     return addImageAction
   }
 
-  func addFavouriteAction(entry: Entry) -> UIAction {
+  func addFavoriteAction(entry: Entry) -> UIAction {
     let favoriteTitle = entry.isFavorite ? "Remove from Favorites" : "Add to Favorites"
     let favoriteImageName = entry.isFavorite ? "star.slash" : "star"
     let favoriteAction = UIAction(
