@@ -42,7 +42,7 @@ class EntryTableViewController: UITableViewController {
   @IBOutlet private weak var textView: UITextView!
   @IBOutlet private weak var collectionView: UICollectionView!
   @IBOutlet private weak var entryCell: UITableViewCell!
-  
+
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
 
@@ -83,7 +83,7 @@ class EntryTableViewController: UITableViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+    super.viewWillDisappear(animated)
     entry?.log = textView.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
@@ -110,7 +110,8 @@ class EntryTableViewController: UITableViewController {
 
   @IBAction private func addImage(_ sender: Any?) {
     textView.resignFirstResponder()
-    let actionSheet = UIAlertController(title: "Add Photo", message: "Add a photo to your entry", preferredStyle: .actionSheet)
+    let actionSheet =
+      UIAlertController(title: "Add Photo", message: "Add a photo to your entry", preferredStyle: .actionSheet)
     if UIImagePickerController.isSourceTypeAvailable(.camera) {
       actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
         self.selectPhotoFromSource(.camera)
@@ -146,16 +147,26 @@ class EntryTableViewController: UITableViewController {
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
+    // swiftlint:disable:next line_length
     return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
+      let cell =
+        collectionView.dequeueReusableCell(
+          withReuseIdentifier: reuseIdentifier,
+          for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
       return cell
     }
   }
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
+    // swiftlint:disable:next line_length
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
-      let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+      let reusableView =
+        collectionView.dequeueReusableSupplementaryView(
+          ofKind: kind,
+          withReuseIdentifier: "Header",
+          for: indexPath)
+      // swiftlint:disable:next force_unwrapping
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
       return reusableView
