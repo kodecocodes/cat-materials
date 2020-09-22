@@ -119,6 +119,7 @@ class EntryTableViewController: UITableViewController {
   }
 
   // MARK: - Notifications
+  // swiftlint:disable:next block_based_kvo
   override func observeValue(
     forKeyPath keyPath: String?,
     of object: Any?,
@@ -240,9 +241,11 @@ extension EntryTableViewController {
   }
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
+    // swiftlint:disable:next line_length
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+      // swiftlint:disable:next force_unwrapping
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
       let hoverGesture = UIHoverGestureRecognizer(
@@ -317,6 +320,7 @@ extension EntryTableViewController: UIDropInteractionDelegate {
   ) {
     session.loadObjects(ofClass: UIImage.self) { [weak self] imageItems in
       guard let self = self else { return }
+      // swiftlint:disable:next force_cast
       let images = imageItems as! [UIImage]
       self.entry?.images.append(contentsOf: images)
       self.reloadSnapshot(animated: true)
