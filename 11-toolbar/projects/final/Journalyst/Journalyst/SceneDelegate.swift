@@ -35,8 +35,10 @@ import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
+  #if targetEnvironment(macCatalyst)
   private let shareItem =
-  NSSharingServicePickerToolbarItem(itemIdentifier: .shareEntry)
+    NSSharingServicePickerToolbarItem(itemIdentifier: .shareEntry)
+  #endif
   private var activityItemsConfigurationSubscriber: AnyCancellable?
 
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -46,12 +48,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       }
     }
     #if targetEnvironment(macCatalyst)
-    // 1
-    if let scene = scene as? UIWindowScene,
+    if
+      let scene = scene as? UIWindowScene,
       let titlebar = scene.titlebar {
-      // 2
       let toolbar = NSToolbar(identifier: "Toolbar")
-      // 3
       titlebar.toolbar = toolbar
       toolbar.delegate = self
       activityItemsConfigurationSubscriber = NotificationCenter.default
@@ -59,13 +59,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         .receive(on: RunLoop.main)
         .map {
           $0.userInfo?[NotificationKey.activityItemsConfiguration]
-          as? UIActivityItemsConfiguration
+            as? UIActivityItemsConfiguration
         }
         .assign(to: \.activityItemsConfiguration, on: shareItem)
       titlebar.titleVisibility = .hidden
       toolbar.allowsUserCustomization = true
       toolbar.autosavesConfiguration = true
-    } #endif
+    }
+    #endif
   }
 
   func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
@@ -87,87 +88,90 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension NSToolbarItem.Identifier {
   static let addEntry =
     NSToolbarItem.Identifier(rawValue: "AddEntry")
-    static let deleteEntry =
-      NSToolbarItem.Identifier(rawValue: "DeleteEntry")
-    static let shareEntry =
-      NSToolbarItem.Identifier(rawValue: "ShareEntry")
-  }
-  extension SceneDelegate: NSToolbarDelegate {
-    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar)
-      -> [NSToolbarItem.Identifier] {
+  static let deleteEntry =
+    NSToolbarItem.Identifier(rawValue: "DeleteEntry")
+  static let shareEntry =
+    NSToolbarItem.Identifier(rawValue: "ShareEntry")
+}
+
+extension SceneDelegate: NSToolbarDelegate {
+  func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar)
+  -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
-    }
-
-    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar)
-      -> [NSToolbarItem.Identifier] {
-      return [.toggleSidebar, .addEntry, .shareEntry]
-    }
-
-    func toolbar(
-      _ toolbar: NSToolbar,
-      itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
-      willBeInsertedIntoToolbar flag: Bool
-    ) -> NSToolbarItem? {
-      var item: NSToolbarItem?
-      switch itemIdentifier {
-      case .addEntry:
-        item = NSToolbarItem(itemIdentifier: .addEntry)
-        item?.image = UIImage(systemName: "plus")
-        item?.label = "Add"
-        item?.toolTip = "Add Entry"
-        item?.target = self
-        item?.action = #selector(addEntry)
-      case .deleteEntry:
-        item = NSToolbarItem(itemIdentifier: .deleteEntry)
-        item?.image = UIImage(systemName: "trash")
-        item?.label = "Delete"
-        item?.toolTip = "Delete Entry"
-        item?.target = self
-        item?.action = #selector(deleteEntry)
-      case .shareEntry:
-        return shareItem
-      case .toggleSidebar:
-        item = NSToolbarItem(itemIdentifier: itemIdentifier)
-      default:
-        item = nil
-      }
-      return item
-    }
-
-    @objc private func addEntry() {
-      guard let splitViewController = window?.rootViewController as? UISplitViewController,
-        let navigationController
-          = splitViewController.viewControllers.first
-          as? UINavigationController,
-        let mainTableViewController
-          = navigationController.topViewController
-          as? MainTableViewController else {
-        return
-      }
-      DataService.shared.addEntry(Entry())
-      let index = DataService.shared.allEntries.count - 1
-      mainTableViewController.selectEntryAtIndex(index)
-    }
-    @objc private func deleteEntry() {
-      guard let splitViewController =
-        window?.rootViewController as? UISplitViewController,
-        let navigationController =
-        splitViewController.viewControllers.first
-          as? UINavigationController,
-        let mainTableViewController =
-        navigationController.topViewController
-          as? MainTableViewController,
-        let secondaryViewController =
-        splitViewController.viewControllers.last
-          as? UINavigationController,
-        let entryTableViewController =
-        secondaryViewController.topViewController
-          as? EntryTableViewController,
-        let entry = entryTableViewController.entry,
-        let index = DataService.shared.allEntries
-          .firstIndex(of: entry) else { return }
-      DataService.shared.removeEntry(atIndex: index)
-      mainTableViewController.selectEntryAtIndex(index)
-    }
   }
+
+  func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar)
+  -> [NSToolbarItem.Identifier] {
+    return [.toggleSidebar, .addEntry, .shareEntry]
+  }
+
+  func toolbar(
+    _ toolbar: NSToolbar,
+    itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
+    willBeInsertedIntoToolbar flag: Bool
+  ) -> NSToolbarItem? {
+    var item: NSToolbarItem?
+    switch itemIdentifier {
+    case .addEntry:
+      item = NSToolbarItem(itemIdentifier: .addEntry)
+      item?.image = UIImage(systemName: "plus")
+      item?.label = "Add"
+      item?.toolTip = "Add Entry"
+      item?.target = self
+      item?.action = #selector(addEntry)
+    case .deleteEntry:
+      item = NSToolbarItem(itemIdentifier: .deleteEntry)
+      item?.image = UIImage(systemName: "trash")
+      item?.label = "Delete"
+      item?.toolTip = "Delete Entry"
+      item?.target = self
+      item?.action = #selector(deleteEntry)
+    case .shareEntry:
+      return shareItem
+    case .toggleSidebar:
+      item = NSToolbarItem(itemIdentifier: itemIdentifier)
+    default:
+      item = nil
+    }
+    return item
+  }
+
+  @objc private func addEntry() {
+    guard
+      let splitViewController = window?.rootViewController as? UISplitViewController,
+      let navigationController
+        = splitViewController.viewControllers.first
+        as? UINavigationController,
+      let mainTableViewController
+        = navigationController.topViewController
+        as? MainTableViewController else {
+      return
+    }
+    DataService.shared.addEntry(Entry())
+    let index = DataService.shared.allEntries.count - 1
+    mainTableViewController.selectEntryAtIndex(index)
+  }
+  @objc private func deleteEntry() {
+    guard
+      let splitViewController =
+        window?.rootViewController as? UISplitViewController,
+      let navigationController =
+        splitViewController.viewControllers.first
+        as? UINavigationController,
+      let mainTableViewController =
+        navigationController.topViewController
+        as? MainTableViewController,
+      let secondaryViewController =
+        splitViewController.viewControllers.last
+        as? UINavigationController,
+      let entryTableViewController =
+        secondaryViewController.topViewController
+        as? EntryTableViewController,
+      let entry = entryTableViewController.entry,
+      let index = DataService.shared.allEntries
+        .firstIndex(of: entry) else { return }
+    DataService.shared.removeEntry(atIndex: index)
+    mainTableViewController.selectEntryAtIndex(index)
+  }
+}
 #endif

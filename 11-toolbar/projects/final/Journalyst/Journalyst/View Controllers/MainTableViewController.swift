@@ -32,6 +32,7 @@
 
 import UIKit
 
+// swiftlint:disable file_length
 class MainTableViewController: UITableViewController {
   // MARK: - Properties
   var dataSource: EntryDataSource?
@@ -436,3 +437,4 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
     DataService.shared.removeEntry(atIndex: indexPath.row)
   }
 }
+// swiftlint:enable file_length

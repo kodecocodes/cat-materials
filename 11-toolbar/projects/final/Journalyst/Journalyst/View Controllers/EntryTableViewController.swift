@@ -99,7 +99,7 @@ class EntryTableViewController: UITableViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+    super.viewWillDisappear(animated)
     entry?.log = textView.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
@@ -107,6 +107,7 @@ class EntryTableViewController: UITableViewController {
   }
 
   // MARK: - Notifications
+  // swiftlint:disable:next block_based_kvo
   override func observeValue(
     forKeyPath keyPath: String?,
     of object: Any?,
