@@ -100,7 +100,7 @@ class EntryTableViewCell: UITableViewCell {
     case .began, .changed:
       backgroundColor = .secondarySystemBackground
     case .ended:
-      backgroundColor = .systemBackground
+      backgroundColor = .none
     default:
       break
     }
