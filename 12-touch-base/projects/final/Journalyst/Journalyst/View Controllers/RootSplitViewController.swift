@@ -170,12 +170,12 @@ extension RootSplitViewController: NSTouchBarDelegate {
       button.customizationLabel = "Add a new entry"
       return button
     case .entryOptions:
-      let copy = NSButtonTouchBarItem(
+      let next = NSButtonTouchBarItem(
         identifier: .init(identifier.rawValue + ".next"),
         title: "Next Entry",
         target: self,
         action: #selector(goToNext))
-      let favorite = NSButtonTouchBarItem(
+      let previous = NSButtonTouchBarItem(
         identifier: .init(identifier.rawValue + ".previous"),
         title: "Previous Entry",
         target: self,
@@ -190,7 +190,7 @@ extension RootSplitViewController: NSTouchBarDelegate {
 
       let group = NSGroupTouchBarItem(
         identifier: identifier,
-        items: [spacer, copy, favorite, spacer, delete])
+        items: [spacer, next, previous, spacer, delete])
       group.customizationLabel = "Entry Options"
       return group
     default:
