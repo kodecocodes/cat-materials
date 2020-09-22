@@ -29,7 +29,6 @@
 		01AED84F22E4036C00828396 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		01AED87122E55F0100828396 /* RootSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSplitViewController.swift; sourceTree = "<group>"; };
 		A107B01C22D7F33400DBF970 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		A1574C7C22F11A8F0014084F /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		A16FAAB024EC7E6700F88749 /* EntryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 		A16FAAB224EC7F4F00F88749 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A16FAAB424EC823A00F88749 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
@@ -137,7 +136,6 @@
 				A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */,
 				D2A5F20A1F4A9144005CD714 /* Assets.xcassets */,
 				D2A5F20F1F4A9144005CD714 /* Info.plist */,
-				A1574C7C22F11A8F0014084F /* BridgingHeader.h */,
 				A16FAAB224EC7F4F00F88749 /* Settings.bundle */,
 			);
 			path = Journalyst;
@@ -399,7 +397,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_UIKITFORMAC = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = Journalyst/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
@@ -423,7 +420,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_UIKITFORMAC = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = Journalyst/BridgingHeader.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
