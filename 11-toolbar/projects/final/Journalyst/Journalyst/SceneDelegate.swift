@@ -62,7 +62,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             as? UIActivityItemsConfiguration
         }
         .assign(to: \.activityItemsConfiguration, on: shareItem)
-      titlebar.titleVisibility = .hidden
       toolbar.allowsUserCustomization = true
       toolbar.autosavesConfiguration = true
     }
