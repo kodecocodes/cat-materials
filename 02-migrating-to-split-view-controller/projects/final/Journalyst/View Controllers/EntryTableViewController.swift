@@ -152,13 +152,6 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
     dismiss(animated: true) {
       self.reloadSnapshot(animated: true)
     }
-    if picker.sourceType == .photoLibrary {
-      if let splitViewController = self.splitViewController,
-        let navigationController = splitViewController.viewControllers.first as? UINavigationController,
-        let mainViewController = navigationController.viewControllers.first {
-          mainViewController.viewDidAppear(true)
-      }
-    }
   }
 }
 
@@ -174,10 +167,5 @@ extension EntryTableViewController: UITextViewDelegate {
 
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
-    if let splitViewController = splitViewController,
-      let  navigationController = splitViewController.viewControllers.first as? UINavigationController,
-      let mainViewController = navigationController.viewControllers.first {
-        mainViewController.viewDidAppear(true)
-    }
   }
 }
