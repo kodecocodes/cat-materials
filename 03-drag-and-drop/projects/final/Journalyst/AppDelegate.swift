@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     if let window = window,
       let splitViewController = window.rootViewController as? UISplitViewController {
-        splitViewController.preferredDisplayMode = .automatic
+        splitViewController.preferredDisplayMode = .oneBesideSecondary
         splitViewController.delegate = self
         splitViewController.primaryBackgroundStyle = .sidebar
         if let mainNavigationController = splitViewController.viewController(for: .primary) as? UINavigationController,

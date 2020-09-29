@@ -39,7 +39,7 @@ class MainTableViewController: UITableViewController {
   var entryTableViewController: EntryTableViewController?
 
   func prepareForPresentation() {
-    viewDidLoad()
+    loadViewIfNeeded()
     populateMockData()
   }
 
