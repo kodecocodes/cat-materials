@@ -76,7 +76,11 @@ class EntryTableViewController: UITableViewController {
     self.dataSource = dataSource
     reloadSnapshot(animated: false)
     validateState()
-
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(handleEntryUpdated(notification:)),
+      name: .JournalEntryUpdated,
+      object: nil)
     UserDefaults.standard
       .addObserver(self,
       forKeyPath: colorPreference,
@@ -111,6 +115,14 @@ class EntryTableViewController: UITableViewController {
     if keyPath == colorPreference {
       updateEntryCellColor()
     }
+  }
+
+  @objc func handleEntryUpdated(notification: Notification) {
+    guard let userInfo = notification.userInfo, let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
+      return
+    }
+    self.entry = entry
+    reloadSnapshot(animated: true)
   }
 
   // MARK: - Actions

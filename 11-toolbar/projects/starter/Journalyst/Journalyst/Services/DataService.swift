@@ -35,6 +35,11 @@ import Foundation
 extension Notification.Name {
   static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
   static let ActivityItemsConfigurationDidChange = Notification.Name("activityItemsConfigurationDidChange")
+  static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
+}
+
+enum DataNotificationKeys {
+  static let entry = "entry"
 }
 
 enum NotificationKey: String {
@@ -54,7 +59,7 @@ class DataService {
 
   func addEntry(_ entry: Entry) {
     entries.append(entry)
-    postUpdate()
+    postListUpdate()
   }
 
   func updateEntry(_ entry: Entry) {
@@ -69,16 +74,24 @@ class DataService {
     }
 
     if hasChanges {
-      postUpdate()
+      postUpdate(for: entry)
+      postListUpdate()
     }
   }
 
   func removeEntry(atIndex index: Int) {
     entries.remove(at: index)
-    postUpdate()
+    postListUpdate()
   }
 
-  private func postUpdate() {
+  private func postUpdate(for entry: Entry) {
+    NotificationCenter.default.post(
+      name: .JournalEntryUpdated,
+      object: nil,
+      userInfo: [DataNotificationKeys.entry: entry])
+  }
+
+  private func postListUpdate() {
     NotificationCenter.default.post(name: .JournalEntriesUpdated, object: nil)
   }
 }
