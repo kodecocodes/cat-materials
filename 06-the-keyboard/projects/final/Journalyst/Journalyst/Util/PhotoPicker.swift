@@ -35,6 +35,7 @@ import UIKit
 class PhotoPicker: NSObject {
   typealias PhotoCompletion = (UIImage?, Error?) -> Void
   private var completion: PhotoCompletion?
+
   lazy var picker: UIImagePickerController = {
     let picker = UIImagePickerController()
     picker.allowsEditing = false

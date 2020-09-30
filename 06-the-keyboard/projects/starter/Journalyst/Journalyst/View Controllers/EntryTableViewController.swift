@@ -35,8 +35,8 @@ import AVFoundation
 
 class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
-  @IBOutlet private weak var textView: UITextView!
-  @IBOutlet private weak var collectionView: UICollectionView!
+  @IBOutlet private var textView: UITextView!
+  @IBOutlet private var collectionView: UICollectionView!
 
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?

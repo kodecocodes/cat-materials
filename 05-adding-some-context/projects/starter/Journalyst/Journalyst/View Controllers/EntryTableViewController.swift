@@ -36,6 +36,7 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
+
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
   var entry: Entry? {
@@ -46,6 +47,7 @@ class EntryTableViewController: UITableViewController {
       title = dateFormatter.string(from: entry.dateCreated)
     }
   }
+
   let photoPicker = PhotoPicker()
 
   static func loadFromStoryboard() -> EntryTableViewController? {
@@ -114,7 +116,7 @@ extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
     return UICollectionViewDiffableDataSource(
-      collectionView: collectionView) {collectionView, indexPath, image -> ImageCollectionViewCell? in
+      collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
       cell?.image = image

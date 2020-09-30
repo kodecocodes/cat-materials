@@ -34,8 +34,8 @@ import UIKit
 
 class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
-  @IBOutlet private weak var textView: UITextView!
-  @IBOutlet private weak var collectionView: UICollectionView!
+  @IBOutlet private var textView: UITextView!
+  @IBOutlet private var collectionView: UICollectionView!
 
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
@@ -121,7 +121,7 @@ extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
     return UICollectionViewDiffableDataSource(
-      collectionView: collectionView) {collectionView, indexPath, image -> ImageCollectionViewCell? in
+      collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
       cell?.image = image

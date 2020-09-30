@@ -34,8 +34,9 @@ import UIKit
 
 class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
-  @IBOutlet private weak var textView: UITextView!
-  @IBOutlet private weak var collectionView: UICollectionView!
+  @IBOutlet private var textView: UITextView!
+  @IBOutlet private var collectionView: UICollectionView!
+
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
   var entry: Entry? {
@@ -70,6 +71,7 @@ class EntryTableViewController: UITableViewController {
       DataService.shared.updateEntry(entry)
     }
   }
+
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard !textView.text.isEmpty else { return }
@@ -123,7 +125,7 @@ extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
     return UICollectionViewDiffableDataSource(
-      collectionView: collectionView) {collectionView, indexPath, image -> ImageCollectionViewCell? in
+      collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
@@ -133,9 +135,9 @@ extension EntryTableViewController {
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
-    = {collectionView, kind, indexPath -> UICollectionReusableView? in
-    let reusableView = collectionView.dequeueReusableSupplementaryView(
-      ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+      = { collectionView, kind, indexPath -> UICollectionReusableView? in
+      let reusableView = collectionView.dequeueReusableSupplementaryView(
+        ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")?.cgColor
       reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
       return reusableView
@@ -165,11 +167,13 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
 // MARK: - Navigation Controller Delegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
+
 // MARK: - Text View Delegate
 extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
+
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }

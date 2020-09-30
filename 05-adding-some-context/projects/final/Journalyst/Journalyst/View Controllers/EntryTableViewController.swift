@@ -31,11 +31,13 @@
 /// THE SOFTWARE.
 
 import UIKit
+import AVFoundation
 
 class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
+
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
   var entry: Entry? {
@@ -115,7 +117,7 @@ extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
     return UICollectionViewDiffableDataSource(
-      collectionView: collectionView) {collectionView, indexPath, image -> ImageCollectionViewCell? in
+      collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: reuseIdentifier, for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
@@ -125,7 +127,7 @@ extension EntryTableViewController {
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
-      = {collectionView, kind, indexPath -> UICollectionReusableView? in
+      = { collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")?.cgColor
@@ -148,6 +150,7 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
+
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }

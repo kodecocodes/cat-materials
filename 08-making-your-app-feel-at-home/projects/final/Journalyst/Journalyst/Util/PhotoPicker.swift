@@ -46,7 +46,7 @@ class PhotoPicker: NSObject {
 
   func present(
     in viewController: UIViewController,
-    title: String?  = NSLocalizedString("Add Photo", comment: ""),
+    title: String? = NSLocalizedString("Add Photo", comment: ""),
     message: String?  = nil,
     sourceView: UIView?  = nil,
     completion: @escaping PhotoCompletion

@@ -89,7 +89,7 @@ class MainTableViewController: UITableViewController {
 extension MainTableViewController {
   private func diaryDataSource() -> EntryDataSource {
     let reuseIdentifier = "EntryTableViewCell"
-    return EntryDataSource(tableView: tableView) {tableView, indexPath, entry -> EntryTableViewCell? in
+    return EntryDataSource(tableView: tableView) { tableView, indexPath, entry -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
       let contextInteraction = UIContextMenuInteraction(delegate: self)
@@ -167,7 +167,7 @@ extension MainTableViewController {
   }
 
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {_, _, _ in
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)
     }
     deleteAction.image = UIImage(systemName: "trash")

@@ -177,7 +177,7 @@ extension EntryTableViewController {
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
-      = {collectionView, kind, indexPath -> UICollectionReusableView? in
+      = { collectionView, kind, indexPath -> UICollectionReusableView? in
     let reusableView = collectionView.dequeueReusableSupplementaryView(
       ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")?.cgColor
@@ -221,6 +221,7 @@ extension EntryTableViewController: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
     validateState()
   }
+
   func textViewDidEndEditing(_ textView: UITextView) {
     entry?.log = textView.text
   }

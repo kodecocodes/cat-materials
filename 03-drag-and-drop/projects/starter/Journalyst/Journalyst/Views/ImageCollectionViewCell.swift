@@ -33,7 +33,7 @@
 import UIKit
 
 class ImageCollectionViewCell: UICollectionViewCell {
-  @IBOutlet private weak var imageView: UIImageView!
+  @IBOutlet private var imageView: UIImageView!
   var image: UIImage? {
     didSet {
       imageView.image = image

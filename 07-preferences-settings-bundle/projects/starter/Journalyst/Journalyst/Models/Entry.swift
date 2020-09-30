@@ -37,7 +37,7 @@ struct Entry {
   let dateCreated = Date()
   var log: String?
   var images: [UIImage] = []
-  var isFavorite: Bool = false
+  var isFavorite = false
 }
 
 extension Entry: Hashable {

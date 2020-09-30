@@ -51,6 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       let splitViewController = window?.rootViewController as? UISplitViewController else {
         return false
     }
+
     entryDetailViewController.entry = entry
     splitViewController.showDetailViewController(entryDetailViewController, sender: self)
     return true

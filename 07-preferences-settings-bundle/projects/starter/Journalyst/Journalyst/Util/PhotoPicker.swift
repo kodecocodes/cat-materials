@@ -35,6 +35,7 @@ import UIKit
 class PhotoPicker: NSObject {
   typealias PhotoCompletion = (UIImage?, Error?) -> Void
   private var completion: PhotoCompletion?
+
   lazy var picker: UIImagePickerController = {
     let picker = UIImagePickerController()
     picker.allowsEditing = false
@@ -44,7 +45,7 @@ class PhotoPicker: NSObject {
 
   func present(
     in viewController: UIViewController,
-    title: String?  = NSLocalizedString("Add Photo", comment: ""),
+    title: String? = NSLocalizedString("Add Photo", comment: ""),
     message: String?  = nil,
     sourceView: UIView?  = nil,
     completion: @escaping PhotoCompletion

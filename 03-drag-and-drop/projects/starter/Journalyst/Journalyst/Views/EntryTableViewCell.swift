@@ -33,10 +33,10 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
-  @IBOutlet private weak var dateLabel: UILabel!
-  @IBOutlet private weak var summaryLabel: UILabel!
-  @IBOutlet private weak var timeLabel: UILabel!
-  @IBOutlet private weak var imagesImageView: UIImageView!
+  @IBOutlet private var dateLabel: UILabel!
+  @IBOutlet private var summaryLabel: UILabel!
+  @IBOutlet private var timeLabel: UILabel!
+  @IBOutlet private var imagesImageView: UIImageView!
 
   lazy var dateFormatter: DateFormatter = {
     let formatter = DateFormatter()

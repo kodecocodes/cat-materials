@@ -39,9 +39,9 @@ class EntryTableViewController: UITableViewController {
   let signaturePreference = "signature_preference"
 
   // MARK: - Outlets
-  @IBOutlet private weak var textView: UITextView!
-  @IBOutlet private weak var collectionView: UICollectionView!
-  @IBOutlet private weak var entryCell: UITableViewCell!
+  @IBOutlet private var textView: UITextView!
+  @IBOutlet private var collectionView: UICollectionView!
+  @IBOutlet private var entryCell: UITableViewCell!
 
   // MARK: - Properties
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
