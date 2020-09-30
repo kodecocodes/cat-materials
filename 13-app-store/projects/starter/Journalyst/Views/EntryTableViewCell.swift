@@ -28,11 +28,50 @@
 
 import UIKit
 
-class ImageCollectionViewCell: UICollectionViewCell {
-  @IBOutlet private var imageView: UIImageView!
-  var image: UIImage? {
+class EntryTableViewCell: UITableViewCell {
+  @IBOutlet private weak var dateLabel: UILabel!
+  @IBOutlet private weak var summaryLabel: UILabel!
+  @IBOutlet private weak var timeLabel: UILabel!
+  @IBOutlet private weak var imagesImageView: UIImageView!
+  
+  lazy var dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy")
+    return formatter
+  }()
+  
+  lazy var timeFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.setLocalizedDateFormatFromTemplate("hh:mm")
+    return formatter
+  }()
+  
+  var entry: Entry? {
     didSet {
-      imageView.image = image
+      guard let entry = entry else { return }
+      dateLabel.text = dateFormatter.string(from: entry.dateCreated)
+      summaryLabel.text = entry.log
+      summaryLabel.isHidden = entry.log == nil
+      timeLabel.text = timeFormatter.string(from: entry.dateCreated)
+      imagesImageView?.isHidden = entry.images.isEmpty
+      accessoryView = entry.isFavorite ? UIImageView(image: UIImage(systemName: "star.fill")) : nil
+      #if targetEnvironment(macCatalyst)
+      summaryLabel.isHidden = true
+      #endif
     }
+  }
+  
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    #if targetEnvironment(macCatalyst)
+    setupForMac()
+    #endif
+  }
+  
+  private func setupForMac() {
+    dateLabel.textColor = .label
+    dateLabel.highlightedTextColor = .white
+    timeLabel.textColor = .secondaryLabel
+    timeLabel.highlightedTextColor = .white
   }
 }

@@ -43,6 +43,7 @@ extension NSTouchBarItem.Identifier {
 class MainTableViewController: UITableViewController {
   
   // MARK: - Properties
+  
   var dataSource: UITableViewDiffableDataSource<Int, Entry>?
   var entryTableViewController: EntryTableViewController? = nil
   let photoPicker = PhotoPicker()
@@ -71,16 +72,8 @@ class MainTableViewController: UITableViewController {
     }
     tableView.tableFooterView = UIView()
     tableView.dragDelegate = self
-
-    NotificationCenter.default.addObserver(self, selector: #selector(handleEntriesUpdate), name: .JournalEntriesUpdated, object: nil)
     
-    #if targetEnvironment(macCatalyst)
-    navigationController?.navigationBar.isHidden = true
-    #endif
-  }
-  
-  func selectEntry(at index: Int) {
-    tableView.selectRow(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .none)
+    NotificationCenter.default.addObserver(self, selector: #selector(handleEntriesUpdate), name: .JournalEntriesUpdated, object: nil)
   }
 
   override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
@@ -100,7 +93,6 @@ class MainTableViewController: UITableViewController {
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
-
   
   // MARK: - Navigation
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
@@ -113,10 +105,32 @@ class MainTableViewController: UITableViewController {
     return navigationController
   }
   
-  func showEntry(at indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath)
-    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-    performSegue(withIdentifier: "ShowEntrySegue", sender: cell)
+  @objc private func deleteSelectedEntry() {
+    guard let selectedIndex = tableView.indexPathForSelectedRow?.row else {
+      return
+    }
+    
+    DataService.shared.removeEntry(atIndex: selectedIndex)
+  }
+  
+  @objc private func favoriteSelectedEntry() {
+    guard let selectedIndex = tableView.indexPathForSelectedRow?.row else {
+      return
+    }
+    
+    let entry = DataService.shared.allEntries[selectedIndex]
+    var newEntry = entry
+    newEntry.isFavorite = !entry.isFavorite
+    DataService.shared.updateEntry(newEntry)
+  }
+  
+  @objc private func copySelectedEntry() {
+    guard let selectedIndex = tableView.indexPathForSelectedRow?.row else {
+      return
+    }
+    
+    let entry = DataService.shared.allEntries[selectedIndex]
+    UIPasteboard.general.string = entry.log
   }
 }
 
@@ -127,10 +141,6 @@ extension MainTableViewController {
     return UITableViewDiffableDataSource(tableView: tableView) { (tableView, indexPath, entry) -> EntryTableViewCell? in
       let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? EntryTableViewCell
       cell?.entry = entry
-
-      let contextInteraction = UIContextMenuInteraction(delegate: self)
-      cell?.addInteraction(contextInteraction)
-
       return cell
     }
   }
@@ -191,11 +201,6 @@ extension MainTableViewController {
     performSegue(withIdentifier: "ShowEntrySegue", sender: tableView.cellForRow(at: indexPath))
   }
 
-  func deleteCurentEntry() {
-    guard let index = indexOfCurrentEntry() else { return }
-    DataService.shared.removeEntry(atIndex: index)
-  }
-  
 }
 
 // MARK: - Table View Delegate
@@ -225,149 +230,6 @@ extension MainTableViewController: UITableViewDragDelegate {
     let dragItem = UIDragItem(itemProvider: itemProvider)
 
     return [dragItem]
-  }
-}
-
-// MARK: UIContextMenuInteractionDelegate
-extension MainTableViewController: UIContextMenuInteractionDelegate {
-
-  func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-    let locationInTableView = interaction.location(in: tableView)
-    guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
-    let entry = DataService.shared.allEntries[indexPath.row]
-    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider:  { suggestedActions -> UIMenu? in
-      return self.createContextualMenu(with: entry, at: indexPath, suggestedActions: suggestedActions)
-    })
-  }
-
-  func createContextualMenu(with entry: Entry, at indexPath: IndexPath, suggestedActions: [UIMenuElement]) -> UIMenu? {
-    var rootChildren: [UIMenuElement] = []
-
-    // New Window
-
-    let openInNewWindowAction = UIAction(title: "Open in New Window", image: UIImage(systemName: "uiwindow.split.2x1"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
-      self.createNewWindow(for: entry)
-    }
-    rootChildren.append(openInNewWindowAction)
-
-    // New Entry
-
-    let newEntryAction = UIAction(title: "New Entry", image: UIImage(systemName: "square.and.pencil"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
-      self.createEntry()
-    }
-    rootChildren.append(newEntryAction)
-
-    // Add Image
-
-    let addImageAction = UIAction(title: "Add Image", image: UIImage(systemName: "photo"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
-      self.addImage(to: entry, indexPath: indexPath)
-    }
-    rootChildren.append(addImageAction)
-
-    // Favorite
-
-    let favoriteTitle = entry.isFavorite ? "Remove from Favorites" : "Add to Favorites"
-    let favoriteImageName = entry.isFavorite ? "star.slash" : "star"
-    let favoriteAction = UIAction(title: favoriteTitle, image: UIImage(systemName: favoriteImageName), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
-      self.toggleFavorite(for: entry)
-    }
-    rootChildren.append(favoriteAction)
-
-    // Share
-
-    let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
-      self.copy(contentsOf: entry)
-    }
-
-    let moreAction = UIAction(title: "More", image: UIImage(systemName: "ellipsis"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { _ in
-      self.share(entry, at: indexPath)
-    }
-
-    let shareMenu = UIMenu(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil, options: [], children: [
-      copyAction, moreAction
-    ])
-    rootChildren.append(shareMenu)
-
-    // Suggested
-
-    if !suggestedActions.isEmpty {
-      let suggestedMenu = UIMenu(title: "Suggested", image: nil, identifier: nil, options: [], children: suggestedActions)
-      rootChildren.append(suggestedMenu)
-    }
-
-    // Delete
-
-    let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: nil, discoverabilityTitle: nil, attributes: .destructive, state: .off) { _ in
-      self.removeEntry(at: indexPath)
-    }
-    rootChildren.append(deleteAction)
-
-    let menu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: rootChildren)
-
-    return menu
-  }
-
-  func createNewWindow(for entry: Entry) {
-    UIApplication.shared.requestSceneSessionActivation(nil, userActivity: entry.openDetailUserActivity, options: .none, errorHandler: nil)
-  }
-
-  func createEntry() {
-    DataService.shared.addEntry(Entry())
-  }
-
-  func addImage(to entry: Entry, indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath)
-    photoPicker.present(in: self, sourceView: cell) { (image, _) in
-      if let image = image {
-        var newEntry = entry
-        newEntry.images.append(image)
-        DataService.shared.updateEntry(newEntry)
-      }
-    }
-  }
-
-  func toggleFavorite(for entry: Entry) {
-    var newEntry = entry
-    newEntry.isFavorite = !entry.isFavorite
-    DataService.shared.updateEntry(newEntry)
-  }
-  
-  @objc func deleteSelectedEntry() {
-    guard let selectedIndex = tableView.indexPathForSelectedRow else {
-      return
-    }
-    
-    removeEntry(at: selectedIndex)
-  }
-  
-  @objc func copySelectedEntry() {
-    guard let selectedIndex = tableView.indexPathForSelectedRow,
-      let entry = dataSource?.itemIdentifier(for: selectedIndex) else {
-      return
-    }
-    
-    copy(contentsOf: entry)
-  }
-  
-  @objc func favoriteSelectedEntry() {
-    guard let selectedIndex = tableView.indexPathForSelectedRow,
-      let entry = dataSource?.itemIdentifier(for: selectedIndex) else {
-      return
-    }
-
-    toggleFavorite(for: entry)
-  }
-
-  func removeEntry(at indexPath: IndexPath) {
-    DataService.shared.removeEntry(atIndex: indexPath.row)
-  }
-
-  func copy(contentsOf entry: Entry) {
-    UIPasteboard.general.string = entry.log
-  }
-
-  func share(_ entry: Entry, at indexPath: IndexPath) {
-    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
   }
 }
 
@@ -403,7 +265,9 @@ extension MainTableViewController: NSTouchBarDelegate {
         title: "Delete",
         target: self,
         action: #selector(deleteSelectedEntry))
+      
       let spacer = NSTouchBarItem(identifier: .fixedSpaceLarge)
+      
       let group = NSGroupTouchBarItem(
         identifier: identifier,
         items: [spacer, copy, favorite, spacer, delete])

@@ -74,13 +74,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
                                       modifierFlags: [.command, .shift],
                                       action: #selector(goToNext(sender:)))
     downKeyCommand.discoverabilityTitle = "Next Entry"
-   
-    let deleteKeyCommand = UIKeyCommand(input: "\u{8}",
-                                        modifierFlags: [],
-                                     action: #selector(removeEntry(sender:)))
-    deleteKeyCommand.discoverabilityTitle = "Delete Entry"
-
-    return [newKeyCommand, upKeyCommand, downKeyCommand, deleteKeyCommand]
+    return [newKeyCommand, upKeyCommand, downKeyCommand]
   }
   
   @objc private func addEntry(sender: UIKeyCommand) {
@@ -101,71 +95,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
   }
   
   @objc private func removeEntry(sender: UIKeyCommand) {
-    guard let navigationController = viewControllers.first as? UINavigationController,
-      let mainTableViewController = navigationController.topViewController as? MainTableViewController else { return }
-    mainTableViewController.deleteCurentEntry()
+    print("REMOVE")
   }
   
-  var mainViewController: MainTableViewController? {
-    guard let navigation = viewControllers.first as? UINavigationController else {
-      return nil
-    }
-    
-    return navigation.topViewController as? MainTableViewController
-  }
-  
-  var entryViewController: EntryTableViewController? {
-    guard let navigation = viewControllers.last as? UINavigationController else {
-      return nil
-    }
-
-    return navigation.topViewController as? EntryTableViewController
-  }
-  
-  private func title(for entry: Entry)-> String {
-    let date = EntryTableViewCell.dateFormatter.string(from: entry.dateCreated)
-    let time = EntryTableViewCell.timeFormatter.string(from: entry.dateCreated)
-    return "\(date) \(time)"
-  }
-  
-  @IBAction private func addEntry(_ sender: Any) {
-    DataService.shared.addEntry(Entry())
-  }
-  
-  @IBAction func deleteEntry(_ sender: Any) {
-    guard let selectedIndexPath = mainViewController?.tableView.indexPathForSelectedRow else {
-        return
-    }
-    
-    DataService.shared.removeEntry(atIndex: selectedIndexPath.row)
-    if DataService.shared.allEntries.isEmpty {
-      DataService.shared.addEntry(Entry())
-    }
-    mainViewController?.showEntry(at: IndexPath(row: 0, section: 0))
-  }
-  
-  @IBAction func share(_ sender: Any?) {
-    entryViewController?.share(sender)
-  }
-  
-  override func validate(_ command: UICommand) {
-    switch command.action {
-    case #selector(deleteEntry):
-      if let selectedIndexPath = mainViewController?.tableView.indexPathForSelectedRow {
-        let entry = DataService.shared.allEntries[selectedIndexPath.row]
-        command.title = "Delete \(title(for: entry))"
-      } else {
-        command.title = "Delete Entry"
-      }
-    case #selector(share):
-      if (entryViewController?.entry?.log ?? "").isEmpty {
-        command.attributes = [.disabled]
-      } else {
-        command.attributes = []
-      }
-    default:
-      break
-    }
-  }
-
 }

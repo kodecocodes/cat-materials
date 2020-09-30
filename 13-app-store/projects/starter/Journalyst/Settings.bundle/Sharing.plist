@@ -4,8 +4,6 @@
 <dict>
 	<key>StringsTable</key>
 	<string>Root</string>
-	<key>Icon</key>
-	<string>sharing</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
@@ -19,27 +17,18 @@
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
 			<string>Include Signature When Sharing</string>
-			<key>Description</key>
-			<string>Automatically include a custom signature when sharing journal entries.</string>
 			<key>Key</key>
 			<string>signature_preference</string>
 			<key>DefaultValue</key>
-			<false/>
+			<string></string>
 			<key>IsSecure</key>
 			<false/>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
 			<key>TrueConfirmationPrompt</key>
-			<dict>
-				<key>Prompt</key>
-				<string>Turning this on will share your name with the journal entry</string>
-				<key>ConfirmText</key>
-				<string>Enable</string>
-				<key>DenyText</key>
-				<string>Don&apos;t Enable</string>
-				<key>Type</key>
-				<string>PSConfirmationPrompt</string>
-				<key>Title</key>
-				<string>Confirm Share Name</string>
-			</dict>
+			<string>Turning this on will share your name with the journal entry</string>
 		</dict>
 		<dict>
 			<key>Type</key>

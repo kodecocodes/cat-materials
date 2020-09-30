@@ -17,24 +17,10 @@
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
 			<string>Show Entry With Light Background</string>
-			<key>Description</key>
-			<string>Enable to force a light background on the entry screen.</string>
 			<key>Key</key>
 			<string>entry_color_preference</string>
 			<key>DefaultValue</key>
 			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-			<key>Title</key>
-			<string>Sharing</string>
-			<key>File</key>
-			<string>Sharing</string>
 		</dict>
 	</array>
 </dict>
