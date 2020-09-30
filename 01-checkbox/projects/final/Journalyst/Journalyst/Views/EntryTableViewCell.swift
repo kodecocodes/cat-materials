@@ -49,7 +49,7 @@ class EntryTableViewCell: UITableViewCell {
     formatter.setLocalizedDateFormatFromTemplate("hh:mm")
     return formatter
   }()
-  
+
   var entry: Entry? {
     didSet {
       guard let entry = entry else { return }

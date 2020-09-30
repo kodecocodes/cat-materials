@@ -118,7 +118,7 @@ extension EntryTableViewController {
     }
     return provider
   }
-  
+
   private func reloadSnapshot(animated: Bool) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     snapshot.appendSections([0])
