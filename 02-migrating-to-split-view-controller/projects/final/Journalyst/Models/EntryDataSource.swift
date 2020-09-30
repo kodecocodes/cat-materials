@@ -32,32 +32,8 @@
 
 import UIKit
 
-class EntryTableViewCell: UITableViewCell {
-  @IBOutlet private weak var dateLabel: UILabel!
-  @IBOutlet private weak var summaryLabel: UILabel!
-  @IBOutlet private weak var timeLabel: UILabel!
-  @IBOutlet private weak var imagesImageView: UIImageView!
-
-  lazy var dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy")
-    return formatter
-  }()
-
-  lazy var timeFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.setLocalizedDateFormatFromTemplate("hh:mm")
-    return formatter
-  }()
-
-  var entry: Entry? {
-    didSet {
-      guard let entry = entry else { return }
-      dateLabel.text = dateFormatter.string(from: entry.dateCreated)
-      summaryLabel.text = entry.log
-      summaryLabel.isHidden = entry.log == nil
-      timeLabel.text = timeFormatter.string(from: entry.dateCreated)
-      imagesImageView?.isHidden = entry.images.isEmpty
-    }
+class EntryDataSource: UITableViewDiffableDataSource<Int, Entry> {
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
   }
 }
