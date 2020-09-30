@@ -100,10 +100,9 @@ class EntryTableViewController: UITableViewController {
 
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    entry?.log = textView?.text
-    if let entry = entry {
-      DataService.shared.updateEntry(entry)
-    }
+    guard let text = textView?.text, var entry = entry else { return }
+    entry.log = text
+    DataService.shared.updateEntry(entry)
   }
 
   // MARK: - Notifications
