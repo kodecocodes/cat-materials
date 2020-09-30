@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14845" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3IV-oh-ol2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3IV-oh-ol2">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14799.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17124"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="iOS 13.0 system colors" minToolsVersion="11.0"/>
     </dependencies>
     <scenes>
         <!--Journalyst-->
@@ -16,12 +16,12 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="orD-v1-DbI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="systemGroupedBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="sNF-QE-JiY">
                             <rect key="frame" x="0.0" y="162.33333206176758" width="414" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryTableViewCell" rowHeight="89" id="qOV-6T-5vu" customClass="EntryTableViewCell" customModule="Journalyst" customModuleProvider="target">
@@ -58,11 +58,11 @@
                                                                         <constraint firstAttribute="height" constant="13" id="eKG-q0-5tD"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                                    <color key="textColor" cocoaTouchSystemColor="systemGrayColor"/>
+                                                                    <color key="textColor" systemColor="systemGrayColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="4Td-9G-sUE">
-                                                                    <rect key="frame" x="36" y="1.6666666666666643" width="15" height="10.333333333333336"/>
+                                                                    <rect key="frame" x="36" y="1.6666666666666643" width="15" height="10.000000000000004"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="15" id="5HJ-B9-ldI"/>
                                                                         <constraint firstAttribute="height" constant="13" id="fA6-gi-1J9"/>
@@ -107,7 +107,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r7D-Tm-6Nt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="824.79999999999995" y="151.57421289355324"/>
+            <point key="canvasLocation" x="851" y="140"/>
         </scene>
         <!--Entry Table View Controller-->
         <scene sceneID="IGI-bx-G7e">
@@ -116,7 +116,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="cVg-b1-cFp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection headerTitle="Journalyst Entry" id="ZmG-1q-MBh">
                                 <cells>
@@ -148,16 +148,16 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Images" id="iIC-cH-xJT">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageTableViewCell" rowHeight="80" id="llc-5e-pfB">
-                                        <rect key="frame" x="20" y="424.33333206176758" width="374" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageTableViewCell" rowHeight="81" id="llc-5e-pfB">
+                                        <rect key="frame" x="20" y="424.33333206176758" width="374" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="llc-5e-pfB" id="f4M-kZ-F20">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="81"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lf5-vg-hZ2">
-                                                    <rect key="frame" x="20" y="11" width="334" height="58"/>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                                    <rect key="frame" x="20" y="11" width="334" height="59"/>
+                                                    <color key="backgroundColor" systemColor="tableCellGroupedBackgroundColor"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hHL-jP-GOh">
                                                         <size key="itemSize" width="60" height="59"/>
                                                         <size key="headerReferenceSize" width="60" height="60"/>
@@ -166,7 +166,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCollectionViewCell" id="bWV-fL-7MO" customClass="ImageCollectionViewCell" customModule="Journalyst" customModuleProvider="target">
-                                                            <rect key="frame" x="70" y="-0.66666666666666663" width="60" height="59"/>
+                                                            <rect key="frame" x="70" y="0.0" width="60" height="59"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UNZ-Bu-z2S">
                                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
@@ -176,15 +176,13 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="60" id="TQy-wI-5zj"/>
-                                                                            <constraint firstAttribute="height" constant="60" id="p2r-EQ-iai"/>
+                                                                            <constraint firstAttribute="height" constant="59" id="p2r-EQ-iai"/>
                                                                         </constraints>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstItem="cEU-kZ-yuu" firstAttribute="leading" secondItem="UNZ-Bu-z2S" secondAttribute="leading" id="bJN-hR-cGw"/>
                                                                     <constraint firstItem="cEU-kZ-yuu" firstAttribute="top" secondItem="UNZ-Bu-z2S" secondAttribute="top" id="f5o-P4-tR0"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="cEU-kZ-yuu" secondAttribute="bottom" id="mUD-6G-s13"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="cEU-kZ-yuu" secondAttribute="trailing" id="wWU-0O-UXj"/>
                                                                 </constraints>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -204,11 +202,11 @@
                                                         </collectionViewCell>
                                                     </cells>
                                                     <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="Header" id="Bcj-Ra-NCr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="58"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VKs-z7-vDH">
-                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="58"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="59"/>
                                                                 <state key="normal" image="camera.fill" catalog="system"/>
                                                                 <connections>
                                                                     <action selector="addImage:" destination="UBb-5P-Arc" eventType="touchUpInside" id="pDs-4V-OHe"/>
@@ -282,15 +280,33 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qA7-z5-4V5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="152.47376311844079"/>
+            <point key="canvasLocation" x="110" y="140"/>
         </scene>
     </scenes>
+    <color key="tintColor" name="PrimaryTint"/>
     <resources>
-        <image name="camera.fill" catalog="system" width="64" height="48"/>
-        <image name="photo" catalog="system" width="64" height="48"/>
+        <image name="camera.fill" catalog="system" width="128" height="94"/>
+        <image name="photo" catalog="system" width="128" height="93"/>
+        <namedColor name="PrimaryTint">
+            <color red="0.24313725490196078" green="0.34901960784313724" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="SecondaryTint">
             <color red="0.22400000691413879" green="0.32499998807907104" blue="0.60000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tableCellGroupedBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
-    <color key="tintColor" name="PrimaryTint"/>
 </document>
