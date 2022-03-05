@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -57,8 +57,10 @@ class EntryTableViewController: UITableViewController {
     self.dataSource = dataSource
     reloadSnapshot(animated: false)
     validateState()
+
     let interaction = UIDropInteraction(delegate: self)
     textView.interactions.append(interaction)
+
     collectionView.dropDelegate = self
     collectionView.dragDelegate = self
   }
@@ -214,8 +216,7 @@ extension EntryTableViewController: UICollectionViewDropDelegate {
     session.canLoadObjects(ofClass: UIImage.self)
   }
 
-  func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?)
-    -> UICollectionViewDropProposal {
+  func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
     if session.localDragSession != nil {
       return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     } else {
@@ -225,14 +226,16 @@ extension EntryTableViewController: UICollectionViewDropDelegate {
 
   func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
     let destinationIndex = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+
     if coordinator.session.localDragSession != nil {
       for item in coordinator.items {
         guard let sourceIndex = item.sourceIndexPath else {
-          return
+          continue
         }
         self.entry?.images.remove(at: sourceIndex.item)
       }
     }
+
     coordinator.session.loadObjects(ofClass: UIImage.self) { [weak self] imageItems in
       guard let self = self else { return }
       if let images = imageItems as? [UIImage] {
