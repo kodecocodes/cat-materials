@@ -148,7 +148,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D2A5F2121F4A9144005CD714 /* Build configuration list for PBXNativeTarget "Journalyst" */;
 			buildPhases = (
-				F5FC4C282505926900F2FEE7 /* SwiftLint */,
+				F5FC4C292505928600F2FEE7 /* ShellScript */,
 				D2A5F1FC1F4A9144005CD714 /* Sources */,
 				D2A5F1FD1F4A9144005CD714 /* Frameworks */,
 				D2A5F1FE1F4A9144005CD714 /* Resources */,
@@ -211,7 +211,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F5FC4C282505926900F2FEE7 /* SwiftLint */ = {
+		F5FC4C292505928600F2FEE7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -220,7 +220,6 @@
 			);
 			inputPaths = (
 			);
-			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -393,7 +392,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -416,7 +415,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_VERSION = 5.0;

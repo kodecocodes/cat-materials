@@ -44,9 +44,9 @@ class PhotoPicker: NSObject {
 
   func present(
     in viewController: UIViewController,
-    title: String?  = NSLocalizedString("Add Photo", comment: ""),
-    message: String?  = nil,
-    sourceView: UIView?  = nil,
+    title: String? = NSLocalizedString("Add Photo", comment: ""),
+    message: String? = nil,
+    sourceView: UIView? = nil,
     completion: @escaping PhotoCompletion
   ) {
     self.completion = completion
@@ -57,12 +57,16 @@ class PhotoPicker: NSObject {
         self.presentCamera(in: viewController)
       })
     }
-    alert.addAction(UIAlertAction(title: NSLocalizedString("Photo Library", comment: ""), style: .default) { _ in
-      self.presentPhotoLibrary(in: viewController)
-    })
+    alert.addAction(
+      UIAlertAction(
+        title: NSLocalizedString("Photo Library", comment: ""),
+        style: .default) { _ in
+        self.presentPhotoLibrary(in: viewController)
+      })
     alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
 
-    if let view = sourceView,
+    if
+      let view = sourceView,
       let popoverController = alert.popoverPresentationController {
       popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
       popoverController.sourceView = view

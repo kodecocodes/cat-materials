@@ -75,11 +75,13 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
       modifierFlags: .control,
       action: #selector(addEntry(sender:)))
     newKeyCommand.discoverabilityTitle = "Add Entry"
+
     let upKeyCommand = UIKeyCommand(
       input: "[",
       modifierFlags: [.command, .shift],
       action: #selector(goToPrevious(sender:)))
     upKeyCommand.discoverabilityTitle = "Previous Entry"
+
     let downKeyCommand = UIKeyCommand(
       input: "]",
       modifierFlags: [.command, .shift],

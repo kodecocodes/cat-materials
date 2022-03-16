@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I9n-eb-4DL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I9n-eb-4DL">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17124"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
@@ -19,13 +20,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="sNF-QE-JiY">
-                            <rect key="frame" x="0.0" y="162.33333206176758" width="414" height="0.0"/>
+                            <rect key="frame" x="0.0" y="176" width="414" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryTableViewCell" rowHeight="89" id="qOV-6T-5vu" customClass="EntryTableViewCell" customModule="Journalyst" customModuleProvider="target">
-                                <rect key="frame" x="20" y="55.333332061767578" width="374" height="89"/>
+                                <rect key="frame" x="20" y="49" width="374" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qOV-6T-5vu" id="kaT-Gy-ehX">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="89"/>
@@ -35,31 +36,31 @@
                                             <rect key="frame" x="20" y="11" width="334" height="67"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMJ-mJ-MdE">
-                                                    <rect key="frame" x="0.0" y="0.0" width="334" height="20.333333333333332"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="334" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" name="SecondaryTint"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary of entry" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kIm-PA-91x">
-                                                    <rect key="frame" x="0.0" y="28.333333333333336" width="334" height="16.333333333333336"/>
+                                                    <rect key="frame" x="0.0" y="24.999999999999996" width="334" height="14.333333333333332"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="os2-Wl-x4l">
-                                                    <rect key="frame" x="0.0" y="52.666666666666664" width="334" height="14.333333333333336"/>
+                                                    <rect key="frame" x="0.0" y="47.333333333333336" width="334" height="19.666666666666664"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XmT-FI-Xrk">
-                                                            <rect key="frame" x="0.0" y="0.0" width="51" height="14.333333333333334"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="49" height="19.666666666666668"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9j6-IL-Kl2">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="28" height="14.333333333333334"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="26" height="19.666666666666668"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                                     <color key="textColor" systemColor="systemGrayColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="4Td-9G-sUE">
-                                                                    <rect key="frame" x="36" y="1.6666666666666643" width="15" height="11.333333333333336"/>
+                                                                    <rect key="frame" x="34" y="1.6666666666666643" width="15" height="16.666666666666671"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="15" id="5HJ-B9-ldI"/>
                                                                     </constraints>
@@ -117,7 +118,7 @@
                             <tableViewSection headerTitle="Journalyst Entry" id="ZmG-1q-MBh">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LogTableViewCell" rowHeight="313" id="dkR-fH-1nh">
-                                        <rect key="frame" x="20" y="55.333332061767578" width="374" height="313"/>
+                                        <rect key="frame" x="20" y="49" width="374" height="313"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dkR-fH-1nh" id="lZK-7K-3tr">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="313"/>
@@ -147,7 +148,7 @@
                             <tableViewSection headerTitle="Images" id="iIC-cH-xJT">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageTableViewCell" rowHeight="81" id="llc-5e-pfB">
-                                        <rect key="frame" x="20" y="424.33333206176758" width="374" height="81"/>
+                                        <rect key="frame" x="20" y="411.66666603088379" width="374" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="llc-5e-pfB" id="f4M-kZ-F20">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="81"/>
@@ -300,28 +301,28 @@
             <point key="canvasLocation" x="-230" y="102"/>
         </scene>
         <!--Main Menu-->
-        <scene sceneID="x2n-6Z-J9i">
+        <scene sceneID="v8R-PV-oYP">
             <objects>
-                <menu isSystemItem="YES" title="Main Menu" identifier="com.apple.menu.root" id="ewk-aM-TBU" sceneMemberID="viewController">
+                <menu isSystemItem="YES" title="Main Menu" identifier="com.apple.menu.root" id="9zr-Oh-oRg" sceneMemberID="viewController">
                     <children>
-                        <menu isSystemItem="YES" title="File" identifier="com.apple.menu.file" id="0m3-ko-bTQ">
+                        <menu isSystemItem="YES" title="File" identifier="com.apple.menu.file" id="Gd6-Fl-GP3">
                             <children>
-                                <menu title="Inline Menu" id="wjf-kt-OPE">
+                                <menu title="Inline Menu" id="zqa-Dh-NVW">
                                     <menuOptions key="menuOptions" displayInline="YES"/>
                                     <children>
-                                        <command title="New Entry" input="n" id="Vy9-p1-cTj">
+                                        <command title="New Entry" input="n" id="hgA-7b-NXg">
                                             <keyModifierFlags key="modifierFlags" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="addEntryWithSender:" destination="qNQ-nc-6h4" id="pcm-6N-OlE"/>
+                                                <action selector="addEntryWithSender:" destination="2ZY-s2-d2W" id="cpY-LL-omt"/>
                                             </connections>
                                         </command>
-                                        <command title="Delete Entry" id="wWB-Fd-wvT">
+                                        <command title="Delete Entry" id="RPb-QZ-ra9">
                                             <string key="input" base64-UTF8="YES">
 CA
 </string>
                                             <keyModifierFlags key="modifierFlags" shift="YES" command="YES"/>
                                             <connections>
-                                                <action selector="removeEntryWithSender:" destination="qNQ-nc-6h4" id="BTh-bt-WG6"/>
+                                                <action selector="removeEntryWithSender:" destination="2ZY-s2-d2W" id="ZIg-E5-QaV"/>
                                             </connections>
                                         </command>
                                     </children>
@@ -333,9 +334,9 @@ CA
                         <menuDeletion anchor="com.apple.menu.format"/>
                     </systemMenuChildDeletions>
                 </menu>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qNQ-nc-6h4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ZY-s2-d2W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2158" y="345"/>
+            <point key="canvasLocation" x="-2283" y="165"/>
         </scene>
         <!--Root Split View Controller-->
         <scene sceneID="ozZ-oo-MFS">
@@ -352,12 +353,12 @@ CA
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="LRu-gI-zz3"/>
+        <segue reference="xv8-Jc-nAm"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="PrimaryTint"/>
     <resources>
-        <image name="camera.fill" catalog="system" width="128" height="94"/>
-        <image name="photo" catalog="system" width="128" height="93"/>
+        <image name="camera.fill" catalog="system" width="32" height="32"/>
+        <image name="photo" catalog="system" width="32" height="32"/>
         <namedColor name="PrimaryTint">
             <color red="0.24313725490196078" green="0.34901960784313724" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -33,7 +33,6 @@
 import UIKit
 import AVFoundation
 
-// swiftlint:disable file_length
 class EntryTableViewController: UITableViewController {
   let colorPreference = "entry_color_preference"
   let namePreference = "name_preference"
@@ -149,6 +148,11 @@ class EntryTableViewController: UITableViewController {
   }
 
   // MARK: - Actions
+  @IBAction func share(_ sender: Any?) {
+    guard let textToShare = textView.text, !textToShare.isEmpty else { return }
+    presentShare(text: textToShare, images: entry?.images, sourceBarItem: sender as? UIBarButtonItem)
+  }
+
   override func validate(_ command: UICommand) {
     switch command.action {
     case #selector(share):
@@ -160,11 +164,6 @@ class EntryTableViewController: UITableViewController {
     default:
       break
     }
-  }
-
-  @IBAction func share(_ sender: Any?) {
-    guard let textToShare = textView.text, !textToShare.isEmpty else { return }
-    presentShare(text: textToShare, images: entry?.images, sourceBarItem: sender as? UIBarButtonItem)
   }
 
   @IBAction private func addImage(_ sender: Any?) {
@@ -234,10 +233,9 @@ extension EntryTableViewController {
     let reuseIdentifier = "ImageCollectionViewCell"
     // swiftlint:disable:next line_length
     return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
-      let cell =
-        collectionView.dequeueReusableCell(
-          withReuseIdentifier: reuseIdentifier,
-          for: indexPath) as? ImageCollectionViewCell
+      let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: reuseIdentifier,
+        for: indexPath) as? ImageCollectionViewCell
       cell?.image = image
       return cell
     }
@@ -404,4 +402,3 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
 
 extension EntryTableViewController: UIGestureRecognizerDelegate {
 }
-// swiftlint:enable file_length

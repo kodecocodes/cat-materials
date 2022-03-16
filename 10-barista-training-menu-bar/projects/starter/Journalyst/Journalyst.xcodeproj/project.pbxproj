@@ -392,7 +392,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -415,7 +415,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_VERSION = 5.0;
