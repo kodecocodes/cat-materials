@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +66,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
 
   // MARK: - Keyboard Commands
   override var canBecomeFirstResponder: Bool {
-    return true
+    true
   }
 
   override var keyCommands: [UIKeyCommand]? {

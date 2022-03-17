@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ class DataService {
   }
 
   func entry(forID entryID: String) -> Entry? {
-    return entries.first { $0.id == entryID }
+    entries.first { $0.id == entryID }
   }
 
   func addEntry(_ entry: Entry) {

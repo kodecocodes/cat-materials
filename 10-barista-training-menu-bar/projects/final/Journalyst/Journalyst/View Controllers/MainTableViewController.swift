@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ class MainTableViewController: UITableViewController {
   }
 
   override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
-    return IndexPath(row: 0, section: 0)
+    IndexPath(row: 0, section: 0)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -129,7 +129,7 @@ extension MainTableViewController {
   }
 
   override var canBecomeFirstResponder: Bool {
-    return false
+    false
   }
 
   override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
@@ -206,7 +206,7 @@ extension MainTableViewController {
 // MARK: - Table View Delegate
 extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-    return .delete
+    .delete
   }
 
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -380,6 +380,9 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
   }
 
   func share(_ entry: Entry, at indexPath: IndexPath) {
-    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
+    presentShare(
+      text: entry.log,
+      images: entry.images,
+      sourceView: tableView.cellForRow(at: indexPath))
   }
 }
