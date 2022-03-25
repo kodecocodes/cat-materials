@@ -33,14 +33,13 @@
 import UIKit
 
 #if targetEnvironment(macCatalyst)
-extension NSTouchBar.CustomizationIdentifier {
-  static let journalyst = NSTouchBar.CustomizationIdentifier(
-    "com.raywenderlich.journalyst.main")
+extension NSTouchBarItem.Identifier {
+  static let newEntry = NSTouchBarItem.Identifier("com.yourcompany.Journalyst.addEntry")
+  static let entryOptions = NSTouchBarItem.Identifier("com.yourcompany.journalyst.entryOptions")
 }
 
-extension NSTouchBarItem.Identifier {
-  static let newEntry = NSTouchBarItem.Identifier("com.raywenderlich.Journalyst.addEntry")
-  static let entryOptions = NSTouchBarItem.Identifier("com.raywenderlich.journalyst.entryOptions")
+extension NSTouchBar.CustomizationIdentifier {
+  static let journalyst = NSTouchBar.CustomizationIdentifier("com.yourcompany.journalyst.main")
 }
 #endif
 
@@ -55,6 +54,18 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
       splitViewController.displayModeButtonItem
     splitViewController.primaryBackgroundStyle = .sidebar
   }
+
+  #if targetEnvironment(macCatalyst)
+  override func makeTouchBar() -> NSTouchBar? {
+    let bar = NSTouchBar()
+    bar.delegate = self
+    bar.defaultItemIdentifiers = [.newEntry, .entryOptions]
+    bar.principalItemIdentifier = .entryOptions
+    bar.customizationIdentifier = .journalyst
+    bar.customizationAllowedItemIdentifiers = [.newEntry, .entryOptions]
+    return bar
+  }
+  #endif
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -143,18 +154,6 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
       break
     }
   }
-
-  #if targetEnvironment(macCatalyst)
-  override func makeTouchBar() -> NSTouchBar? {
-    let bar = NSTouchBar()
-    bar.delegate = self
-    bar.defaultItemIdentifiers = [.newEntry, .entryOptions]
-    bar.principalItemIdentifier = .entryOptions
-    bar.customizationIdentifier = .journalyst
-    bar.customizationAllowedItemIdentifiers = [.newEntry, .entryOptions]
-    return bar
-  }
-  #endif
 }
 
 #if targetEnvironment(macCatalyst)
@@ -185,9 +184,7 @@ extension RootSplitViewController: NSTouchBarDelegate {
         title: "Delete",
         target: self,
         action: #selector(removeEntry))
-
       let spacer = NSTouchBarItem(identifier: .fixedSpaceLarge)
-
       let group = NSGroupTouchBarItem(
         identifier: identifier,
         items: [spacer, next, previous, spacer, delete])
