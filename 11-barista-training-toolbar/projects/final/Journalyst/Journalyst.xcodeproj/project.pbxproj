@@ -20,7 +20,6 @@
 		A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DA22D559DB000531FB /* Entry.swift */; };
 		A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */; };
 		A1A5F30422D6A156000531FB /* EntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F30322D6A156000531FB /* EntryTableViewController.swift */; };
-		A1C3885C27F0C13A00EF68FA /* UIBezierPath+Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C3885B27F0C13A00EF68FA /* UIBezierPath+Pointer.swift */; };
 		D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F2071F4A9144005CD714 /* Main.storyboard */; };
 		D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F20A1F4A9144005CD714 /* Assets.xcassets */; };
 		D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */; };
@@ -41,7 +40,6 @@
 		A1A5F2DA22D559DB000531FB /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		A1A5F2DD22D55B52000531FB /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		A1A5F30322D6A156000531FB /* EntryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewController.swift; sourceTree = "<group>"; };
-		A1C3885B27F0C13A00EF68FA /* UIBezierPath+Pointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Pointer.swift"; sourceTree = "<group>"; };
 		D2A5F2001F4A9144005CD714 /* Journalyst.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journalyst.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2A5F2081F4A9144005CD714 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D2A5F20A1F4A9144005CD714 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -71,7 +69,6 @@
 		A187384924F03B44007E405F /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				A1C3885B27F0C13A00EF68FA /* UIBezierPath+Pointer.swift */,
 				A187384A24F03B58007E405F /* PhotoPicker.swift */,
 				A187384C24F03B64007E405F /* UIViewController+Sharing.swift */,
 			);
@@ -239,7 +236,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A107B01D22D7F33400DBF970 /* ImageCollectionViewCell.swift in Sources */,
-				A1C3885C27F0C13A00EF68FA /* UIBezierPath+Pointer.swift in Sources */,
 				A187384B24F03B58007E405F /* PhotoPicker.swift in Sources */,
 				A14EBFF424EA244900CF1646 /* EntryDataSource.swift in Sources */,
 				A17E672122DD41F600370823 /* SceneDelegate.swift in Sources */,
@@ -393,7 +389,7 @@
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -416,7 +412,7 @@
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

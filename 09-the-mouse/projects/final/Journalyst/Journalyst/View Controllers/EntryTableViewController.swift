@@ -249,7 +249,11 @@ extension EntryTableViewController {
         button.pointerStyleProvider = { button, effect, _ in
           var rect = button.bounds
           rect = button.convert(rect, to: effect.preview.target.container)
-          return UIPointerStyle(effect: effect, shape: .roundedRect(rect))
+          let style = UIPointerStyle(effect: effect, shape: .roundedRect(rect))
+          style.accessories = [
+            .init(.path(.plusPath), position: .bottomRight)
+          ]
+          return style
         }
       }
       return reusableView
