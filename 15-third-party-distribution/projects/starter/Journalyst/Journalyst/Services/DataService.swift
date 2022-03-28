@@ -60,7 +60,7 @@ class DataService {
   }
 
   func updateEntry(_ entry: Entry) {
-    var hasChanges: Bool = false
+    var hasChanges = false
     entries = entries.map { ent -> Entry in
       if ent.id == entry.id && ent != entry {
         hasChanges = true
