@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,8 @@
 import Foundation
 
 extension Notification.Name {
-  static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
-  static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
+  static var JournalEntriesUpdated = Notification.Name("com.yourcompany.Journalyst.EntriesUpdated")
+  static var JournalEntryUpdated = Notification.Name("com.yourcompany.Journalyst.EntryUpdated")
 }
 
 enum DataNotificationKeys {
