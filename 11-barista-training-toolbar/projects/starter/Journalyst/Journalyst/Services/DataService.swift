@@ -33,9 +33,9 @@
 import Foundation
 
 extension Notification.Name {
-  static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
+  static var JournalEntriesUpdated = Notification.Name("com.yourcompany.Journalyst.EntriesUpdated")
   static let ActivityItemsConfigurationDidChange = Notification.Name("activityItemsConfigurationDidChange")
-  static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
+  static var JournalEntryUpdated = Notification.Name("com.yourcompany.Journalyst.EntryUpdated")
 }
 
 enum DataNotificationKeys {
