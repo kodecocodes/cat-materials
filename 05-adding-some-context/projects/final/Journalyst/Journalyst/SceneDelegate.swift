@@ -35,7 +35,11 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
 
-  func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
     if let userActivity = connectionOptions.userActivities.first {
       if !configure(window: window, with: userActivity) {
         print("Failed to restore from \(userActivity)")
@@ -43,7 +47,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
   }
 
-  func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
+  func configure(
+    window: UIWindow?,
+    with activity: NSUserActivity
+  ) -> Bool {
     guard activity.activityType == Entry.OpenDetailActivityType,
       let entryID = activity.userInfo?[Entry.OpenDetailIdKey] as? String,
       let entry = DataService.shared.entry(forID: entryID),

@@ -40,7 +40,11 @@ class RootSplitViewController: UISplitViewController {
     splitViewController.primaryBackgroundStyle = .sidebar
   }
 
-  func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+  func splitViewController(
+    _ splitViewController: UISplitViewController,
+    collapseSecondary secondaryViewController: UIViewController,
+    onto primaryViewController: UIViewController
+  ) -> Bool {
     guard let secondaryNavigationController = secondaryViewController as? UINavigationController,
       let entryTableViewController = secondaryNavigationController.topViewController as? EntryTableViewController else {
         return false

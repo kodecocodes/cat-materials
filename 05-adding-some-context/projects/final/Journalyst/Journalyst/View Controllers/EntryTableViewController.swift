@@ -88,7 +88,9 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard !textView.text.isEmpty else { return }
-    let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
+    let activityController = UIActivityViewController(
+      activityItems: [textView.text ?? ""],
+      applicationActivities: nil)
     if let popoverController = activityController.popoverPresentationController {
       popoverController.barButtonItem = navigationItem.rightBarButtonItem
     }
