@@ -71,7 +71,11 @@ class MainTableViewController: UITableViewController {
   }
 
   // MARK: - Navigation
-  @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
+  @IBSegueAction func entryViewController(
+    coder: NSCoder,
+    sender: Any?,
+    segueIdentifier: String?
+  ) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
@@ -213,7 +217,10 @@ extension MainTableViewController: UITableViewDragDelegate {
 
 // MARK: UIContextMenuInteractionDelegate
 extension MainTableViewController: UIContextMenuInteractionDelegate {
-  func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+  func contextMenuInteraction(
+    _ interaction: UIContextMenuInteraction,
+    configurationForMenuAtLocation location: CGPoint
+  ) -> UIContextMenuConfiguration? {
     let locationInTableView = interaction.location(in: tableView)
     guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
     let entry = DataService.shared.allEntries[indexPath.row]
