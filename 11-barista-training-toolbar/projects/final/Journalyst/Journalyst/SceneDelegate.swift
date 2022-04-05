@@ -41,7 +41,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   #endif
   private var activityItemsConfigurationSubscriber: AnyCancellable?
 
-  func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
     if let userActivity = connectionOptions.userActivities.first ?? session.stateRestorationActivity {
       if !configure(window: window, with: userActivity) {
         print("Failed to restore from \(userActivity)")
@@ -94,13 +98,15 @@ extension NSToolbarItem.Identifier {
 }
 
 extension SceneDelegate: NSToolbarDelegate {
-  func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar)
-  -> [NSToolbarItem.Identifier] {
+  func toolbarAllowedItemIdentifiers(
+    _ toolbar: NSToolbar
+  ) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
   }
 
-  func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar)
-  -> [NSToolbarItem.Identifier] {
+  func toolbarDefaultItemIdentifiers(
+    _ toolbar: NSToolbar
+  ) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .shareEntry]
   }
 

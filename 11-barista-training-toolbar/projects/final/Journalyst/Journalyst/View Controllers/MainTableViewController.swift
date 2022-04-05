@@ -77,7 +77,11 @@ class MainTableViewController: UITableViewController {
   }
 
   // MARK: - Navigation
-  @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
+  @IBSegueAction func entryViewController(
+    coder: NSCoder,
+    sender: Any?,
+    segueIdentifier: String?
+  ) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
@@ -210,11 +214,17 @@ extension MainTableViewController {
 
 // MARK: - Table View Delegate
 extension MainTableViewController {
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+  override func tableView(
+    _ tableView: UITableView,
+    editingStyleForRowAt indexPath: IndexPath
+  ) -> UITableViewCell.EditingStyle {
     return .delete
   }
 
-  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+  override func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)
     }
@@ -225,7 +235,11 @@ extension MainTableViewController {
 
 // MARK: UITableViewDragDelegate
 extension MainTableViewController: UITableViewDragDelegate {
-  func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+  func tableView(
+    _ tableView: UITableView,
+    itemsForBeginning session: UIDragSession,
+    at indexPath: IndexPath
+  ) -> [UIDragItem] {
     let entry = DataService.shared.allEntries[indexPath.row]
     let userActivity = entry.openDetailUserActivity
     let itemProvider = NSItemProvider()
@@ -240,7 +254,10 @@ extension MainTableViewController: UITableViewDragDelegate {
 
 // MARK: UIContextMenuInteractionDelegate
 extension MainTableViewController: UIContextMenuInteractionDelegate {
-  func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+  func contextMenuInteraction(
+    _ interaction: UIContextMenuInteraction,
+    configurationForMenuAtLocation location: CGPoint
+  ) -> UIContextMenuConfiguration? {
     let locationInTableView = interaction.location(in: tableView)
     guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
     let entry = DataService.shared.allEntries[indexPath.row]
