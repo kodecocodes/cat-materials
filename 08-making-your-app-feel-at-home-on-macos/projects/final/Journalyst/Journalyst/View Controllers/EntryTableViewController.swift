@@ -125,7 +125,10 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard let textToShare = textView.text, !textToShare.isEmpty else { return }
-    presentShare(text: textToShare, images: entry?.images, sourceBarItem: navigationItem.rightBarButtonItem)
+    presentShare(
+      text: textToShare,
+      images: entry?.images,
+      sourceBarItem: navigationItem.rightBarButtonItem)
   }
 
   @IBAction private func addImage(_ sender: Any?) {
@@ -212,7 +215,10 @@ extension EntryTableViewController {
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {

@@ -33,7 +33,12 @@
 import UIKit
 
 extension UIViewController {
-  func presentShare(text: String?, images: [UIImage]?, sourceView: UIView? = nil, sourceBarItem: UIBarButtonItem? = nil) {
+  func presentShare(
+    text: String?,
+    images: [UIImage]?,
+    sourceView: UIView? = nil,
+    sourceBarItem: UIBarButtonItem? = nil
+  ) {
     var items: [Any] = []
     var textToShare = text ?? ""
 

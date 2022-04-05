@@ -47,7 +47,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     _ splitViewController: UISplitViewController,
     collapseSecondary secondaryViewController: UIViewController,
     onto primaryViewController: UIViewController
-    ) -> Bool {
+  ) -> Bool {
     guard let secondaryNavigationController = secondaryViewController as? UINavigationController,
       let entryTableViewController = secondaryNavigationController.topViewController as? EntryTableViewController else {
         return false

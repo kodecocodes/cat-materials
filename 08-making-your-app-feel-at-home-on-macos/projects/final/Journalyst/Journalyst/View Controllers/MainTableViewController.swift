@@ -73,7 +73,11 @@ class MainTableViewController: UITableViewController {
   }
 
   // MARK: - Navigation
-  @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
+  @IBSegueAction func entryViewController(
+    coder: NSCoder,
+    sender: Any?,
+    segueIdentifier: String?
+  ) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
@@ -164,7 +168,10 @@ extension MainTableViewController {
 
 // MARK: - Table View Delegate
 extension MainTableViewController {
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+  override func tableView(
+    _ tableView: UITableView,
+    editingStyleForRowAt indexPath: IndexPath
+  ) -> UITableViewCell.EditingStyle {
     return .delete
   }
 

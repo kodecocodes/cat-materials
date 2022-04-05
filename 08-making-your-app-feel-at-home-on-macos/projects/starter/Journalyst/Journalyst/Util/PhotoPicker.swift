@@ -50,7 +50,7 @@ class PhotoPicker: NSObject {
     message: String?  = nil,
     sourceView: UIView?  = nil,
     completion: @escaping PhotoCompletion
-    ) {
+  ) {
     self.completion = completion
 
     let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
@@ -86,7 +86,10 @@ private extension PhotoPicker {
 }
 
 extension PhotoPicker: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     if let image = info[.editedImage] as? UIImage {
       self.completion?(image, nil)
     }
