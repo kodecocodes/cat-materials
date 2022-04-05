@@ -84,7 +84,10 @@ private extension PhotoPicker {
 }
 
 extension PhotoPicker: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     if let image = info[.editedImage] as? UIImage {
       self.completion?(image, nil)
     }

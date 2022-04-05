@@ -39,7 +39,11 @@ extension Notification.Name {
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
 
-  func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
     if let scene = scene as? UIWindowScene {
       scene.sizeRestrictions?.minimumSize = CGSize(width: 768.0, height: 768.0)
       scene.sizeRestrictions?.maximumSize = CGSize(
@@ -53,9 +57,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
   }
 
-  func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
+  func windowScene(
+    _ windowScene: UIWindowScene,
+    didUpdate previousCoordinateSpace: UICoordinateSpace,
+    interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation,
+    traitCollection previousTraitCollection: UITraitCollection
+  ) {
     NotificationCenter.default.post(name: .WindowSizeChanged, object: nil)
   }
+
   func configure(window: UIWindow?, with activity: NSUserActivity) -> Bool {
     guard activity.activityType == Entry.OpenDetailActivityType,
       let entryID = activity.userInfo?[Entry.OpenDetailIdKey] as? String,

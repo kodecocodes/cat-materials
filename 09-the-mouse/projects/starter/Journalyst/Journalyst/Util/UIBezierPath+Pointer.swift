@@ -45,8 +45,11 @@ extension UIBezierPath {
     let centerOne = CGPoint(x: offsetX, y: size + offsetY)
     plusPath
       .addArc(
-        withCenter: centerOne, radius: lineWidth, startAngle: fullPi, endAngle: 0, clockwise: false
-      )
+        withCenter: centerOne,
+        radius: lineWidth,
+        startAngle: fullPi,
+        endAngle: 0,
+        clockwise: false)
 
     plusPath.addLine(to: CGPoint(x: lineWidth + offsetX, y: lineWidth + offsetY))
     plusPath.addLine(to: CGPoint(x: size + offsetX, y: lineWidth + offsetY))
@@ -54,8 +57,11 @@ extension UIBezierPath {
     let centerTwo = CGPoint(x: size + offsetX, y: 0 + offsetY)
     plusPath
       .addArc(
-        withCenter: centerTwo, radius: lineWidth, startAngle: halfPi, endAngle: fullPi * lineWidth, clockwise: false
-      )
+        withCenter: centerTwo,
+        radius: lineWidth,
+        startAngle: halfPi,
+        endAngle: fullPi * lineWidth,
+        clockwise: false)
 
     plusPath.addLine(to: CGPoint(x: lineWidth + offsetX, y: -lineWidth + offsetY))
     plusPath.addLine(to: CGPoint(x: lineWidth + offsetX, y: -size + offsetY))
@@ -63,16 +69,22 @@ extension UIBezierPath {
     let centerThree = CGPoint(x: offsetX, y: -size + offsetY)
     plusPath
       .addArc(
-        withCenter: centerThree, radius: lineWidth, startAngle: 0, endAngle: fullPi, clockwise: false
-      )
+        withCenter: centerThree,
+        radius: lineWidth,
+        startAngle: 0,
+        endAngle: fullPi,
+        clockwise: false)
     plusPath.addLine(to: CGPoint(x: -lineWidth + offsetX, y: -lineWidth + offsetY))
     plusPath.addLine(to: CGPoint(x: -size + offsetX, y: -lineWidth + offsetY))
 
     let centerFour = CGPoint(x: -size + offsetX, y: 0 + offsetY)
     plusPath
       .addArc(
-        withCenter: centerFour, radius: lineWidth, startAngle: fullPi * lineWidth, endAngle: halfPi, clockwise: false
-      )
+        withCenter: centerFour,
+        radius: lineWidth,
+        startAngle: fullPi * lineWidth,
+        endAngle: halfPi,
+        clockwise: false)
 
     plusPath.close()
     return plusPath

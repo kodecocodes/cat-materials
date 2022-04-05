@@ -150,7 +150,10 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Actions
   @IBAction func share(_ sender: Any?) {
     guard let textToShare = textView.text, !textToShare.isEmpty else { return }
-    presentShare(text: textToShare, images: entry?.images, sourceBarItem: sender as? UIBarButtonItem)
+    presentShare(
+      text: textToShare,
+      images: entry?.images,
+      sourceBarItem: sender as? UIBarButtonItem)
   }
 
   @IBAction private func addImage(_ sender: Any?) {
