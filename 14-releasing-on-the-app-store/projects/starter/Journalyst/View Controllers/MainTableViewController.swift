@@ -1,4 +1,4 @@
-/// Copyright (c) 2019 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -6,10 +6,10 @@
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-/// 
+///
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-/// 
+///
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,11 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-/// 
+///
+/// This project and source code may use libraries or frameworks that are
+/// released under various Open-Source licenses. Use of those libraries and
+/// frameworks are governed by their own individual licenses.
+///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,12 +35,12 @@ import UIKit
 #if targetEnvironment(macCatalyst)
 extension NSTouchBar.CustomizationIdentifier {
   static let journalyst = NSTouchBar.CustomizationIdentifier(
-    "com.raywenderlich.journalyst.main")
+    "com.yourcompany.journalyst.main")
 }
 
 extension NSTouchBarItem.Identifier {
-  static let newEntry = NSTouchBarItem.Identifier("com.raywenderlich.Journalyst.addEntry")
-  static let entryOptions = NSTouchBarItem.Identifier("com.raywenderlich.journalyst.entryOptions")
+  static let newEntry = NSTouchBarItem.Identifier("com.yourcompany.Journalyst.addEntry")
+  static let entryOptions = NSTouchBarItem.Identifier("com.yourcompany.journalyst.entryOptions")
 }
 #endif
 
@@ -95,7 +99,11 @@ class MainTableViewController: UITableViewController {
   }
   
   // MARK: - Navigation
-  @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
+  @IBSegueAction func entryViewController(
+    coder: NSCoder,
+    sender: Any?,
+    segueIdentifier: String?
+  ) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
@@ -205,11 +213,17 @@ extension MainTableViewController {
 
 // MARK: - Table View Delegate
 extension MainTableViewController {
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+  override func tableView(
+    _ tableView: UITableView,
+    editingStyleForRowAt indexPath: IndexPath
+  ) -> UITableViewCell.EditingStyle {
     return .delete
   }
   
-  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+  override func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
       DataService.shared.removeEntry(atIndex: indexPath.row)
     }
@@ -221,7 +235,11 @@ extension MainTableViewController {
 // MARK: UITableViewDragDelegate
 extension MainTableViewController: UITableViewDragDelegate {
 
-  func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+  func tableView(
+    _ tableView: UITableView,
+    itemsForBeginning session: UIDragSession,
+    at indexPath: IndexPath
+  ) -> [UIDragItem] {
     let entry = DataService.shared.allEntries[indexPath.row]
     let userActivity = entry.openDetailUserActivity
     let itemProvider = NSItemProvider()
@@ -237,9 +255,8 @@ extension MainTableViewController: UITableViewDragDelegate {
 extension MainTableViewController: NSTouchBarDelegate {
   func touchBar(
     _ touchBar: NSTouchBar,
-    makeItemForIdentifier identifier: NSTouchBarItem.Identifier)
-    -> NSTouchBarItem? {
-    
+    makeItemForIdentifier identifier: NSTouchBarItem.Identifier
+  ) -> NSTouchBarItem? {
     switch identifier {
     case .newEntry:
       let button = NSButtonTouchBarItem(
