@@ -28,7 +28,7 @@
 	<string>Allow Journalyst to take pictures for your entries</string>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>com.raywenderlich.EntryOpenDetailActivityType</string>
+		<string>com.yourcompany.EntryOpenDetailActivityType</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +35,12 @@ import UIKit
 #if targetEnvironment(macCatalyst)
 extension NSTouchBar.CustomizationIdentifier {
   static let journalyst = NSTouchBar.CustomizationIdentifier(
-    "com.raywenderlich.journalyst.main")
+    "com.yourcompany.journalyst.main")
 }
 
 extension NSTouchBarItem.Identifier {
-  static let newEntry = NSTouchBarItem.Identifier("com.raywenderlich.Journalyst.addEntry")
-  static let entryOptions = NSTouchBarItem.Identifier("com.raywenderlich.journalyst.entryOptions")
+  static let newEntry = NSTouchBarItem.Identifier("com.yourcompany.Journalyst.addEntry")
+  static let entryOptions = NSTouchBarItem.Identifier("com.yourcompany.journalyst.entryOptions")
 }
 #endif
 
