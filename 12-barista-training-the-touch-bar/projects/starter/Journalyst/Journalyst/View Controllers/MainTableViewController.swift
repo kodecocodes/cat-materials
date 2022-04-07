@@ -73,7 +73,8 @@ class MainTableViewController: UITableViewController {
 
   // MARK: - Navigation
   @IBSegueAction func entryViewController(
-    coder: NSCoder, sender: Any?,
+    coder: NSCoder,
+    sender: Any?,
     segueIdentifier: String?
   ) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
