@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,10 @@
 import UIKit
 
 class EntryDataSource: UITableViewDiffableDataSource<Int, Entry> {
-  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+  override func tableView(
+    _ tableView: UITableView,
+    canEditRowAt indexPath: IndexPath
+  ) -> Bool {
     return true
   }
 }

@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,12 @@
 import UIKit
 
 extension UIViewController {
-  func presentShare(text: String?, images: [UIImage]?, sourceView: UIView? = nil, sourceBarItem: UIBarButtonItem? = nil) {
+  func presentShare(
+    text: String?,
+    images: [UIImage]?,
+    sourceView: UIView? = nil,
+    sourceBarItem: UIBarButtonItem? = nil
+  ) {
     var items: [Any] = []
     var textToShare = text ?? ""
 

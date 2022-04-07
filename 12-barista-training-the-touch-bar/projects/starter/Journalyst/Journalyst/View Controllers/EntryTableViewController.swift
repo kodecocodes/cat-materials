@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -163,7 +163,10 @@ class EntryTableViewController: UITableViewController {
 
   @IBAction func share(_ sender: Any?) {
     guard let textToShare = textView.text, !textToShare.isEmpty else { return }
-    presentShare(text: textToShare, images: entry?.images, sourceBarItem: sender as? UIBarButtonItem)
+    presentShare(
+      text: textToShare,
+      images: entry?.images,
+      sourceBarItem: sender as? UIBarButtonItem)
   }
 
   @IBAction private func addImage(_ sender: Any?) {
