@@ -33,7 +33,9 @@
 import UIKit
 
 protocol EntryTableViewControllerDelegate: class {
-  func entryTableViewController(_ controller: EntryTableViewController, didUpdateEntry entry: Entry)
+  func entryTableViewController(
+    _ controller: EntryTableViewController,
+    didUpdateEntry entry: Entry)
 }
 
 class EntryTableViewController: UITableViewController {
@@ -159,7 +161,10 @@ extension EntryTableViewController {
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {

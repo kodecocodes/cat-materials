@@ -75,6 +75,8 @@ class DataService {
   }
 
   private func postUpdate() {
-    NotificationCenter.default.post(name: .JournalEntriesUpdated, object: nil)
+    NotificationCenter.default.post(
+      name: .JournalEntriesUpdated,
+      object: nil)
   }
 }

@@ -54,7 +54,7 @@ extension Entry: Hashable {
 
 // MARK: NSUserActivity
 extension Entry {
-  static let OpenDetailActivityType = "com.raywenderlich.EntryOpenDetailActivityType"
+  static let OpenDetailActivityType = "com.yourcompany.EntryOpenDetailActivityType"
   static let OpenDetailIdKey = "entryID"
 
   var openDetailUserActivity: NSUserActivity {
