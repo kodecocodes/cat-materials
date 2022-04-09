@@ -56,7 +56,10 @@ class MainTableViewController: UITableViewController {
   }
 
   // MARK: - Navigation
-  @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> EntryTableViewController? {
+  @IBSegueAction func entryViewController(
+    coder: NSCoder, sender: Any?,
+    segueIdentifier: String?
+  ) -> EntryTableViewController? {
     guard
       let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell)
@@ -92,11 +95,17 @@ extension MainTableViewController {
 
 // MARK: - Table View Delegate
 extension MainTableViewController {
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+  override func tableView(
+    _ tableView: UITableView,
+    editingStyleForRowAt indexPath: IndexPath
+  ) -> UITableViewCell.EditingStyle {
     return .delete
   }
 
-  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+  override func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
     let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
       self?.entries.remove(at: indexPath.row)
       self?.reloadSnapshot(animated: true)

@@ -32,7 +32,10 @@
 
 import UIKit
 class EntryDataSource: UITableViewDiffableDataSource<Int, Entry> {
-  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+  override func tableView(
+    _ tableView: UITableView,
+    canEditRowAt indexPath: IndexPath
+  ) -> Bool {
     return true
   }
 }
