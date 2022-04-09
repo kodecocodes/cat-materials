@@ -16,11 +16,12 @@
 		A1A5F30422D6A156000531FB /* EntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5F30322D6A156000531FB /* EntryTableViewController.swift */; };
 		D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F20A1F4A9144005CD714 /* Assets.xcassets */; };
 		D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */; };
+		DA2E452B24FD1D1B00558FBC /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */; };
 		DA2E453424FE16EE00558FBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA2E453224FE16EE00558FBC /* Main.storyboard */; };
-		DA75AD2924FF9CDB004A25A2 /* EntryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75AD2824FF9CDB004A25A2 /* EntryDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05D3F9AF28015C1100FAFA40 /* Journalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journalyst.entitlements; sourceTree = "<group>"; };
 		A107B01C22D7F33400DBF970 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		A17E671D22DABB1B00370823 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1915DFD22DFF2F200408D3F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,9 +33,8 @@
 		D2A5F20A1F4A9144005CD714 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2A5F20F1F4A9144005CD714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 		DA2E453324FE16EE00558FBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DA75AD2724FF9986004A25A2 /* Journalyst.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journalyst.entitlements; sourceTree = "<group>"; };
-		DA75AD2824FF9CDB004A25A2 /* EntryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +60,8 @@
 		A1A5F2DC22D559E2000531FB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DA2E452A24FD1D1B00558FBC /* EntryDataSource.swift */,
 				A1A5F2DA22D559DB000531FB /* Entry.swift */,
-				DA75AD2824FF9CDB004A25A2 /* EntryDataSource.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -96,7 +96,7 @@
 		D2A5F2021F4A9144005CD714 /* Journalyst */ = {
 			isa = PBXGroup;
 			children = (
-				DA75AD2724FF9986004A25A2 /* Journalyst.entitlements */,
+				05D3F9AF28015C1100FAFA40 /* Journalyst.entitlements */,
 				D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */,
 				A1915DFD22DFF2F200408D3F /* SceneDelegate.swift */,
 				A1A5F2DC22D559E2000531FB /* Models */,
@@ -208,8 +208,8 @@
 				A1A5F2DE22D55B52000531FB /* EntryTableViewCell.swift in Sources */,
 				A1A5F2DB22D559DB000531FB /* Entry.swift in Sources */,
 				A1A5F2D822D555AF000531FB /* MainTableViewController.swift in Sources */,
+				DA2E452B24FD1D1B00558FBC /* EntryDataSource.swift in Sources */,
 				A1A5F30422D6A156000531FB /* EntryTableViewController.swift in Sources */,
-				DA75AD2924FF9CDB004A25A2 /* EntryDataSource.swift in Sources */,
 				D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,7 +263,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -325,7 +324,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -352,16 +350,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Journalyst/Journalyst.entitlements;
-				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = maccatalyst.com.raywenderlich.Journalyst;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Journalyst;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = maccatalyst.com.yourcompany.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -376,16 +373,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Journalyst/Journalyst.entitlements;
-				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 55C8REN3Y5;
 				INFOPLIST_FILE = "$(SRCROOT)/Journalyst/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.Journalyst;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = maccatalyst.com.raywenderlich.Journalyst;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Journalyst;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = maccatalyst.com.yourcompany.Journalyst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
