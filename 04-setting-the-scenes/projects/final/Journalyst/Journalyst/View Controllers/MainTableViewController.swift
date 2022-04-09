@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -47,9 +47,18 @@ class MainTableViewController: UITableViewController {
       let topViewController = splitNavigationController.topViewController as? EntryTableViewController {
       entryTableViewController = topViewController
     }
-    tableView.dragDelegate = self
+
     NotificationCenter.default.addObserver(
-      self, selector: #selector(handleEntriesUpdate), name: .JournalEntriesUpdated, object: nil)
+      self,
+      selector: #selector(handleEntriesUpdate),
+      name: .JournalEntriesUpdated,
+      object: nil)
+
+    tableView.dragDelegate = self
+  }
+
+  @objc func handleEntriesUpdate() {
+    reloadSnapshot(animated: false)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -58,18 +67,21 @@ class MainTableViewController: UITableViewController {
   }
 
   // MARK: - Actions
+
   @IBAction private func addEntry(_ sender: Any) {
     DataService.shared.addEntry(Entry())
   }
 
   // MARK: - Navigation
+
   @IBSegueAction func entryViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> UINavigationController? {
     guard let cell = sender as? EntryTableViewCell,
       let indexPath = tableView.indexPath(for: cell),
       let navigationController = UINavigationController(coder: coder),
-      let entryTableViewController = navigationController.topViewController
-        as? EntryTableViewController else { return nil }
+      let entryTableViewController =
+        navigationController.topViewController as? EntryTableViewController else { return nil }
     entryTableViewController.entry = dataSource?.itemIdentifier(for: indexPath)
+    entryTableViewController.delegate = self
     self.entryTableViewController = entryTableViewController
     return navigationController
   }
@@ -91,7 +103,9 @@ extension MainTableViewController {
     if let entryTableViewController = entryTableViewController,
       let entry = DataService.shared.allEntries.first,
       entryTableViewController.entry == nil {
-      tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
+      entryTableViewController.delegate = self
+      tableView.selectRow(
+				at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
       entryTableViewController.entry = entry
     }
   }
@@ -102,10 +116,6 @@ extension MainTableViewController {
     snapshot.appendItems(DataService.shared.allEntries)
     dataSource?.apply(snapshot, animatingDifferences: animated)
   }
-
-  @objc func handleEntriesUpdate() {
-    reloadSnapshot(animated: false)
-  }
 }
 
 // MARK: - Table View Delegate
@@ -115,13 +125,18 @@ extension MainTableViewController {
   }
 
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(
-		style: .destructive,
-		title: "Delete") { _, _, _ in
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
       DataService.shared.removeEntry(atIndex: indexPath.row)
     }
     deleteAction.image = UIImage(systemName: "trash")
     return UISwipeActionsConfiguration(actions: [deleteAction])
+  }
+}
+
+// MARK: EntryTableViewControllerDelegate
+extension MainTableViewController: EntryTableViewControllerDelegate {
+  func entryTableViewController(_ controller: EntryTableViewController, didUpdateEntry entry: Entry) {
+    reloadSnapshot(animated: false)
   }
 }
 
@@ -130,8 +145,10 @@ extension MainTableViewController: UITableViewDragDelegate {
   func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
     let entry = DataService.shared.allEntries[indexPath.row]
     let userActivity = entry.openDetailUserActivity
+
     let itemProvider = NSItemProvider()
     itemProvider.registerObject(userActivity, visibility: .all)
+
     let dragItem = UIDragItem(itemProvider: itemProvider)
     return [dragItem]
   }
