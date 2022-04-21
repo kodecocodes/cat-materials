@@ -32,10 +32,11 @@
 
 import UIKit
 
-protocol EntryTableViewControllerDelegate: class {
+protocol EntryTableViewControllerDelegate: AnyObject {
   func entryTableViewController(
     _ controller: EntryTableViewController,
-    didUpdateEntry entry: Entry)
+    didUpdateEntry entry: Entry
+	)
 }
 
 class EntryTableViewController: UITableViewController {
