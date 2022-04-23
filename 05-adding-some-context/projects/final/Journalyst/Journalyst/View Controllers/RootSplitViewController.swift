@@ -56,5 +56,6 @@ class RootSplitViewController: UISplitViewController {
   }
 }
 
+// MARK: - UISplitViewControllerDelegate
 extension RootSplitViewController: UISplitViewControllerDelegate {
 }
