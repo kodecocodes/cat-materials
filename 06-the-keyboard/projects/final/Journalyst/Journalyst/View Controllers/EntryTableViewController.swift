@@ -31,175 +31,174 @@
 /// THE SOFTWARE.
 
 import UIKit
-import AVFoundation
 
 class EntryTableViewController: UITableViewController {
-  // MARK: - Outlets
-  @IBOutlet private var textView: UITextView!
-  @IBOutlet private var collectionView: UICollectionView!
+	// MARK: - Outlets
+	@IBOutlet private var textView: UITextView!
+	@IBOutlet private var collectionView: UICollectionView!
 
-  // MARK: - Properties
-  var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
+	// MARK: - Properties
+	var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
 
-  var entry: Entry? {
-    didSet {
-      guard let entry = entry else { return }
-      let dateFormatter = DateFormatter()
-      dateFormatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy, hh:mm")
-      title = dateFormatter.string(from: entry.dateCreated)
-    }
-  }
+	var entry: Entry? {
+		didSet {
+			guard let entry = entry else { return }
+			let dateFormatter = DateFormatter()
+			dateFormatter.setLocalizedDateFormatFromTemplate("MMM dd yyyy, hh:mm")
+			title = dateFormatter.string(from: entry.dateCreated)
+		}
+	}
 
-  let photoPicker = PhotoPicker()
+	let photoPicker = PhotoPicker()
 
-  static func loadFromStoryboard() -> EntryTableViewController? {
-    let storyboard = UIStoryboard(name: "Main", bundle: .main)
-    return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
-  }
+	static func loadFromStoryboard() -> EntryTableViewController? {
+		let storyboard = UIStoryboard(name: "Main", bundle: .main)
+		return storyboard.instantiateViewController(withIdentifier: "EntryDetail") as? EntryTableViewController
+	}
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    textView.text = entry?.log ?? ""
-    let dataSource = imageDataSource()
-    dataSource.supplementaryViewProvider = supplementaryDataSource()
-    collectionView.dataSource = dataSource
-    self.dataSource = dataSource
-    reloadSnapshot(animated: false)
-    validateState()
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(handleEntryUpdated(notification:)),
-      name: .JournalEntryUpdated,
-      object: nil)
-  }
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		textView.text = entry?.log ?? ""
+		let dataSource = imageDataSource()
+		dataSource.supplementaryViewProvider = supplementaryDataSource()
+		collectionView.dataSource = dataSource
+		self.dataSource = dataSource
+		reloadSnapshot(animated: false)
+		validateState()
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(handleEntryUpdated(notification:)),
+			name: .JournalEntryUpdated,
+			object: nil)
+	}
 
-  override var canBecomeFirstResponder: Bool {
-    return false
-  }
+	override var canBecomeFirstResponder: Bool {
+		return false
+	}
 
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    entry?.log = textView.text
-    if let entry = entry {
-      DataService.shared.updateEntry(entry)
-    }
-  }
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		entry?.log = textView.text
+		if let entry = entry {
+			DataService.shared.updateEntry(entry)
+		}
+	}
 
-  @objc func handleEntryUpdated(notification: Notification) {
-    guard let userInfo = notification.userInfo, let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
-      return
-    }
-    self.entry = entry
-    reloadSnapshot(animated: true)
-  }
+	@objc func handleEntryUpdated(notification: Notification) {
+		guard let userInfo = notification.userInfo, let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
+			return
+		}
+		self.entry = entry
+		reloadSnapshot(animated: true)
+	}
 
-  // MARK: - Actions
-  @IBAction private func share(_ sender: Any?) {
-    guard !textView.text.isEmpty else { return }
-    let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
-    if let popoverController = activityController.popoverPresentationController {
-      popoverController.barButtonItem = navigationItem.rightBarButtonItem
-    }
-    present(activityController, animated: true, completion: nil)
-  }
+	// MARK: - Actions
+	@IBAction private func share(_ sender: Any?) {
+		guard !textView.text.isEmpty else { return }
+		let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
+		if let popoverController = activityController.popoverPresentationController {
+			popoverController.barButtonItem = navigationItem.rightBarButtonItem
+		}
+		present(activityController, animated: true, completion: nil)
+	}
 
-  @IBAction private func addImage(_ sender: Any?) {
-    textView.resignFirstResponder()
-    let actionSheet = UIAlertController(
-      title: "Add Photo",
-      message: "Add a photo to your entry",
-      preferredStyle: .actionSheet)
-    if UIImagePickerController.isSourceTypeAvailable(.camera) {
-      actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
-        self.selectPhotoFromSource(.camera)
-      })
-    }
-    actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default) { _ in
-      self.selectPhotoFromSource(.photoLibrary)
-    })
-    if let view = sender as? UIView,
-      let popoverController = actionSheet.popoverPresentationController {
-      popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
-      popoverController.sourceView = view
-    }
-    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+	@IBAction private func addImage(_ sender: Any?) {
+		textView.resignFirstResponder()
+		let actionSheet = UIAlertController(
+			title: "Add Photo",
+			message: "Add a photo to your entry",
+			preferredStyle: .actionSheet)
+		if UIImagePickerController.isSourceTypeAvailable(.camera) {
+			actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
+				self.selectPhotoFromSource(.camera)
+			})
+		}
+		actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default) { _ in
+			self.selectPhotoFromSource(.photoLibrary)
+		})
+		if let view = sender as? UIView,
+			let popoverController = actionSheet.popoverPresentationController {
+			popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
+			popoverController.sourceView = view
+		}
+		actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
-    present(actionSheet, animated: true, completion: nil)
-  }
+		present(actionSheet, animated: true, completion: nil)
+	}
 
-  private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {
-    let imagePickerController = UIImagePickerController()
-    imagePickerController.sourceType = sourceType
-    imagePickerController.allowsEditing = false
-    imagePickerController.delegate = self
-    present(imagePickerController, animated: true, completion: nil)
-  }
+	private func selectPhotoFromSource(_ sourceType: UIImagePickerController.SourceType) {
+		let imagePickerController = UIImagePickerController()
+		imagePickerController.sourceType = sourceType
+		imagePickerController.allowsEditing = false
+		imagePickerController.delegate = self
+		present(imagePickerController, animated: true, completion: nil)
+	}
 
-  private func validateState() {
-    navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
-  }
+	private func validateState() {
+		navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
+	}
 }
 
 // MARK: - Table Data Source
 extension EntryTableViewController {
-  private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
-    let reuseIdentifier = "ImageCollectionViewCell"
-    // swiftlint:disable:next line_length
-    return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
-      let cell =
-        collectionView.dequeueReusableCell(
-          withReuseIdentifier: reuseIdentifier,
-          for: indexPath) as? ImageCollectionViewCell
-      cell?.image = image
-      return cell
-    }
-  }
+	private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
+		let reuseIdentifier = "ImageCollectionViewCell"
+		return UICollectionViewDiffableDataSource(
+			collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
+				let cell =
+				collectionView.dequeueReusableCell(
+					withReuseIdentifier: reuseIdentifier,
+					for: indexPath) as? ImageCollectionViewCell
+				cell?.image = image
+				return cell
+		}
+	}
 
-  private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-    // swiftlint:disable:next line_length
-    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
-      let reusableView =
-        collectionView.dequeueReusableSupplementaryView(
-          ofKind: kind,
-          withReuseIdentifier: "Header",
-          for: indexPath)
-      // swiftlint:disable:next force_unwrapping
-      reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
-      reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
-      return reusableView
-    }
-    return provider
-  }
+	private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
+		let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
+		= { collectionView, kind, indexPath -> UICollectionReusableView? in
+			let reusableView =
+			collectionView.dequeueReusableSupplementaryView(
+				ofKind: kind,
+				withReuseIdentifier: "Header",
+				for: indexPath)
+			// swiftlint:disable:next force_unwrapping
+			reusableView.layer.borderColor = UIColor(named: "PrimaryTint")!.cgColor
+			reusableView.layer.borderWidth = 1.0 / UIScreen.main.scale
+			return reusableView
+		}
+		return provider
+	}
 
-  private func reloadSnapshot(animated: Bool) {
-    var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
-    snapshot.appendSections([0])
-    snapshot.appendItems(entry?.images ?? [])
-    dataSource?.apply(snapshot, animatingDifferences: animated)
-  }
+	private func reloadSnapshot(animated: Bool) {
+		var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
+		snapshot.appendSections([0])
+		snapshot.appendItems(entry?.images ?? [])
+		dataSource?.apply(snapshot, animatingDifferences: animated)
+	}
 }
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  func imagePickerController(
-    _ picker: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-  ) {
-    guard let image = info[.originalImage] as? UIImage else { return }
-    entry?.images.append(image)
-    dismiss(animated: true) {
-      self.reloadSnapshot(animated: true)
-    }
-  }
+	func imagePickerController(
+		_ picker: UIImagePickerController,
+		didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+	) {
+		guard let image = info[.originalImage] as? UIImage else { return }
+		entry?.images.append(image)
+		dismiss(animated: true) {
+			self.reloadSnapshot(animated: true)
+		}
+	}
 }
 
 // MARK: - Text View Delegate
 extension EntryTableViewController: UITextViewDelegate {
-  func textViewDidChange(_ textView: UITextView) {
-    validateState()
-  }
+	func textViewDidChange(_ textView: UITextView) {
+		validateState()
+	}
 
-  func textViewDidEndEditing(_ textView: UITextView) {
-    entry?.log = textView.text
-  }
+	func textViewDidEndEditing(_ textView: UITextView) {
+		entry?.log = textView.text
+	}
 }
