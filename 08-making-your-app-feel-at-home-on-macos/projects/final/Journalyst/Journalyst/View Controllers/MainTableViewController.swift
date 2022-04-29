@@ -398,4 +398,5 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
   func removeEntry(at indexPath: IndexPath) {
     DataService.shared.removeEntry(atIndex: indexPath.row)
   }
+	// swiftlint:disable:next file_length
 }
