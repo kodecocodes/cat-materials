@@ -40,6 +40,7 @@ struct Entry {
   var isFavorite: Bool = false
 }
 
+// MARK: Hashable
 extension Entry: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(dateCreated)

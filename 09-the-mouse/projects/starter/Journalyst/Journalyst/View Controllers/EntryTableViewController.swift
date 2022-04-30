@@ -31,7 +31,6 @@
 /// THE SOFTWARE.
 
 import UIKit
-import AVFoundation
 
 class EntryTableViewController: UITableViewController {
   let colorPreference = "entry_color_preference"
@@ -208,8 +207,9 @@ class EntryTableViewController: UITableViewController {
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
-    // swiftlint:disable:next line_length
-    return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
+    return UICollectionViewDiffableDataSource(
+			collectionView: collectionView
+		) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell =
         collectionView.dequeueReusableCell(
           withReuseIdentifier: reuseIdentifier,
@@ -220,8 +220,8 @@ extension EntryTableViewController {
   }
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-    // swiftlint:disable:next line_length
-    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
+		= { collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView =
         collectionView.dequeueReusableSupplementaryView(
           ofKind: kind,
@@ -290,9 +290,9 @@ extension EntryTableViewController: UIDropInteractionDelegate {
   ) {
     session.loadObjects(ofClass: UIImage.self) { [weak self] imageItems in
       guard let self = self else { return }
-      // swiftlint:disable:next force_cast
-      let images = imageItems as! [UIImage]
-      self.entry?.images.append(contentsOf: images)
+			if let images = imageItems as? [UIImage] {
+				self.entry?.images.append(contentsOf: images)
+			}
       self.reloadSnapshot(animated: true)
     }
   }
