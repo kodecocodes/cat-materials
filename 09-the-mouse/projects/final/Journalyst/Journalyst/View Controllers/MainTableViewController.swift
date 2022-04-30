@@ -399,4 +399,5 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
       images: entry.images,
       sourceView: tableView.cellForRow(at: indexPath))
   }
+	// swiftlint:disable:next file_length
 }
