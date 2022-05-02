@@ -31,7 +31,6 @@
 /// THE SOFTWARE.
 
 import UIKit
-import AVFoundation
 
 class EntryTableViewController: UITableViewController {
   let colorPreference = "entry_color_preference"
@@ -244,8 +243,8 @@ extension EntryTableViewController {
   }
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-    // swiftlint:disable:next line_length
-    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
+		= { collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       // swiftlint:disable:next force_unwrapping
@@ -323,9 +322,9 @@ extension EntryTableViewController: UIDropInteractionDelegate {
   ) {
     session.loadObjects(ofClass: UIImage.self) { [weak self] imageItems in
       guard let self = self else { return }
-      // swiftlint:disable:next force_cast
-      let images = imageItems as! [UIImage]
-      self.entry?.images.append(contentsOf: images)
+			if let images = imageItems as? [UIImage] {
+				self.entry?.images.append(contentsOf: images)
+			}
       self.reloadSnapshot(animated: true)
     }
   }
@@ -399,5 +398,7 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
   }
 }
 
+// MARK: UIGestureRecognizerDelegate
 extension EntryTableViewController: UIGestureRecognizerDelegate {
+	// swiftlint:disable:next file_length
 }
