@@ -399,4 +399,5 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
   func share(_ entry: Entry, at indexPath: IndexPath) {
     presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
   }
+	// swiftlint:disable:next file_length
 }
