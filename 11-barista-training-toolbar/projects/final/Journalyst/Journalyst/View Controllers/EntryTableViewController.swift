@@ -263,6 +263,8 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
     }
   }
 }
+
+// MARK: UINavigationControllerDelegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
 
@@ -377,9 +379,11 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
   }
 }
 
+// MARK: UIGestureRecognizerDelegate
 extension EntryTableViewController: UIGestureRecognizerDelegate {
 }
 
+// MARK: Configuring activity items
 extension EntryTableViewController {
   private func configureActivityItems() {
     let configuration = UIActivityItemsConfiguration(objects: [])
@@ -397,4 +401,5 @@ extension EntryTableViewController {
       object: self,
       userInfo: [NotificationKey .activityItemsConfiguration: configuration])
     }
+	// swiftlint:disable:next file_length
 }

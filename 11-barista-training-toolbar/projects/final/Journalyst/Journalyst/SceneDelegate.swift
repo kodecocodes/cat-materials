@@ -88,6 +88,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 #if targetEnvironment(macCatalyst)
+// MARK: NSToolbarItem.Identifier
 extension NSToolbarItem.Identifier {
   static let addEntry =
     NSToolbarItem.Identifier(rawValue: "AddEntry")
@@ -97,6 +98,7 @@ extension NSToolbarItem.Identifier {
     NSToolbarItem.Identifier(rawValue: "ShareEntry")
 }
 
+// MARK: NSToolbarDelegate
 extension SceneDelegate: NSToolbarDelegate {
   func toolbarAllowedItemIdentifiers(
     _ toolbar: NSToolbar

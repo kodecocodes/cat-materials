@@ -253,6 +253,7 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
   }
 }
 
+// MARK: UINavigationControllerDelegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
 
@@ -366,5 +367,6 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
   }
 }
 
+// MARK: UIGestureRecognizerDelegate
 extension EntryTableViewController: UIGestureRecognizerDelegate {
 }
