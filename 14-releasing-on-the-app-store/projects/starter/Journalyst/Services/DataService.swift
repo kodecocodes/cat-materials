@@ -32,6 +32,7 @@
 
 import Foundation
 
+// MARK: - Notification names
 extension Notification.Name {
   static var JournalEntriesUpdated = Notification.Name("com.yourcompany.Journalyst.EntriesUpdated")
   static var JournalEntryUpdated = Notification.Name("com.yourcompany.Journalyst.EntryUpdated")

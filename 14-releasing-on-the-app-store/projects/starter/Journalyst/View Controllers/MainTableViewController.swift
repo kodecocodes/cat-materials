@@ -33,11 +33,13 @@
 import UIKit
 
 #if targetEnvironment(macCatalyst)
+// MARK: NSTouchBar.CustomizationIdentifier
 extension NSTouchBar.CustomizationIdentifier {
   static let journalyst = NSTouchBar.CustomizationIdentifier(
     "com.yourcompany.journalyst.main")
 }
 
+// MARK: NSTouchBarItem.Identifier
 extension NSTouchBarItem.Identifier {
   static let newEntry = NSTouchBarItem.Identifier("com.yourcompany.Journalyst.addEntry")
   static let entryOptions = NSTouchBarItem.Identifier("com.yourcompany.journalyst.entryOptions")
@@ -45,9 +47,7 @@ extension NSTouchBarItem.Identifier {
 #endif
 
 class MainTableViewController: UITableViewController {
-  
   // MARK: - Properties
-  
   var dataSource: UITableViewDiffableDataSource<Int, Entry>?
   var entryTableViewController: EntryTableViewController? = nil
   let photoPicker = PhotoPicker()
@@ -234,7 +234,6 @@ extension MainTableViewController {
 
 // MARK: UITableViewDragDelegate
 extension MainTableViewController: UITableViewDragDelegate {
-
   func tableView(
     _ tableView: UITableView,
     itemsForBeginning session: UIDragSession,
@@ -252,6 +251,7 @@ extension MainTableViewController: UITableViewDragDelegate {
 }
 
 #if targetEnvironment(macCatalyst)
+// MARK: NSTouchBarDelegate
 extension MainTableViewController: NSTouchBarDelegate {
   func touchBar(
     _ touchBar: NSTouchBar,

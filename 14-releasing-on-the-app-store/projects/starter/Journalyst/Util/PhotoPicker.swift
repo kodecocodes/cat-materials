@@ -73,6 +73,7 @@ class PhotoPicker: NSObject {
 
 }
 
+// MARK: Presents camera or photos library
 fileprivate extension PhotoPicker {
   func presentCamera(in viewController: UIViewController) {
     picker.sourceType = .camera
@@ -85,6 +86,7 @@ fileprivate extension PhotoPicker {
   }
 }
 
+// MARK: UIImagePickerControllerDelegate
 extension PhotoPicker: UIImagePickerControllerDelegate {
   func imagePickerController(
     _ picker: UIImagePickerController,
@@ -101,5 +103,6 @@ extension PhotoPicker: UIImagePickerControllerDelegate {
   }
 }
 
+// MARK: UINavigationControllerDelegate
 extension PhotoPicker: UINavigationControllerDelegate {
 }

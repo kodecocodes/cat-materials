@@ -32,8 +32,9 @@
 
 import UIKit
 
+// MARK: - Notification names
 extension Notification.Name {
-  static var WindowSizeChanged = Notification.Name("com.raywenderlich.Journalyst.WindowSizeChanged")
+  static var WindowSizeChanged = Notification.Name("com.yourcompany.Journalyst.WindowSizeChanged")
 }
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

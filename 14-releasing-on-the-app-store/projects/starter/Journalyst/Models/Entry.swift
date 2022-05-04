@@ -40,6 +40,7 @@ struct Entry {
   var isFavorite: Bool = false
 }
 
+// MARK: Hashable
 extension Entry: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(dateCreated)
@@ -56,7 +57,6 @@ extension Entry: Hashable {
 
 // MARK: NSUserActivity
 extension Entry {
-
   static let OpenDetailActivityType = "com.yourcompany.EntryOpenDetailActivityType"
   static let OpenDetailIdKey = "entryID"
 
