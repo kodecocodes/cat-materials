@@ -33,11 +33,13 @@
 import UIKit
 
 #if targetEnvironment(macCatalyst)
+// MARK: NSTouchBar.CustomizationIdentifier
 extension NSTouchBar.CustomizationIdentifier {
   static let journalyst = NSTouchBar.CustomizationIdentifier(
     "com.yourcompany.journalyst.main")
 }
 
+// MARK: NSTouchBarItem.Identifier
 extension NSTouchBarItem.Identifier {
   static let newEntry = NSTouchBarItem.Identifier("com.yourcompany.Journalyst.addEntry")
   static let entryOptions = NSTouchBarItem.Identifier("com.yourcompany.journalyst.entryOptions")
@@ -158,6 +160,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
 }
 
 #if targetEnvironment(macCatalyst)
+// MARK: NSTouchBarDelegate
 extension RootSplitViewController: NSTouchBarDelegate {
   func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
     switch identifier {
