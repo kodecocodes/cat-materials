@@ -38,6 +38,7 @@ class Entry {
   var images: [UIImage] = []
 }
 
+// MARK: Hashable
 extension Entry: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(dateCreated)
