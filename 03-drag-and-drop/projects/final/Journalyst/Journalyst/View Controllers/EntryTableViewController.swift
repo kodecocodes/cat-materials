@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -214,8 +214,7 @@ extension EntryTableViewController: UICollectionViewDropDelegate {
     session.canLoadObjects(ofClass: UIImage.self)
   }
 
-  func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?)
-    -> UICollectionViewDropProposal {
+  func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
     if session.localDragSession != nil {
       return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     } else {
@@ -228,7 +227,7 @@ extension EntryTableViewController: UICollectionViewDropDelegate {
     if coordinator.session.localDragSession != nil {
       for item in coordinator.items {
         guard let sourceIndex = item.sourceIndexPath else {
-          return
+          continue
         }
         self.entry?.images.remove(at: sourceIndex.item)
       }

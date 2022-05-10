@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -39,13 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     if let window = window,
       let splitViewController = window.rootViewController as? UISplitViewController {
-        splitViewController.preferredDisplayMode = .oneBesideSecondary
-        splitViewController.delegate = self
-        splitViewController.primaryBackgroundStyle = .sidebar
-        if let mainNavigationController = splitViewController.viewController(for: .primary) as? UINavigationController,
-          let mainViewController = mainNavigationController.viewControllers.first as? MainTableViewController {
-            mainViewController.prepareForPresentation()
-        }
+      splitViewController.preferredDisplayMode = .oneBesideSecondary
+      splitViewController.delegate = self
+      splitViewController.primaryBackgroundStyle = .sidebar
+
+      if let mainNavigationController = splitViewController.viewController(for: .primary) as? UINavigationController,
+        let mainViewController = mainNavigationController.viewControllers.first as? MainTableViewController {
+        mainViewController.prepareForPresentation()
+      }
     }
     return true
   }
