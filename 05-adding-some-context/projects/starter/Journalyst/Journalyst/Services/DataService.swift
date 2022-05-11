@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,9 +32,10 @@
 
 import Foundation
 
+// MARK: - Notification names
 extension Notification.Name {
-  static var JournalEntriesUpdated = Notification.Name("com.raywenderlich.Journalyst.EntriesUpdated")
-  static var JournalEntryUpdated = Notification.Name("com.raywenderlich.Journalyst.EntryUpdated")
+  static var JournalEntriesUpdated = Notification.Name("com.yourcompany.Journalyst.EntriesUpdated")
+  static var JournalEntryUpdated = Notification.Name("com.yourcompany.Journalyst.EntryUpdated")
 }
 
 enum DataNotificationKeys {
@@ -85,6 +86,8 @@ class DataService {
 
   private func postUpdate(for entry: Entry) {
     NotificationCenter.default.post(
-      name: .JournalEntryUpdated, object: nil, userInfo: [DataNotificationKeys.entry: entry])
+      name: .JournalEntryUpdated,
+      object: nil,
+      userInfo: [DataNotificationKeys.entry: entry])
   }
 }

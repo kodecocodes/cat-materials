@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,6 @@
 /// THE SOFTWARE.
 
 import UIKit
-import AVFoundation
 
 class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
@@ -88,7 +87,9 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard !textView.text.isEmpty else { return }
-    let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
+    let activityController = UIActivityViewController(
+      activityItems: [textView.text ?? ""],
+      applicationActivities: nil)
     if let popoverController = activityController.popoverPresentationController {
       popoverController.barButtonItem = navigationItem.rightBarButtonItem
     }

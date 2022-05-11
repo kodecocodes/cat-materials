@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -43,30 +43,50 @@ class PhotoPicker: NSObject {
     return picker
   }()
 
-  func present(in viewController: UIViewController, title: String?  = NSLocalizedString("Add Photo", comment: ""), message: String?  = nil, sourceView: UIView?  = nil, completion: @escaping PhotoCompletion) {
+  func present(
+    in viewController: UIViewController,
+    title: String?  = NSLocalizedString("Add Photo", comment: ""),
+    message: String?  = nil,
+    sourceView: UIView?  = nil,
+    completion: @escaping PhotoCompletion
+  ) {
     self.completion = completion
 
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+    let alert = UIAlertController(
+      title: title,
+      message: message,
+      preferredStyle: .actionSheet)
     if UIImagePickerController.isSourceTypeAvailable(.camera) {
       alert.addAction(UIAlertAction(
-      title: NSLocalizedString("Camera", comment: ""), style: .default) { _ in
+        title: NSLocalizedString("Camera", comment: ""),
+        style: .default) { _ in
         self.presentCamera(in: viewController)
       })
     }
-    alert.addAction(UIAlertAction(title: NSLocalizedString("Photo Library", comment: ""), style: .default) { _ in
-      self.presentPhotoLibrary(in: viewController)
+    alert.addAction(UIAlertAction(
+      title: NSLocalizedString("Photo Library", comment: ""),
+      style: .default) { _ in
+        self.presentPhotoLibrary(in: viewController)
     })
-    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
+    alert.addAction(UIAlertAction(
+      title: NSLocalizedString("Cancel", comment: ""),
+      style: .cancel,
+      handler: nil))
 
     if let view = sourceView,
       let popoverController = alert.popoverPresentationController {
-      popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
+      popoverController.sourceRect = CGRect(
+        x: view.frame.midX,
+        y: view.frame.midY,
+        width: 0,
+        height: 0)
       popoverController.sourceView = view
     }
     viewController.present(alert, animated: true, completion: nil)
   }
 }
 
+// MARK: Presents camera or photos library
 private extension PhotoPicker {
   func presentCamera(in viewController: UIViewController) {
     picker.sourceType = .camera
@@ -79,8 +99,12 @@ private extension PhotoPicker {
   }
 }
 
+// MARK: UIImagePickerControllerDelegate
 extension PhotoPicker: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     if let image = info[.originalImage] as? UIImage {
       self.completion?(image, nil)
     }
@@ -92,5 +116,6 @@ extension PhotoPicker: UIImagePickerControllerDelegate {
   }
 }
 
+// MARK: UINavigationControllerDelegate
 extension PhotoPicker: UINavigationControllerDelegate {
 }
