@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -197,7 +197,10 @@ extension EntryTableViewController {
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {
@@ -213,6 +216,7 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
   }
 }
 
+// MARK: UINavigationControllerDelegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
 
