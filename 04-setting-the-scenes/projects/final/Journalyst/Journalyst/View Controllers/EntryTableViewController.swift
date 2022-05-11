@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,20 @@
 
 import UIKit
 
+protocol EntryTableViewControllerDelegate: AnyObject {
+  func entryTableViewController(
+    _ controller: EntryTableViewController,
+    didUpdateEntry entry: Entry
+	)
+}
+
 class EntryTableViewController: UITableViewController {
   // MARK: - Outlets
   @IBOutlet private var textView: UITextView!
   @IBOutlet private var collectionView: UICollectionView!
 
   // MARK: - Properties
+  weak var delegate: EntryTableViewControllerDelegate?
   var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>?
   var entry: Entry? {
     didSet {
@@ -63,19 +71,21 @@ class EntryTableViewController: UITableViewController {
     reloadSnapshot(animated: false)
     validateState()
   }
-
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     entry?.log = textView?.text
     if let entry = entry {
       DataService.shared.updateEntry(entry)
+      delegate?.entryTableViewController(self, didUpdateEntry: entry)
     }
   }
 
   // MARK: - Actions
   @IBAction private func share(_ sender: Any?) {
     guard !textView.text.isEmpty else { return }
-    let activityController = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
+    let activityController = UIActivityViewController(
+			activityItems: [textView.text ?? ""],
+			applicationActivities: nil)
     if let popoverController = activityController.popoverPresentationController {
       popoverController.barButtonItem = navigationItem.rightBarButtonItem
     }
@@ -85,18 +95,15 @@ class EntryTableViewController: UITableViewController {
   @IBAction private func addImage(_ sender: Any?) {
     textView.resignFirstResponder()
     let actionSheet = UIAlertController(
-			title: "Add Photo",
-			message: "Add a photo to your entry",
-			preferredStyle: .actionSheet)
-      if UIImagePickerController.isSourceTypeAvailable(.camera) {
-      actionSheet.addAction(UIAlertAction(
-        title: "Take Photo", style: .default) { _ in
-          self.selectPhotoFromSource(.camera)
+			title: "Add Photo", message: "Add a photo to your entry", preferredStyle: .actionSheet)
+    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+      actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default) { _ in
+        self.selectPhotoFromSource(.camera)
       })
     }
     actionSheet.addAction(UIAlertAction(
       title: "Choose Photo", style: .default) { _ in
-        self.selectPhotoFromSource(.photoLibrary)
+      self.selectPhotoFromSource(.photoLibrary)
     })
     if let view = sender as? UIView,
       let popoverController = actionSheet.popoverPresentationController {
@@ -135,7 +142,7 @@ extension EntryTableViewController {
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
     let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
-      = { collectionView, kind, indexPath -> UICollectionReusableView? in
+      = {collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
       reusableView.layer.borderColor = UIColor(named: "PrimaryTint")?.cgColor
@@ -155,7 +162,10 @@ extension EntryTableViewController {
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {
