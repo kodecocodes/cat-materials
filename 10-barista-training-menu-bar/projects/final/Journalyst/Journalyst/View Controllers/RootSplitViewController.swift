@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +66,7 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
 
   // MARK: - Keyboard Commands
   override var canBecomeFirstResponder: Bool {
-    return true
+    true
   }
 
   override var keyCommands: [UIKeyCommand]? {
@@ -75,11 +75,13 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
       modifierFlags: .control,
       action: #selector(addEntry(sender:)))
     newKeyCommand.discoverabilityTitle = "Add Entry"
+
     let upKeyCommand = UIKeyCommand(
       input: "[",
       modifierFlags: [.command, .shift],
       action: #selector(goToPrevious(sender:)))
     upKeyCommand.discoverabilityTitle = "Previous Entry"
+
     let downKeyCommand = UIKeyCommand(
       input: "]",
       modifierFlags: [.command, .shift],

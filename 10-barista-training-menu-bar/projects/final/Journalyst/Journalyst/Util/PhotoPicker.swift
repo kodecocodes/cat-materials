@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -44,9 +44,9 @@ class PhotoPicker: NSObject {
 
   func present(
     in viewController: UIViewController,
-    title: String?  = NSLocalizedString("Add Photo", comment: ""),
-    message: String?  = nil,
-    sourceView: UIView?  = nil,
+    title: String? = NSLocalizedString("Add Photo", comment: ""),
+    message: String? = nil,
+    sourceView: UIView? = nil,
     completion: @escaping PhotoCompletion
   ) {
     self.completion = completion
@@ -57,12 +57,16 @@ class PhotoPicker: NSObject {
         self.presentCamera(in: viewController)
       })
     }
-    alert.addAction(UIAlertAction(title: NSLocalizedString("Photo Library", comment: ""), style: .default) { _ in
-      self.presentPhotoLibrary(in: viewController)
-    })
+    alert.addAction(
+      UIAlertAction(
+        title: NSLocalizedString("Photo Library", comment: ""),
+        style: .default) { _ in
+        self.presentPhotoLibrary(in: viewController)
+      })
     alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
 
-    if let view = sourceView,
+    if
+      let view = sourceView,
       let popoverController = alert.popoverPresentationController {
       popoverController.sourceRect = CGRect(x: view.frame.midX, y: view.frame.midY, width: 0, height: 0)
       popoverController.sourceView = view
@@ -71,6 +75,7 @@ class PhotoPicker: NSObject {
   }
 }
 
+// MARK: Presents camera or photos library
 private extension PhotoPicker {
   func presentCamera(in viewController: UIViewController) {
     picker.sourceType = .camera
@@ -83,6 +88,7 @@ private extension PhotoPicker {
   }
 }
 
+// MARK: UIImagePickerControllerDelegate
 extension PhotoPicker: UIImagePickerControllerDelegate {
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
     if let image = info[.editedImage] as? UIImage {
@@ -96,5 +102,6 @@ extension PhotoPicker: UIImagePickerControllerDelegate {
   }
 }
 
+// MARK: UINavigationControllerDelegate
 extension PhotoPicker: UINavigationControllerDelegate {
 }

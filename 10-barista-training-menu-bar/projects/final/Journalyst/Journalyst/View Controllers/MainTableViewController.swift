@@ -1,15 +1,15 @@
-/// Copyright (c) 2020 Razeware LLC
-///
+/// Copyright (c) 2022 Razeware LLC
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
+/// 
 /// This project and source code may use libraries or frameworks that are
 /// released under various Open-Source licenses. Use of those libraries and
 /// frameworks are governed by their own individual licenses.
@@ -58,7 +58,7 @@ class MainTableViewController: UITableViewController {
   }
 
   override func indexPathForPreferredFocusedView(in tableView: UITableView) -> IndexPath? {
-    return IndexPath(row: 0, section: 0)
+    IndexPath(row: 0, section: 0)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -129,7 +129,7 @@ extension MainTableViewController {
   }
 
   override var canBecomeFirstResponder: Bool {
-    return false
+    false
   }
 
   override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
@@ -206,7 +206,7 @@ extension MainTableViewController {
 // MARK: - Table View Delegate
 extension MainTableViewController {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-    return .delete
+    .delete
   }
 
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -380,6 +380,9 @@ extension MainTableViewController: UIContextMenuInteractionDelegate {
   }
 
   func share(_ entry: Entry, at indexPath: IndexPath) {
-    presentShare(text: entry.log, images: entry.images, sourceView: tableView.cellForRow(at: indexPath))
+    presentShare(
+      text: entry.log,
+      images: entry.images,
+      sourceView: tableView.cellForRow(at: indexPath))
   }
 }
