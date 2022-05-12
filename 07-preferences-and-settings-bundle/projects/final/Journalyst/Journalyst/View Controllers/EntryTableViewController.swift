@@ -54,6 +54,16 @@ class EntryTableViewController: UITableViewController {
     }
   }
 
+	private var shareText: String? {
+		guard var textToShare = textView.text, !textToShare.isEmpty
+		else { return nil }
+		if let namePreference = UserDefaults.standard.string(forKey: namePreference),
+			UserDefaults.standard.bool(forKey: signaturePreference) {
+			textToShare += "\n-\(namePreference)"
+		}
+		return textToShare
+	}
+
   let photoPicker = PhotoPicker()
 
   static func loadFromStoryboard() -> EntryTableViewController? {
@@ -118,20 +128,18 @@ class EntryTableViewController: UITableViewController {
   }
 
   // MARK: - Actions
-  @IBAction private func share(_ sender: Any?) {
-    guard var textToShare = textView.text, !textToShare.isEmpty else { return }
-    if let namePreference = UserDefaults.standard.string(forKey: namePreference),
-      UserDefaults.standard.bool(forKey: signaturePreference) {
-      textToShare += "\n\n -\(namePreference)"
-    }
-    let activityController = UIActivityViewController(
-      activityItems: [textToShare],
-      applicationActivities: nil)
-    if let popoverController = activityController.popoverPresentationController {
-      popoverController.barButtonItem = navigationItem.rightBarButtonItem
-    }
-    present(activityController, animated: true, completion: nil)
-  }
+	@IBAction private func share(_ sender: Any?) {
+		guard let shareText = shareText else { return }
+		let activityController = UIActivityViewController(
+			activityItems: [shareText],
+			applicationActivities: nil
+		)
+		if let popoverController = activityController.popoverPresentationController {
+			popoverController.barButtonItem =
+			navigationItem.rightBarButtonItem
+		}
+		present(activityController, animated: true, completion: nil)
+	}
 
   @IBAction private func addImage(_ sender: Any?) {
     textView.resignFirstResponder()
