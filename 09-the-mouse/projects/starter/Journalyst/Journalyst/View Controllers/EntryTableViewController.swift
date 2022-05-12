@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,6 @@
 /// THE SOFTWARE.
 
 import UIKit
-import AVFoundation
 
 class EntryTableViewController: UITableViewController {
   let colorPreference = "entry_color_preference"
@@ -150,7 +149,10 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Actions
   @IBAction func share(_ sender: Any?) {
     guard let textToShare = textView.text, !textToShare.isEmpty else { return }
-    presentShare(text: textToShare, images: entry?.images, sourceBarItem: sender as? UIBarButtonItem)
+    presentShare(
+      text: textToShare,
+      images: entry?.images,
+      sourceBarItem: sender as? UIBarButtonItem)
   }
 
   @IBAction private func addImage(_ sender: Any?) {
@@ -205,8 +207,9 @@ class EntryTableViewController: UITableViewController {
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
-    // swiftlint:disable:next line_length
-    return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
+    return UICollectionViewDiffableDataSource(
+			collectionView: collectionView
+		) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell =
         collectionView.dequeueReusableCell(
           withReuseIdentifier: reuseIdentifier,
@@ -217,8 +220,8 @@ extension EntryTableViewController {
   }
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-    // swiftlint:disable:next line_length
-    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
+		= { collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView =
         collectionView.dequeueReusableSupplementaryView(
           ofKind: kind,
@@ -287,9 +290,9 @@ extension EntryTableViewController: UIDropInteractionDelegate {
   ) {
     session.loadObjects(ofClass: UIImage.self) { [weak self] imageItems in
       guard let self = self else { return }
-      // swiftlint:disable:next force_cast
-      let images = imageItems as! [UIImage]
-      self.entry?.images.append(contentsOf: images)
+			if let images = imageItems as? [UIImage] {
+				self.entry?.images.append(contentsOf: images)
+			}
       self.reloadSnapshot(animated: true)
     }
   }
