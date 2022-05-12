@@ -158,7 +158,7 @@ extension SceneDelegate: NSToolbarDelegate {
     let index = DataService.shared.allEntries.count - 1
     mainTableViewController.selectEntryAtIndex(index)
   }
-	
+
   @objc private func deleteEntry() {
     guard
       let splitViewController =
