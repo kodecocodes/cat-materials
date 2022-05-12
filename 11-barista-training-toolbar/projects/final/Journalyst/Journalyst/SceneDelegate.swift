@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   #endif
   private var activityItemsConfigurationSubscriber: AnyCancellable?
 
-  func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
     if let userActivity = connectionOptions.userActivities.first ?? session.stateRestorationActivity {
       if !configure(window: window, with: userActivity) {
         print("Failed to restore from \(userActivity)")
@@ -84,6 +88,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 #if targetEnvironment(macCatalyst)
+// MARK: NSToolbarItem.Identifier
 extension NSToolbarItem.Identifier {
   static let addEntry =
     NSToolbarItem.Identifier(rawValue: "AddEntry")
@@ -93,14 +98,17 @@ extension NSToolbarItem.Identifier {
     NSToolbarItem.Identifier(rawValue: "ShareEntry")
 }
 
+// MARK: NSToolbarDelegate
 extension SceneDelegate: NSToolbarDelegate {
-  func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar)
-  -> [NSToolbarItem.Identifier] {
+  func toolbarAllowedItemIdentifiers(
+    _ toolbar: NSToolbar
+  ) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .deleteEntry, .shareEntry, .flexibleSpace]
   }
 
-  func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar)
-  -> [NSToolbarItem.Identifier] {
+  func toolbarDefaultItemIdentifiers(
+    _ toolbar: NSToolbar
+  ) -> [NSToolbarItem.Identifier] {
     return [.toggleSidebar, .addEntry, .shareEntry]
   }
 
@@ -150,6 +158,7 @@ extension SceneDelegate: NSToolbarDelegate {
     let index = DataService.shared.allEntries.count - 1
     mainTableViewController.selectEntryAtIndex(index)
   }
+
   @objc private func deleteEntry() {
     guard
       let splitViewController =

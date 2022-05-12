@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -110,7 +110,8 @@ class EntryTableViewController: UITableViewController {
   }
 
   @objc func handleEntryUpdated(notification: Notification) {
-    guard let userInfo = notification.userInfo, let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
+    guard let userInfo = notification.userInfo,
+      let entry = userInfo[DataNotificationKeys.entry] as? Entry else {
       return
     }
     self.entry = entry
@@ -133,7 +134,9 @@ class EntryTableViewController: UITableViewController {
   // MARK: - Actions
   @IBAction func share(_ sender: Any?) {
     guard let shareText = shareText else { return }
-    let activityController = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+    let activityController = UIActivityViewController(
+      activityItems: [shareText],
+      applicationActivities: nil)
     if let popoverController = activityController.popoverPresentationController {
       if let navigationButton = sender as? UIBarButtonItem {
         popoverController.barButtonItem = navigationButton
@@ -249,7 +252,10 @@ extension EntryTableViewController {
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {
@@ -257,6 +263,8 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
     }
   }
 }
+
+// MARK: UINavigationControllerDelegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
 
@@ -371,9 +379,11 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
   }
 }
 
+// MARK: UIGestureRecognizerDelegate
 extension EntryTableViewController: UIGestureRecognizerDelegate {
 }
 
+// MARK: Configuring activity items
 extension EntryTableViewController {
   private func configureActivityItems() {
     let configuration = UIActivityItemsConfiguration(objects: [])
@@ -391,4 +401,5 @@ extension EntryTableViewController {
       object: self,
       userInfo: [NotificationKey .activityItemsConfiguration: configuration])
     }
+	// swiftlint:disable:next file_length
 }

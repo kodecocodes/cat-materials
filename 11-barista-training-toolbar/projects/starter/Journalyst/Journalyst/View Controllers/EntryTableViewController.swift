@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -253,6 +253,7 @@ extension EntryTableViewController: UIImagePickerControllerDelegate {
   }
 }
 
+// MARK: UINavigationControllerDelegate
 extension EntryTableViewController: UINavigationControllerDelegate {
 }
 
@@ -366,5 +367,6 @@ extension EntryTableViewController: UICollectionViewDragDelegate {
   }
 }
 
+// MARK: UIGestureRecognizerDelegate
 extension EntryTableViewController: UIGestureRecognizerDelegate {
 }
