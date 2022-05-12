@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,11 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
     super.viewWillAppear(animated)
   }
 
-  func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+  func splitViewController(
+    _ splitViewController: UISplitViewController,
+    collapseSecondary secondaryViewController: UIViewController,
+    onto primaryViewController: UIViewController
+  ) -> Bool {
     guard let secondaryNavigationController = secondaryViewController as? UINavigationController,
       let entryTableViewController = secondaryNavigationController.topViewController as? EntryTableViewController else {
         return false

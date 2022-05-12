@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -53,6 +53,16 @@ class EntryTableViewController: UITableViewController {
       title = dateFormatter.string(from: entry.dateCreated)
     }
   }
+
+	private var shareText: String? {
+		guard var textToShare = textView.text, !textToShare.isEmpty
+		else { return nil }
+		if let namePreference = UserDefaults.standard.string(forKey: namePreference),
+			UserDefaults.standard.bool(forKey: signaturePreference) {
+			textToShare += "\n-\(namePreference)"
+		}
+		return textToShare
+	}
 
   let photoPicker = PhotoPicker()
 
@@ -118,20 +128,18 @@ class EntryTableViewController: UITableViewController {
   }
 
   // MARK: - Actions
-  @IBAction private func share(_ sender: Any?) {
-    guard var textToShare = textView.text, !textToShare.isEmpty else { return }
-    if let namePreference = UserDefaults.standard.string(forKey: namePreference),
-      UserDefaults.standard.bool(forKey: signaturePreference) {
-      textToShare += "\n\n -\(namePreference)"
-    }
-    let activityController = UIActivityViewController(
-      activityItems: [textToShare],
-      applicationActivities: nil)
-    if let popoverController = activityController.popoverPresentationController {
-      popoverController.barButtonItem = navigationItem.rightBarButtonItem
-    }
-    present(activityController, animated: true, completion: nil)
-  }
+	@IBAction private func share(_ sender: Any?) {
+		guard let shareText = shareText else { return }
+		let activityController = UIActivityViewController(
+			activityItems: [shareText],
+			applicationActivities: nil
+		)
+		if let popoverController = activityController.popoverPresentationController {
+			popoverController.barButtonItem =
+			navigationItem.rightBarButtonItem
+		}
+		present(activityController, animated: true, completion: nil)
+	}
 
   @IBAction private func addImage(_ sender: Any?) {
     textView.resignFirstResponder()
@@ -185,8 +193,9 @@ class EntryTableViewController: UITableViewController {
 extension EntryTableViewController {
   private func imageDataSource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
     let reuseIdentifier = "ImageCollectionViewCell"
-    // swiftlint:disable:next line_length
-    return UICollectionViewDiffableDataSource(collectionView: collectionView) { collectionView, indexPath, image -> ImageCollectionViewCell? in
+    return UICollectionViewDiffableDataSource(
+			collectionView: collectionView
+		) { collectionView, indexPath, image -> ImageCollectionViewCell? in
       let cell =
         collectionView.dequeueReusableCell(
           withReuseIdentifier: reuseIdentifier,
@@ -197,8 +206,8 @@ extension EntryTableViewController {
   }
 
   private func supplementaryDataSource() -> UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider {
-    // swiftlint:disable:next line_length
-    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView? in
+    let provider: UICollectionViewDiffableDataSource<Int, Int>.SupplementaryViewProvider
+		= { collectionView, kind, indexPath -> UICollectionReusableView? in
       let reusableView =
         collectionView.dequeueReusableSupplementaryView(
           ofKind: kind,
@@ -222,7 +231,10 @@ extension EntryTableViewController {
 
 // MARK: - Image Picker Delegate
 extension EntryTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
     guard let image = info[.originalImage] as? UIImage else { return }
     entry?.images.append(image)
     dismiss(animated: true) {
