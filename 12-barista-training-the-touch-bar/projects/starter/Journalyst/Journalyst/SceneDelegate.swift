@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,14 +32,19 @@
 
 import UIKit
 
+// MARK: - Notification names
 extension Notification.Name {
-  static var WindowSizeChanged = Notification.Name("com.raywenderlich.Journalyst.WindowSizeChanged")
+  static var WindowSizeChanged = Notification.Name("com.yourcompany.Journalyst.WindowSizeChanged")
 }
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
 
-  func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
     if let scene = scene as? UIWindowScene {
       scene.sizeRestrictions?.minimumSize = CGSize(width: 768.0, height: 768.0)
       scene.sizeRestrictions?.maximumSize = CGSize(
@@ -53,7 +58,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
   }
 
-  func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
+  func windowScene(
+    _ windowScene: UIWindowScene,
+    didUpdate previousCoordinateSpace: UICoordinateSpace,
+    interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation,
+    traitCollection previousTraitCollection: UITraitCollection
+  ) {
     NotificationCenter.default.post(name: .WindowSizeChanged, object: nil)
   }
 

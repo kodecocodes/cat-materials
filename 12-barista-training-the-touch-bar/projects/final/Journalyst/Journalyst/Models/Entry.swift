@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,10 @@ struct Entry {
   let dateCreated = Date()
   var log: String?
   var images: [UIImage] = []
-  var isFavorite: Bool = false
+  var isFavorite = false
 }
 
+// MARK: Hashable
 extension Entry: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(dateCreated)
@@ -56,7 +57,7 @@ extension Entry: Hashable {
 
 // MARK: NSUserActivity
 extension Entry {
-  static let OpenDetailActivityType = "com.raywenderlich.EntryOpenDetailActivityType"
+  static let OpenDetailActivityType = "com.yourcompany.EntryOpenDetailActivityType"
   static let OpenDetailIdKey = "entryID"
 
   var openDetailUserActivity: NSUserActivity {

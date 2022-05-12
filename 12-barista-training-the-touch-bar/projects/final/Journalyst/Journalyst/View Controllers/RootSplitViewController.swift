@@ -1,4 +1,4 @@
-/// Copyright (c) 2020 Razeware LLC
+/// Copyright (c) 2022 Razeware LLC
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -33,14 +33,15 @@
 import UIKit
 
 #if targetEnvironment(macCatalyst)
-extension NSTouchBar.CustomizationIdentifier {
-  static let journalyst = NSTouchBar.CustomizationIdentifier(
-    "com.raywenderlich.journalyst.main")
+// MARK: NSTouchBarItem.Identifier
+extension NSTouchBarItem.Identifier {
+  static let newEntry = NSTouchBarItem.Identifier("com.yourcompany.Journalyst.addEntry")
+  static let entryOptions = NSTouchBarItem.Identifier("com.yourcompany.journalyst.entryOptions")
 }
 
-extension NSTouchBarItem.Identifier {
-  static let newEntry = NSTouchBarItem.Identifier("com.raywenderlich.Journalyst.addEntry")
-  static let entryOptions = NSTouchBarItem.Identifier("com.raywenderlich.journalyst.entryOptions")
+// MARK: NSTouchBar.CustomizationIdentifier
+extension NSTouchBar.CustomizationIdentifier {
+  static let journalyst = NSTouchBar.CustomizationIdentifier("com.yourcompany.journalyst.main")
 }
 #endif
 
@@ -55,6 +56,18 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
       splitViewController.displayModeButtonItem
     splitViewController.primaryBackgroundStyle = .sidebar
   }
+
+  #if targetEnvironment(macCatalyst)
+  override func makeTouchBar() -> NSTouchBar? {
+    let bar = NSTouchBar()
+    bar.delegate = self
+    bar.defaultItemIdentifiers = [.newEntry, .entryOptions]
+    bar.principalItemIdentifier = .entryOptions
+    bar.customizationIdentifier = .journalyst
+    bar.customizationAllowedItemIdentifiers = [.newEntry, .entryOptions]
+    return bar
+  }
+  #endif
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -143,23 +156,15 @@ class RootSplitViewController: UISplitViewController, UISplitViewControllerDeleg
       break
     }
   }
-
-  #if targetEnvironment(macCatalyst)
-  override func makeTouchBar() -> NSTouchBar? {
-    let bar = NSTouchBar()
-    bar.delegate = self
-    bar.defaultItemIdentifiers = [.newEntry, .entryOptions]
-    bar.principalItemIdentifier = .entryOptions
-    bar.customizationIdentifier = .journalyst
-    bar.customizationAllowedItemIdentifiers = [.newEntry, .entryOptions]
-    return bar
-  }
-  #endif
 }
 
 #if targetEnvironment(macCatalyst)
+// MARK: NSTouchBarDelegate
 extension RootSplitViewController: NSTouchBarDelegate {
-  func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+  func touchBar(
+    _ touchBar: NSTouchBar,
+    makeItemForIdentifier identifier: NSTouchBarItem.Identifier
+  ) -> NSTouchBarItem? {
     switch identifier {
     case .newEntry:
       let button = NSButtonTouchBarItem(
@@ -185,9 +190,7 @@ extension RootSplitViewController: NSTouchBarDelegate {
         title: "Delete",
         target: self,
         action: #selector(removeEntry))
-
       let spacer = NSTouchBarItem(identifier: .fixedSpaceLarge)
-
       let group = NSGroupTouchBarItem(
         identifier: identifier,
         items: [spacer, next, previous, spacer, delete])
