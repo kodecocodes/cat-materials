@@ -13,7 +13,7 @@ We’ve set up an official forum for the book at [https://forums.raywenderlich.c
 
 | Branch                                                                           | Edition | Release Date |
 | -------------------------------------------------------------------------------- |:-------:|:------------:|
-| [editions/3.0](https://github.com/raywenderlich/cat-materials/tree/editions/3.0) | 3.0     | YYYY-MM-DD   |
+| [editions/3.0](https://github.com/raywenderlich/cat-materials/tree/editions/3.0) | 3.0     | 2022-06-01   |
 | [editions/2.0](https://github.com/raywenderlich/cat-materials/tree/editions/2.0) | 2.0     | 2020-10-01   |
 | [editions/1.0](https://github.com/raywenderlich/cat-materials/tree/editions/1.0) | 1.0     | 2019-10-02   |
 
